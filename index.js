@@ -31,6 +31,10 @@ mongoose
 const app = express();
 app.use(express.json());
 
+app.get('/', (req, res) => {
+	res.send(`Wow! It works! Server running on port ${port}`);
+});
+
 app.use('/auth', authRoutes);
 app.use('/upload', fileUploadRoutes);
 app.use('/partners', partnersRoutes);
