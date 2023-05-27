@@ -14,7 +14,7 @@ const options = {
 			version: '1.0.0',
 		},
 		components: {
-			securitySchemas: {
+			securitySchemes: {
 				bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
 			},
 		},
@@ -31,7 +31,7 @@ const options = {
 		],
 	},
 	// looks for configuration in specified directories
-	apis: ['./docs/*.js'],
+	apis: ['./routes/*.js', './models/*.js'],
 };
 const swaggerSpec = swaggerJsdoc(options);
 function swaggerDocs(app, port) {
