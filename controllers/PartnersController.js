@@ -1,4 +1,4 @@
-import PartnerModel from '../models/Partner.js';
+import PartnerModel from '../models/Partners.js';
 
 export const create = async (req, res) => {
 	const { name, homeUrl, imageUrl } = req.body;

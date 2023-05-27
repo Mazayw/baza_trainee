@@ -97,8 +97,8 @@ app.patch(
 	roleCreateValidation,
 	RolesController.updateOneById
 );
-
-app.listen(PORT || 3000, (error) => {
+const port = PORT || 3000;
+app.listen(port, (error) => {
 	if (error) {
 		return console.log('Something went wrong', error);
 	}
