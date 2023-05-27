@@ -4,6 +4,7 @@ import {
 	registerValidation,
 	loginValidation,
 	partnerCreateValidation,
+	roleCreateValidation,
 } from './utils/validations.js';
 import { config } from 'dotenv';
 import checkAuth from './utils/checkAuth.js';
@@ -12,6 +13,7 @@ import {
 	UserController,
 	PartnersController,
 	ProjectsController,
+	RolesController,
 } from './controllers/index.js';
 
 import multer from 'multer';
@@ -49,14 +51,17 @@ app.get('/', (req, res) => {
 	res.send(`Server running on port ${port}`);
 });
 
+// Users
 app.get('/auth/user', checkAuth, UserController.getUserInfo);
 app.post('/auth/login', loginValidation, UserController.login);
 app.post('/auth/register', registerValidation, UserController.register);
 
+// File upload
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 	res.json({ url: `/uploads/${req.file.originalname}` });
 });
 
+//Partners
 app.get('/partners', PartnersController.getAll);
 app.get('/partners/:id', PartnersController.getOneById);
 app.post(
@@ -73,6 +78,7 @@ app.patch(
 	PartnersController.updateOneById
 );
 
+//Projects
 app.post(
 	'/projects',
 	checkAuth,
@@ -80,8 +86,19 @@ app.post(
 	PartnersController.create
 );
 
-const port = PORT || 3000;
-app.listen(port, (error) => {
+//Roles
+app.get('/roles', RolesController.getAll);
+app.get('/roles/:id', RolesController.getOneById);
+app.post('/roles', checkAuth, roleCreateValidation, PartnersController.create);
+app.delete('/roles/:id', checkAuth, RolesController.removeOneById);
+app.patch(
+	'/roles/:id',
+	checkAuth,
+	roleCreateValidation,
+	RolesController.updateOneById
+);
+
+app.listen(PORT || 3000, (error) => {
 	if (error) {
 		return console.log('Something went wrong', error);
 	}

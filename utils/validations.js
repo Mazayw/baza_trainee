@@ -50,3 +50,11 @@ export const partnerCreateValidation = [
 	body('homeUrl', 'Wrong partner homepage url').isURL(),
 	(req, res, next) => checkValidation(req, res, next),
 ];
+
+export const roleCreateValidation = [
+	body(
+		'name',
+		'The name is incorrect, it must contain more than 2 character'
+	).isLength({ min: 2 }),
+	(req, res, next) => checkValidation(req, res, next),
+];
