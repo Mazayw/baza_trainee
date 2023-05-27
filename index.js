@@ -8,9 +8,12 @@ import {
 import { config } from 'dotenv';
 import checkAuth from './utils/checkAuth.js';
 
-import * as UserController from './controllers/UserController.js';
-import * as PartnersController from './controllers/PartnersController.js';
-import * as ProjectsController from './controllers/ProjectsController.js';
+import {
+	UserController,
+	PartnersController,
+	ProjectsController,
+} from './controllers/index.js';
+
 import multer from 'multer';
 
 config();
