@@ -11,6 +11,7 @@ import checkAuth from './utils/checkAuth.js';
 import * as UserController from './controllers/UserController.js';
 import * as PartnersController from './controllers/PartnersController.js';
 import * as ProjectsController from './controllers/ProjectsController.js';
+import multer from 'multer';
 
 config();
 
@@ -28,26 +29,46 @@ mongoose
 	});
 
 const app = express();
+const storage = multer.diskStorage({
+	destination: (_, __, cb) => {
+		cb(null, 'uploads');
+	},
+	filename: (_, file, cb) => {
+		cb(null, file.originalname);
+	},
+});
+
+const upload = multer({ storage });
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 app.get('/', (req, res) => {
 	res.send(`Server running on port ${port}`);
 });
 
+app.get('/auth/user', checkAuth, UserController.getUserInfo);
 app.post('/auth/login', loginValidation, UserController.login);
 app.post('/auth/register', registerValidation, UserController.register);
-app.get('/auth/user', checkAuth, UserController.getUserInfo);
 
+app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+	res.json({ url: `/uploads/${req.file.originalname}` });
+});
+
+app.get('/partners', PartnersController.getAll);
+app.get('/partners/:id', PartnersController.getOneById);
 app.post(
 	'/partners',
 	checkAuth,
 	partnerCreateValidation,
 	PartnersController.create
 );
-app.get('/partners', PartnersController.getAll);
-app.get('/partners/:id', PartnersController.getOneById);
 app.delete('/partners/:id', checkAuth, PartnersController.removeOneById);
-app.patch('/partners/:id', checkAuth, PartnersController.updateOneById);
+app.patch(
+	'/partners/:id',
+	checkAuth,
+	partnerCreateValidation,
+	PartnersController.updateOneById
+);
 
 app.post(
 	'/projects',
