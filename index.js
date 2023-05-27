@@ -7,6 +7,7 @@ import {
 	roleCreateValidation,
 	TeamMembersValidation,
 	TestimonialsValidation,
+	projectCreateValidation,
 } from './utils/validations.js';
 import { config } from 'dotenv';
 import checkAuth from './utils/checkAuth.js';
@@ -121,17 +122,26 @@ app.patch(
 );
 
 //Projects
+app.get('/projects', ProjectsController.getAll);
+app.get('/projects/:id', ProjectsController.getOneById);
 app.post(
 	'/projects',
 	checkAuth,
-	partnerCreateValidation,
-	PartnersController.create
+	projectCreateValidation,
+	ProjectsController.create
+);
+app.delete('/projects/:id', checkAuth, TestimonialsController.removeOneById);
+app.patch(
+	'/projects/:id',
+	checkAuth,
+	projectCreateValidation,
+	ProjectsController.updateOneById
 );
 
 //Roles
 app.get('/roles', RolesController.getAll);
 app.get('/roles/:id', RolesController.getOneById);
-app.post('/roles', checkAuth, roleCreateValidation, PartnersController.create);
+app.post('/roles', checkAuth, roleCreateValidation, RolesController.create);
 app.delete('/roles/:id', checkAuth, RolesController.removeOneById);
 app.patch(
 	'/roles/:id',
@@ -146,3 +156,67 @@ app.listen(port, (error) => {
 	}
 	console.log(`Server started on port ${port}`);
 });
+
+/**
+  [
+    {
+        "_id": "6471f9a29c17ac2190eb8791",
+        "name": "PM",
+        "__v": 0
+    },
+    {
+        "_id": "6471f9ad9c17ac2190eb8793",
+        "name": "Designer",
+        "__v": 0
+    },
+    {
+        "_id": "6471f9b19c17ac2190eb8795",
+        "name": "QA",
+        "__v": 0
+    }
+    
+]
+
+[
+    {
+        "_id": "6471fa06933513f26024a990",
+        "name": "QA",
+        "profileUrl": "https://chat.openai.com/",
+        "createdAt": "2023-05-27T12:39:34.458Z",
+        "updatedAt": "2023-05-27T12:39:34.458Z",
+        "__v": 0
+    },
+    {
+        "_id": "6471fa20933513f26024a994",
+        "name": "QййA",
+        "profileUrl": "https://chat.openai.com/ы",
+        "createdAt": "2023-05-27T12:40:00.086Z",
+        "updatedAt": "2023-05-27T12:40:00.086Z",
+        "__v": 0
+    },
+    {
+        "_id": "6471fa25933513f26024a996",
+        "name": "QййxA",
+        "profileUrl": "https://chat.openai.com/ыa",
+        "createdAt": "2023-05-27T12:40:05.370Z",
+        "updatedAt": "2023-05-27T12:40:05.370Z",
+        "__v": 0
+    },
+    {
+        "_id": "6471fa28933513f26024a998",
+        "name": "QййxAs",
+        "profileUrl": "https://chat.openai.com/ыas",
+        "createdAt": "2023-05-27T12:40:08.244Z",
+        "updatedAt": "2023-05-27T12:40:08.244Z",
+        "__v": 0
+    },
+    {
+        "_id": "6471fa2b933513f26024a99a",
+        "name": "QййxAss",
+        "profileUrl": "https://chat.openai.com/ыass",
+        "createdAt": "2023-05-27T12:40:11.671Z",
+        "updatedAt": "2023-05-27T12:40:11.671Z",
+        "__v": 0
+    }
+]
+ */

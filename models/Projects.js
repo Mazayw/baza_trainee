@@ -29,11 +29,11 @@ const ProjectSchema = new mongoose.Schema(
 		},
 		teamMembers: [
 			{
-				user: {
+				userId: {
 					type: mongoose.Schema.Types.ObjectId,
 					ref: 'Users',
 				},
-				role: {
+				roleId: {
 					type: mongoose.Schema.Types.ObjectId,
 					ref: 'Roles',
 				},

@@ -31,7 +31,7 @@ export const loginValidation = [
 	(req, res, next) => checkValidation(req, res, next),
 ];
 
-export const partnerCreateValidation2 = [
+export const partnerCreateValidation = [
 	body(
 		'name',
 		'The name is incorrect, it must contain more than 1 character'
@@ -41,13 +41,27 @@ export const partnerCreateValidation2 = [
 	(req, res, next) => checkValidation(req, res, next),
 ];
 
-export const partnerCreateValidation = [
-	body(
-		'name',
-		'The name is incorrect, it must contain more than 1 character'
-	).isLength({ min: 1 }),
-	body('imageUrl', 'Wrong image url').isURL(),
-	body('homeUrl', 'Wrong partner homepage url').isURL(),
+export const projectCreateValidation = [
+	body('imageUrl').isURL(),
+	body('status').isIn(['active', 'inactive']),
+	body('description').isString(),
+	body('creationDate').isNumeric(),
+	body('launchDate').isNumeric(),
+	body('complexity').isInt({ min: 1, max: 5 }),
+	body('teamMembers')
+		.isArray({ min: 1 })
+		.custom((value) => {
+			if (Array.isArray(value)) {
+				for (const member of value) {
+					if (typeof member !== 'object' || !member.userId || !member.roleId) {
+						throw new Error('Invalid team member object');
+					}
+				}
+				return true;
+			}
+			throw new Error('Invalid teamMembers value');
+		}),
+	body('title').isString().notEmpty(),
 	(req, res, next) => checkValidation(req, res, next),
 ];
 
@@ -78,6 +92,6 @@ export const TestimonialsValidation = [
 		'The review is incorrect, it must contain more than 20 character'
 	).isLength({ min: 20 }),
 	body('date', 'The date is incorrect, it must be number').isNumeric(),
-	body('imageUrl', 'Wrong profile url').isURL(),
+	body('imageUrl', 'Wrong image url').isURL(),
 	(req, res, next) => checkValidation(req, res, next),
 ];
