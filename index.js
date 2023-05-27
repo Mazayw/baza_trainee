@@ -1,18 +1,20 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { registerValidation } from './validations/auth.js';
+import { registerValidation, loginValidation } from './utils/validations.js';
 import { config } from 'dotenv';
 import checkAuth from './utils/checkAuth.js';
+
 import * as UserController from './controllers/UserController.js';
+import * as PartnersController from './controllers/PartnersController.js';
 
 config();
 
 const { PORT, USER_NAME, PASSWORD_DB, SECRET_KEY } = process.env;
 
-const dbURI = `mongodb+srv://${USER_NAME}:${PASSWORD_DB}@cluster0.2x4mz6m.mongodb.net/baza?retryWrites=true&w=majority`;
+const dbURL = `mongodb+srv://${USER_NAME}:${PASSWORD_DB}@cluster0.2x4mz6m.mongodb.net/baza?retryWrites=true&w=majority`;
 
 mongoose
-	.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
 		console.log('Connected to MongoDB');
 	})
@@ -27,10 +29,8 @@ app.get('/', (req, res) => {
 	res.send(`Server running on port ${port}`);
 });
 
-app.post('/auth/login', UserController.login);
-
+app.post('/auth/login', loginValidation, UserController.login);
 app.post('/auth/register', registerValidation, UserController.register);
-
 app.get('/auth/user', checkAuth, UserController.getUserInfo);
 
 const port = PORT || 3000;

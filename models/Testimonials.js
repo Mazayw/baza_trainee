@@ -1,14 +1,17 @@
 import mongoose from 'mongoose';
 
-const UserSchema = new mongoose.Schema(
+const TestimonialSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
-		email: {
+		review: {
 			type: String,
 			required: true,
-			unique: true,
 		},
-		passwordHash: {
+		date: {
+			type: Number,
+			required: true,
+		},
+		imageUrl: {
 			type: String,
 			required: true,
 		},
@@ -16,4 +19,4 @@ const UserSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-export default mongoose.model('Users', UserSchema);
+export default mongoose.model('TestimonialsSchema', TestimonialSchema);
