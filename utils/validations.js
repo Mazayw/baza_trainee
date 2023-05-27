@@ -42,8 +42,8 @@ export const partnerCreateValidation = [
 ];
 
 export const projectCreateValidation = [
-	body('imageUrl').isURL(),
-	body('status').isIn(['active', 'inactive']),
+	body('imageUrl').isURL({ require_tld: false, require_host: false }), //isURL(),
+	body('status').isString(), //isIn(['active', 'inactive']),
 	body('description').isString(),
 	body('creationDate').isNumeric(),
 	body('launchDate').isNumeric(),
