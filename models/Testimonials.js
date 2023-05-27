@@ -19,4 +19,4 @@ const TestimonialSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-export default mongoose.model('TestimonialsSchema', TestimonialSchema);
+export default mongoose.model('Testimonials', TestimonialSchema);

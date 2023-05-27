@@ -6,6 +6,7 @@ import {
 	partnerCreateValidation,
 	roleCreateValidation,
 	TeamMembersValidation,
+	TestimonialsValidation,
 } from './utils/validations.js';
 import { config } from 'dotenv';
 import checkAuth from './utils/checkAuth.js';
@@ -15,14 +16,15 @@ import {
 	PartnersController,
 	ProjectsController,
 	RolesController,
-	TeamMembers,
+	TeamMembersController,
+	TestimonialsController,
 } from './controllers/index.js';
 
 import multer from 'multer';
 
 config();
 
-const { PORT, USER_NAME, PASSWORD_DB, SECRET_KEY } = process.env;
+const { PORT, USER_NAME, PASSWORD_DB } = process.env;
 
 const dbURL = `mongodb+srv://${USER_NAME}:${PASSWORD_DB}@cluster0.2x4mz6m.mongodb.net/baza?retryWrites=true&w=majority`;
 
@@ -81,15 +83,41 @@ app.patch(
 );
 
 //Members
-app.get('/members', TeamMembers.getAll);
-app.get('/members/:id', TeamMembers.getOneById);
-app.post('/members', checkAuth, TeamMembersValidation, TeamMembers.create);
-app.delete('/members/:id', checkAuth, TeamMembers.removeOneById);
+app.get('/members', TeamMembersController.getAll);
+app.get('/members/:id', TeamMembersController.getOneById);
+app.post(
+	'/members',
+	checkAuth,
+	TeamMembersValidation,
+	TeamMembersController.create
+);
+app.delete('/members/:id', checkAuth, TeamMembersController.removeOneById);
 app.patch(
 	'/members/:id',
 	checkAuth,
 	TeamMembersValidation,
-	TeamMembers.updateOneById
+	TeamMembersController.updateOneById
+);
+
+//Testimonials
+app.get('/testimonials', TestimonialsController.getAll);
+app.get('/testimonials/:id', TestimonialsController.getOneById);
+app.post(
+	'/testimonials',
+	checkAuth,
+	TestimonialsValidation,
+	TestimonialsController.create
+);
+app.delete(
+	'/testimonials/:id',
+	checkAuth,
+	TestimonialsController.removeOneById
+);
+app.patch(
+	'/testimonials/:id',
+	checkAuth,
+	TestimonialsValidation,
+	TestimonialsController.updateOneById
 );
 
 //Projects

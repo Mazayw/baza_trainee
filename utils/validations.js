@@ -67,3 +67,17 @@ export const TeamMembersValidation = [
 	body('profileUrl', 'Wrong profile url').isURL(),
 	(req, res, next) => checkValidation(req, res, next),
 ];
+
+export const TestimonialsValidation = [
+	body(
+		'name',
+		'The name is incorrect, it must contain more than 2 character'
+	).isLength({ min: 2 }),
+	body(
+		'review',
+		'The review is incorrect, it must contain more than 20 character'
+	).isLength({ min: 20 }),
+	body('date', 'The date is incorrect, it must be number').isNumeric(),
+	body('imageUrl', 'Wrong profile url').isURL(),
+	(req, res, next) => checkValidation(req, res, next),
+];
