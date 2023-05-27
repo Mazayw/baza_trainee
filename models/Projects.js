@@ -27,10 +27,18 @@ const ProjectSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
-		teamMembers: {
-			type: Array,
-			default: [],
-		},
+		teamMembers: [
+			{
+				user: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'Users',
+				},
+				role: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'Roles',
+				},
+			},
+		],
 	},
 	{ timestamps: true }
 );

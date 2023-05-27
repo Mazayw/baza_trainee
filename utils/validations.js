@@ -1,4 +1,13 @@
-import { body } from 'express-validator';
+import { body, validationResult } from 'express-validator';
+
+const checkValidation = (req, res, next) => {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log('Validation failed:', errors.array());
+		return res.status(400).json(errors.array());
+	}
+	next();
+};
 
 export const registerValidation = [
 	body('email', 'Wrong email').isEmail(),
@@ -10,6 +19,7 @@ export const registerValidation = [
 		'name',
 		'The name is incorrect, it must contain more than 3 characters'
 	).isLength({ min: 3 }),
+	(req, res, next) => checkValidation(req, res, next),
 ];
 
 export const loginValidation = [
@@ -18,13 +28,25 @@ export const loginValidation = [
 		'password',
 		'The password is incorrect, it must contain more than 5 characters'
 	).isLength({ min: 5 }),
+	(req, res, next) => checkValidation(req, res, next),
 ];
 
-export const partnerCreateValidation = [
-	body('imageUrl', 'Wrong image url').optional().isURL(),
-	body('homeUrl', 'Wrong partner homepage url').optional().isURL(),
+export const partnerCreateValidation2 = [
 	body(
 		'name',
 		'The name is incorrect, it must contain more than 1 character'
 	).isLength({ min: 1 }),
+	body('imageUrl', 'Wrong image url').isURL(),
+	body('homeUrl', 'Wrong partner homepage url').isURL(),
+	(req, res, next) => checkValidation(req, res, next),
+];
+
+export const partnerCreateValidation = [
+	body(
+		'name',
+		'The name is incorrect, it must contain more than 1 character'
+	).isLength({ min: 1 }),
+	body('imageUrl', 'Wrong image url').isURL(),
+	body('homeUrl', 'Wrong partner homepage url').isURL(),
+	(req, res, next) => checkValidation(req, res, next),
 ];
