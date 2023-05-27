@@ -2,6 +2,11 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 import UserModel from '../models/Users.js';
+import { config } from 'dotenv';
+
+config();
+
+const { SECRET_KEY } = process.env;
 
 export const register = async (req, res) => {
 	const { email, password, name } = req.body;
