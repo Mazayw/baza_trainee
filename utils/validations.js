@@ -58,3 +58,12 @@ export const roleCreateValidation = [
 	).isLength({ min: 2 }),
 	(req, res, next) => checkValidation(req, res, next),
 ];
+
+export const TeamMembersValidation = [
+	body(
+		'name',
+		'The name is incorrect, it must contain more than 2 character'
+	).isLength({ min: 2 }),
+	body('profileUrl', 'Wrong profile url').isURL(),
+	(req, res, next) => checkValidation(req, res, next),
+];

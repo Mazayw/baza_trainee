@@ -5,6 +5,7 @@ import {
 	loginValidation,
 	partnerCreateValidation,
 	roleCreateValidation,
+	TeamMembersValidation,
 } from './utils/validations.js';
 import { config } from 'dotenv';
 import checkAuth from './utils/checkAuth.js';
@@ -14,6 +15,7 @@ import {
 	PartnersController,
 	ProjectsController,
 	RolesController,
+	TeamMembers,
 } from './controllers/index.js';
 
 import multer from 'multer';
@@ -76,6 +78,18 @@ app.patch(
 	checkAuth,
 	partnerCreateValidation,
 	PartnersController.updateOneById
+);
+
+//Members
+app.get('/members', TeamMembers.getAll);
+app.get('/members/:id', TeamMembers.getOneById);
+app.post('/members', checkAuth, TeamMembersValidation, TeamMembers.create);
+app.delete('/members/:id', checkAuth, TeamMembers.removeOneById);
+app.patch(
+	'/members/:id',
+	checkAuth,
+	TeamMembersValidation,
+	TeamMembers.updateOneById
 );
 
 //Projects
