@@ -25,7 +25,7 @@ const options = {
 				description: 'Local server',
 			},
 			{
-				url: '<your live url here>',
+				url: 'https://baza-trainee.onrender.com',
 				description: 'Live server',
 			},
 		],

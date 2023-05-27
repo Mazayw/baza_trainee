@@ -11,6 +11,9 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
+	"engines": {
+		"node": ">=14 <15"
+	},
 	"dependencies": {
 		"bcrypt": "^5.1.0",
 		"dotenv": "^16.0.3",
