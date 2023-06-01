@@ -51,7 +51,7 @@ router.get('/user', checkAuth, UserController.getUserInfo);
  *               password: password123
  *     responses:
  *       200:
- *         description: User login successfully
+ *         description: User logged in successfully
  *       404:
  *         description: Bad Request - Invalid request body
  *       500:
