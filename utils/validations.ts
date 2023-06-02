@@ -1,6 +1,7 @@
-import { body, validationResult } from 'express-validator';
+import { body, ValidationError, validationResult } from 'express-validator';
+import { Request, Response } from 'express';
 
-const checkValidation = (req, res, next) => {
+const checkValidation = (req: Request, res: Response, next: () => void) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		console.log('Validation failed:', errors.array());
@@ -19,7 +20,8 @@ export const registerValidation = [
 		'name',
 		'The name is incorrect, it must contain more than 3 characters'
 	).isLength({ min: 3 }),
-	(req, res, next) => checkValidation(req, res, next),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
 ];
 
 export const loginValidation = [
@@ -28,7 +30,8 @@ export const loginValidation = [
 		'password',
 		'The password is incorrect, it must contain more than 5 characters'
 	).isLength({ min: 5 }),
-	(req, res, next) => checkValidation(req, res, next),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
 ];
 
 export const partnerCreateValidation = [
@@ -38,7 +41,8 @@ export const partnerCreateValidation = [
 	).isLength({ min: 1 }),
 	body('imageUrl', 'Wrong image url').isURL(),
 	body('homeUrl', 'Wrong partner homepage url').isURL(),
-	(req, res, next) => checkValidation(req, res, next),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
 ];
 
 export const projectCreateValidation = [
@@ -62,7 +66,8 @@ export const projectCreateValidation = [
 			throw new Error('Invalid teamMembers value');
 		}),
 	body('title').isString().notEmpty(),
-	(req, res, next) => checkValidation(req, res, next),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
 ];
 
 export const roleCreateValidation = [
@@ -70,7 +75,8 @@ export const roleCreateValidation = [
 		'name',
 		'The name is incorrect, it must contain more than 2 character'
 	).isLength({ min: 2 }),
-	(req, res, next) => checkValidation(req, res, next),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
 ];
 
 export const TeamMembersValidation = [
@@ -79,7 +85,8 @@ export const TeamMembersValidation = [
 		'The name is incorrect, it must contain more than 2 character'
 	).isLength({ min: 2 }),
 	body('profileUrl', 'Wrong profile url').isURL(),
-	(req, res, next) => checkValidation(req, res, next),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
 ];
 
 export const TestimonialsValidation = [
@@ -93,5 +100,6 @@ export const TestimonialsValidation = [
 	).isLength({ min: 20 }),
 	body('date', 'The date is incorrect, it must be number').isNumeric(),
 	body('imageUrl', 'Wrong image url').isURL(),
-	(req, res, next) => checkValidation(req, res, next),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
 ];
