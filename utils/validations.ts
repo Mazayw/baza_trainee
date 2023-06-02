@@ -1,4 +1,4 @@
-import { body, ValidationError, validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import { Request, Response } from 'express';
 
 const checkValidation = (req: Request, res: Response, next: () => void) => {
