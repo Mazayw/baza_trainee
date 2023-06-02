@@ -20,7 +20,7 @@ const { PORT, USER_NAME, PASSWORD_DB } = process.env;
 const dbURL = `mongodb+srv://${USER_NAME}:${PASSWORD_DB}@cluster0.2x4mz6m.mongodb.net/baza?retryWrites=true&w=majority`;
 
 mongoose
-	.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(dbURL)
 	.then(() => {
 		console.log('Connected to MongoDB');
 	})
@@ -43,8 +43,9 @@ app.use('/testimonials', testimonialsRoutes);
 app.use('/projects', projectsRoutes);
 app.use('/roles', rolesRoutes);
 
-const port = PORT || 3000;
-app.listen(port, (error) => {
+const port: number = PORT ? parseInt(PORT) : 3000;
+
+app.listen(port, (error?: Error) => {
 	if (error) {
 		return console.log('Something went wrong', error);
 	}
