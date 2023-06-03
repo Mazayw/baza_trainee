@@ -33,3 +33,7 @@ export interface ITeamMember extends IDocumentResult<ITestimonial> {
 	createdAt: Date;
 	updatedAt: Date;
 }
+
+export interface ITeamMemberRole extends IDocumentResult<ITeamMemberRole> {
+	name: string;
+}
