@@ -62,7 +62,7 @@ const upload = multer({ storage });
  *         $ref: '#/components/responses/UnauthorizedError'
  */
 router.post('/', checkAuth, upload.single('image'), (req, res) => {
-	res.json({ url: `/uploads/${req.file.originalname}` });
+	res.json({ url: `/uploads/${req.file!.originalname}` });
 });
 
 export default router;
