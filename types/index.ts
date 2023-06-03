@@ -26,3 +26,10 @@ export interface ITestimonial extends IDocumentResult<ITestimonial> {
 	createdAt: Date;
 	updatedAt: Date;
 }
+
+export interface ITeamMember extends IDocumentResult<ITestimonial> {
+	name: string;
+	profileUrl?: string;
+	createdAt: Date;
+	updatedAt: Date;
+}

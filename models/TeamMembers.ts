@@ -20,8 +20,9 @@
  */
 
 import mongoose from 'mongoose';
+import { ITeamMember } from '../types';
 
-const TeamMemberSchema = new mongoose.Schema(
+const TeamMemberSchema = new mongoose.Schema<ITeamMember>(
 	{
 		name: {
 			type: String,
