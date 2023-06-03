@@ -1,6 +1,7 @@
 import Testimonials from '../models/Testimonials.js';
+import { Request, Response } from 'express';
 
-export const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
 	const { name, review, date, imageUrl } = req.body;
 	try {
 		const doc = new Testimonials({
@@ -18,7 +19,7 @@ export const create = async (req, res) => {
 	}
 };
 
-export const getAll = async (req, res) => {
+export const getAll = async (req: Request, res: Response) => {
 	try {
 		const testimonial = await Testimonials.find();
 		res.json(testimonial);
@@ -28,7 +29,7 @@ export const getAll = async (req, res) => {
 	}
 };
 
-export const getOneById = async (req, res) => {
+export const getOneById = async (req: Request, res: Response) => {
 	try {
 		const testimonialId = req.params.id;
 		const testimonial = await Testimonials.findById(testimonialId);
@@ -42,7 +43,7 @@ export const getOneById = async (req, res) => {
 	}
 };
 
-export const removeOneById = async (req, res) => {
+export const removeOneById = async (req: Request, res: Response) => {
 	try {
 		const testimonialId = req.params.id;
 		const testimonial = await Testimonials.findOneAndRemove({
@@ -58,7 +59,7 @@ export const removeOneById = async (req, res) => {
 	}
 };
 
-export const updateOneById = async (req, res) => {
+export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const { name, review, date, imageUrl } = req.body;
 		const testimonialId = req.params.id;

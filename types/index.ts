@@ -17,3 +17,12 @@ export interface IUser extends IDocumentResult<IUser> {
 	email: string;
 	passwordHash: string;
 }
+
+export interface ITestimonial extends IDocumentResult<ITestimonial> {
+	name: string;
+	review: string;
+	date: number;
+	imageUrl: string;
+	createdAt: Date;
+	updatedAt: Date;
+}

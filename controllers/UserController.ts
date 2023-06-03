@@ -4,7 +4,7 @@ import { validationResult } from 'express-validator';
 import UserModel from '../models/Users.js';
 import { config } from 'dotenv';
 import { Request, Response } from 'express';
-import { IAuthenticatedRequest, IUser } from '../types/index.js';
+import { IAuthenticatedRequest } from '../types/index.js';
 
 config();
 
