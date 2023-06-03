@@ -115,7 +115,7 @@ export const getOneById = async (req, res) => {
 export const removeOneById = async (req, res) => {
 	try {
 		const projectId = req.params.id;
-		const project = await ProjectModel.findOneAndRemove({ _id: partnerId });
+		const project = await ProjectModel.findOneAndRemove({ _id: projectId });
 		if (!project) {
 			return res.status(404).json({ message: 'Project card not found' });
 		}
