@@ -58,4 +58,14 @@ export interface IProject extends IDocumentResult<IProject> {
 	launchDate: number;
 	complexity: number;
 	teamMembers: IProjectTeamMember[];
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+export interface IPartner extends IDocumentResult<IPartner> {
+	name: string;
+	homeUrl?: string;
+	imageUrl: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
