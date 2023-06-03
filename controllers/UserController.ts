@@ -1,14 +1,16 @@
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 import UserModel from '../models/Users.js';
 import { config } from 'dotenv';
+import { Request, Response } from 'express';
+import { IAuthenticatedRequest, IUser } from '../types/index.js';
 
 config();
 
-const { SECRET_KEY } = process.env;
+const SECRET_KEY = process.env.SECRET_KEY as Secret;
 
-export const register = async (req, res) => {
+export const register = async (req: Request, res: Response) => {
 	const { email, password, name } = req.body;
 	try {
 		const errors = validationResult(req);
@@ -44,7 +46,7 @@ export const register = async (req, res) => {
 	}
 };
 
-export const login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	try {
@@ -74,7 +76,10 @@ export const login = async (req, res) => {
 	}
 };
 
-export const getUserInfo = async (req, res) => {
+export const getUserInfo = async (
+	req: IAuthenticatedRequest,
+	res: Response
+) => {
 	try {
 		const user = await UserModel.findById(req.userId);
 		if (!user) {
