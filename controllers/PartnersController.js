@@ -44,7 +44,7 @@ export const getOneById = async (req, res) => {
 export const removeOneById = async (req, res) => {
 	try {
 		const partnerId = req.params.id;
-		const partner = await PartnerModel.findOneAndRemove(partnerId);
+		const partner = await PartnerModel.findOneAndRemove({ _id: partnerId });
 		if (!partner) {
 			return res.status(404).json({ message: 'Partner card not found' });
 		}

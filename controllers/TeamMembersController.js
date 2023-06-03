@@ -43,7 +43,7 @@ export const getOneById = async (req, res) => {
 export const removeOneById = async (req, res) => {
 	try {
 		const memberId = req.params.id;
-		const member = await TeamMembers.findOneAndRemove(memberId);
+		const member = await TeamMembers.findOneAndRemove({ _id: memberId });
 		if (!member) {
 			return res.status(404).json({ message: 'Member not found' });
 		}
