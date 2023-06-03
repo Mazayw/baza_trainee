@@ -42,7 +42,7 @@ export const getOneById = async (req, res) => {
 export const removeOneById = async (req, res) => {
 	try {
 		const roleId = req.params.id;
-		const role = await RoleModel.findOneAndRemove(roleId);
+		const role = await RoleModel.findOneAndRemove({ _id: roleId });
 		if (!role) {
 			return res.status(404).json({ message: 'Role not found' });
 		}

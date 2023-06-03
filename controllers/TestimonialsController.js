@@ -45,7 +45,9 @@ export const getOneById = async (req, res) => {
 export const removeOneById = async (req, res) => {
 	try {
 		const testimonialId = req.params.id;
-		const testimonial = await Testimonials.findOneAndRemove(testimonialId);
+		const testimonial = await Testimonials.findOneAndRemove({
+			_id: testimonialId,
+		});
 		if (!testimonial) {
 			return res.status(404).json({ message: 'Testimonial not found' });
 		}
