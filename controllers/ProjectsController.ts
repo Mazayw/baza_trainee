@@ -1,8 +1,9 @@
 import ProjectModel from '../models/Projects.js';
 import RoleModel from '../models/Roles.js';
 import TeamMembers from '../models/TeamMembers.js';
+import { Request, Response } from 'express';
 
-export const getAll = async (req, res) => {
+export const getAll = async (req: Request, res: Response) => {
 	try {
 		const projects = await ProjectModel.find()
 			.populate({
@@ -25,8 +26,8 @@ export const getAll = async (req, res) => {
 
 		const transformedProjects = projects.map((project) => {
 			const transformedTeamMembers = project.teamMembers.map((teamMember) => ({
-				user: teamMember.userId,
-				role: teamMember.roleId,
+				user: teamMember.user,
+				role: teamMember.role,
 			}));
 
 			return { ...project.toObject(), teamMembers: transformedTeamMembers };
@@ -39,7 +40,7 @@ export const getAll = async (req, res) => {
 	}
 };
 
-export const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
 	const {
 		imageUrl,
 		status,
@@ -70,7 +71,7 @@ export const create = async (req, res) => {
 	}
 };
 
-export const getOneById = async (req, res) => {
+export const getOneById = async (req: Request, res: Response) => {
 	try {
 		const projectId = req.params.id;
 		const project = await ProjectModel.findById(projectId)
@@ -92,27 +93,28 @@ export const getOneById = async (req, res) => {
 			})
 			.exec();
 
-		const transformedProjects = projects.map((project) => {
-			const transformedTeamMembers = project.teamMembers.map((teamMember) => ({
-				user: teamMember.userId,
-				role: teamMember.roleId,
-			}));
-
-			return { ...project.toObject(), teamMembers: transformedTeamMembers };
-		});
-
 		if (!project) {
 			return res.status(404).json({ message: 'Project not found' });
 		}
 
-		res.json(transformedProjects);
+		const transformedTeamMembers = project.teamMembers.map((teamMember) => ({
+			user: teamMember.user,
+			role: teamMember.role,
+		}));
+
+		const transformedProject = {
+			...project.toObject(),
+			teamMembers: transformedTeamMembers,
+		};
+
+		res.json(transformedProject);
 	} catch (error) {
 		console.log(error);
 		res.status(404).json({ message: `Can't get project`, error });
 	}
 };
 
-export const removeOneById = async (req, res) => {
+export const removeOneById = async (req: Request, res: Response) => {
 	try {
 		const projectId = req.params.id;
 		const project = await ProjectModel.findOneAndRemove({ _id: projectId });
@@ -126,7 +128,7 @@ export const removeOneById = async (req, res) => {
 	}
 };
 
-export const updateOneById = async (req, res) => {
+export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const {
 			imageUrl,

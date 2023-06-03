@@ -39,12 +39,24 @@
  *           items:
  *             type: object
  *             properties:
- *               userId:
- *                 type: string
- *                 description: The ID of the user assigned to the project.
- *               roleId:
- *                 type: string
- *                 description: The ID of the role assigned to the user for the project.
+ *               user:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: The ID of the user assigned to the project.
+ *                   name:
+ *                     type: string
+ *                     description: The name of the user assigned to the project.
+ *               role:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: The ID of the role assigned to the user for the project.
+ *                   name:
+ *                     type: string
+ *                     description: The name of the role assigned to the user for the project.
  *       example:
  *         title: Project A
  *         imageUrl: /example.com/image.jpg
@@ -54,13 +66,18 @@
  *         launchDate: 1669872000000
  *         complexity: 1
  *         teamMembers:
- *           - userId: 611fe538830e1465d8b5c81e
- *             roleId: 611fe538830e1465d8b5c81f
+ *           - user:
+ *               _id: 6471fa06933513f26024a990
+ *               name: QA
+ *             role:
+ *               _id: 6471f9a29c17ac2190eb8791
+ *               name: PM
  */
 
 import mongoose from 'mongoose';
+import { IProject } from '../types';
 
-const ProjectSchema = new mongoose.Schema(
+const ProjectSchema = new mongoose.Schema<IProject>(
 	{
 		title: {
 			type: String,
@@ -93,11 +110,11 @@ const ProjectSchema = new mongoose.Schema(
 		},
 		teamMembers: [
 			{
-				userId: {
+				user: {
 					type: mongoose.Schema.Types.ObjectId,
 					ref: 'Users',
 				},
-				roleId: {
+				role: {
 					type: mongoose.Schema.Types.ObjectId,
 					ref: 'Roles',
 				},
