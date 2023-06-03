@@ -14,7 +14,7 @@ const router = Router();
 
 /**
  * @swagger
- * /team-members:
+ * /members:
  *   get:
  *     summary: Get all team members
  *     tags: [Team Members]
@@ -28,7 +28,7 @@ router.get('/', TeamMembersController.getAll);
 
 /**
  * @swagger
- * /team-members/{id}:
+ * /members/{id}:
  *   get:
  *     summary: Get a team member by ID
  *     tags: [Team Members]
@@ -51,7 +51,7 @@ router.get('/:id', TeamMembersController.getOneById);
 
 /**
  * @swagger
- * /team-members:
+ * /members:
  *   post:
  *     summary: Create a new team member
  *     tags: [Team Members]
@@ -80,7 +80,7 @@ router.post(
 
 /**
  * @swagger
- * /team-members/{id}:
+ * /members/{id}:
  *   delete:
  *     summary: Delete a team member by ID
  *     tags: [Team Members]
@@ -105,7 +105,7 @@ router.delete('/:id', checkAuth, TeamMembersController.removeOneById);
 
 /**
  * @swagger
- * /team-members/{id}:
+ * /members/{id}:
  *   patch:
  *     summary: Update a team member by ID
  *     tags: [Team Members]
