@@ -25,8 +25,9 @@
  */
 
 import mongoose from 'mongoose';
+import { ITestimonial } from '../types';
 
-const TestimonialSchema = new mongoose.Schema(
+const TestimonialSchema = new mongoose.Schema<ITestimonial>(
 	{
 		name: { type: String, required: true },
 		review: { type: String, required: true },

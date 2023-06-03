@@ -1,6 +1,7 @@
 import TeamMembers from '../models/TeamMembers.js';
+import { Request, Response } from 'express';
 
-export const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
 	const { name, profileUrl } = req.body;
 	try {
 		const doc = new TeamMembers({
@@ -16,7 +17,7 @@ export const create = async (req, res) => {
 	}
 };
 
-export const getAll = async (req, res) => {
+export const getAll = async (req: Request, res: Response) => {
 	try {
 		const members = await TeamMembers.find();
 		res.json(members);
@@ -26,7 +27,7 @@ export const getAll = async (req, res) => {
 	}
 };
 
-export const getOneById = async (req, res) => {
+export const getOneById = async (req: Request, res: Response) => {
 	try {
 		const memberId = req.params.id;
 		const member = await TeamMembers.findById(memberId);
@@ -40,7 +41,7 @@ export const getOneById = async (req, res) => {
 	}
 };
 
-export const removeOneById = async (req, res) => {
+export const removeOneById = async (req: Request, res: Response) => {
 	try {
 		const memberId = req.params.id;
 		const member = await TeamMembers.findOneAndRemove({ _id: memberId });
@@ -54,7 +55,7 @@ export const removeOneById = async (req, res) => {
 	}
 };
 
-export const updateOneById = async (req, res) => {
+export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const { name, profileUrl } = req.body;
 		const memberId = req.params.id;

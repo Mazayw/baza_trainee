@@ -1,13 +1,15 @@
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import { config } from 'dotenv';
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { IAuthenticatedRequest } from '../types';
 config();
 const { SECRET_KEY } = process.env;
-interface AuthenticatedRequest extends Request {
-	userId?: string;
-}
 
-export default (req: AuthenticatedRequest, res: Response, next: () => void) => {
+export default (
+	req: IAuthenticatedRequest,
+	res: Response,
+	next: () => void
+) => {
 	const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
 	if (token) {

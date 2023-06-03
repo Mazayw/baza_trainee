@@ -1,5 +1,7 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import { Express } from 'express';
+
 const options = {
 	definition: {
 		openapi: '3.0.0',
@@ -29,14 +31,16 @@ const options = {
 			},
 		],
 	},
-	apis: ['./routes/*.js', './models/*.js'],
+	apis: ['./routes/*.js', './models/*.js', './routes/*.ts', './models/*.ts'],
 };
 const swaggerSpec = swaggerJsdoc(options);
-function swaggerDocs(app, port) {
+
+function swaggerDocs(app: Express, port: number): void {
 	app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 	app.get('/docs/api.json', (req, res) => {
 		res.setHeader('Content-Type', 'application/json');
 		res.send(swaggerSpec);
 	});
 }
+
 export default swaggerDocs;

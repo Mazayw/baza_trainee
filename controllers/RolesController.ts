@@ -1,6 +1,7 @@
 import RoleModel from '../models/Roles.js';
+import { Request, Response } from 'express';
 
-export const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
 	const { name } = req.body;
 	try {
 		const doc = new RoleModel({
@@ -15,7 +16,7 @@ export const create = async (req, res) => {
 	}
 };
 
-export const getAll = async (req, res) => {
+export const getAll = async (req: Request, res: Response) => {
 	try {
 		const roles = await RoleModel.find();
 		res.json(roles);
@@ -25,7 +26,7 @@ export const getAll = async (req, res) => {
 	}
 };
 
-export const getOneById = async (req, res) => {
+export const getOneById = async (req: Request, res: Response) => {
 	try {
 		const roleId = req.params.id;
 		const role = await RoleModel.findById(roleId);
@@ -39,7 +40,7 @@ export const getOneById = async (req, res) => {
 	}
 };
 
-export const removeOneById = async (req, res) => {
+export const removeOneById = async (req: Request, res: Response) => {
 	try {
 		const roleId = req.params.id;
 		const role = await RoleModel.findOneAndRemove({ _id: roleId });
@@ -53,7 +54,7 @@ export const removeOneById = async (req, res) => {
 	}
 };
 
-export const updateOneById = async (req, res) => {
+export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const { name } = req.body;
 		const roleId = req.params.id;

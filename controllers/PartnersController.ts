@@ -1,6 +1,7 @@
 import PartnerModel from '../models/Partners.js';
+import { Request, Response } from 'express';
 
-export const create = async (req, res) => {
+export const create = async (req: Request, res: Response) => {
 	const { name, homeUrl, imageUrl } = req.body;
 	try {
 		const doc = new PartnerModel({
@@ -17,7 +18,7 @@ export const create = async (req, res) => {
 	}
 };
 
-export const getAll = async (req, res) => {
+export const getAll = async (req: Request, res: Response) => {
 	try {
 		const partners = await PartnerModel.find(); //populate.('user').exec()
 		res.json(partners);
@@ -27,7 +28,7 @@ export const getAll = async (req, res) => {
 	}
 };
 
-export const getOneById = async (req, res) => {
+export const getOneById = async (req: Request, res: Response) => {
 	try {
 		const partnerId = req.params.id;
 		const partner = await PartnerModel.findById(partnerId);
@@ -41,7 +42,7 @@ export const getOneById = async (req, res) => {
 	}
 };
 
-export const removeOneById = async (req, res) => {
+export const removeOneById = async (req: Request, res: Response) => {
 	try {
 		const partnerId = req.params.id;
 		const partner = await PartnerModel.findOneAndRemove({ _id: partnerId });
@@ -55,7 +56,7 @@ export const removeOneById = async (req, res) => {
 	}
 };
 
-export const updateOneById = async (req, res) => {
+export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const { name, homeUrl, imageUrl } = req.body;
 		const partnerId = req.params.id;

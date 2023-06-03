@@ -22,8 +22,9 @@
  */
 
 import mongoose from 'mongoose';
+import { IUser } from '../types';
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema<IUser>(
 	{
 		name: { type: String, required: true },
 		email: {

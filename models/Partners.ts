@@ -24,8 +24,9 @@
  */
 
 import mongoose from 'mongoose';
+import { IPartner } from '../types';
 
-const PartnerSchema = new mongoose.Schema(
+const PartnerSchema = new mongoose.Schema<IPartner>(
 	{
 		name: {
 			type: String,
