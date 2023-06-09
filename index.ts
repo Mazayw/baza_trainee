@@ -12,6 +12,7 @@ import teamMembersRoutes from './routes/teamMembersRoutes.js';
 import testimonialsRoutes from './routes/testimonialsRoutes.js';
 import projectsRoutes from './routes/projectsRoutes.js';
 import rolesRoutes from './routes/rolesRoutes.js';
+import contactsRoutes from './routes/contactsRoutes.js';
 
 config();
 
@@ -43,6 +44,7 @@ app.use('/members', teamMembersRoutes);
 app.use('/testimonials', testimonialsRoutes);
 app.use('/projects', projectsRoutes);
 app.use('/roles', rolesRoutes);
+app.use('/contacts', contactsRoutes);
 
 const port: number = PORT ? parseInt(PORT) : 3000;
 

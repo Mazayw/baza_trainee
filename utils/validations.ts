@@ -103,3 +103,24 @@ export const TestimonialsValidation = [
 	(req: Request, res: Response, next: () => void) =>
 		checkValidation(req, res, next),
 ];
+export const ContactsValidation = [
+	body('contacts.contactsDataList.phone1')
+		.isNumeric()
+		.matches(/^380\d{9}$/)
+		.withMessage('Phone1 must be a number'),
+	body('contacts.contactsDataList.phone2')
+		.isNumeric()
+		.matches(/^380\d{9}$/)
+		.withMessage('Phone2 must be a number'),
+	body('contacts.contactsDataList.email')
+		.isEmail()
+		.withMessage('Invalid email address'),
+	body('contacts.socialsMediaList.linkedin')
+		.isURL()
+		.withMessage('Invalid LinkedIn URL'),
+	body('contacts.socialsMediaList.facebook')
+		.isURL()
+		.withMessage('Invalid Facebook URL'),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
+];

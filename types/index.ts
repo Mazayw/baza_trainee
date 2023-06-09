@@ -69,3 +69,17 @@ export interface IPartner extends IDocumentResult<IPartner> {
 	createdAt: Date;
 	updatedAt: Date;
 }
+
+export interface Contacts {
+	contacts: {
+		contactsDataList: {
+			phone1: number;
+			phone2: number;
+			email: string;
+		};
+		socialsMediaList: {
+			linkedin: string;
+			facebook: string;
+		};
+	};
+}
