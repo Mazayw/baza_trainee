@@ -27,10 +27,57 @@
 import mongoose from 'mongoose';
 import { ITestimonial } from '../types';
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Testimonial:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: object
+ *           properties:
+ *             en:
+ *               type: string
+ *               description: Name in English
+ *             pl:
+ *               type: string
+ *               description: Name in Polish
+ *             ua:
+ *               type: string
+ *               description: Name in Ukrainian
+ *         review:
+ *           type: object
+ *           properties:
+ *             en:
+ *               type: string
+ *               description: Review in English
+ *             pl:
+ *               type: string
+ *               description: Review in Polish
+ *             ua:
+ *               type: string
+ *               description: Review in Ukrainian
+ *         date:
+ *           type: number
+ *           description: Testimonial date
+ *         imageUrl:
+ *           type: string
+ *           description: URL of the testimonial image
+ */
+
 const TestimonialSchema = new mongoose.Schema<ITestimonial>(
 	{
-		name: { type: String, required: true },
-		review: { type: String, required: true },
+		name: {
+			en: { type: String, required: true },
+			pl: { type: String, required: true },
+			ua: { type: String, required: true },
+		},
+		review: {
+			en: { type: String, required: true },
+			pl: { type: String, required: true },
+			ua: { type: String, required: true },
+		},
 		date: { type: Number, required: true },
 		imageUrl: { type: String, required: true },
 	},

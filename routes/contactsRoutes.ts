@@ -42,7 +42,7 @@ router.get('/', ContactsController.getContacts);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ContactsUpdatePayload'
+ *             $ref: '#/components/schemas/Contacts'
  *     responses:
  *       200:
  *         description: Contacts data updated successfully
@@ -54,7 +54,7 @@ router.get('/', ContactsController.getContacts);
  *         description: An error occurred while saving contacts data
  * components:
  *   schemas:
- *     ContactsUpdatePayload:
+ *     Contacts:
  *       type: object
  *       properties:
  *         contacts:
