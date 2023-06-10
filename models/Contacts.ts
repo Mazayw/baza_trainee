@@ -32,8 +32,9 @@
  */
 
 import mongoose from 'mongoose';
+import { IContacts } from '../types';
 
-const ContactsSchema = new mongoose.Schema({
+const ContactsSchema = new mongoose.Schema<IContacts>({
 	contacts: {
 		contactsDataList: {
 			phone1: {

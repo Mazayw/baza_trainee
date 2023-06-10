@@ -1,6 +1,12 @@
 import { Request } from 'express';
 import { ObjectId, Types } from 'mongoose';
 
+export interface ILanguageSelector<T> {
+	en: T;
+	pl: T;
+	ua: T;
+}
+
 export interface IAuthenticatedRequest extends Request {
 	userId?: string;
 }
@@ -19,8 +25,8 @@ export interface IUser extends IDocumentResult<IUser> {
 }
 
 export interface ITestimonial extends IDocumentResult<ITestimonial> {
-	name: string;
-	review: string;
+	name: ILanguageSelector<string>;
+	review: ILanguageSelector<string>;
 	date: number;
 	imageUrl: string;
 	createdAt: Date;
@@ -70,7 +76,7 @@ export interface IPartner extends IDocumentResult<IPartner> {
 	updatedAt: Date;
 }
 
-export interface Contacts {
+export interface IContacts extends IDocumentResult<IContacts> {
 	contacts: {
 		contactsDataList: {
 			phone1: number;
