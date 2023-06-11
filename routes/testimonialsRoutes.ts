@@ -2,6 +2,13 @@ import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
 import { TestimonialsValidation } from '../utils/validations.js';
 import * as TestimonialsController from '../controllers/TestimonialsController.js';
+import { SETTINGS } from '../settings';
+import {
+	upload,
+	uploadWithConsoleLog,
+	uploadWithFileSizeValidation,
+} from '../controllers/fileUpload/s3-storage.js';
+//import fileSizeValidator from '../utils/fileSizeValidator.js';
 
 const router = Router();
 
@@ -74,7 +81,10 @@ router.get('/:id', TestimonialsController.getOneById);
 router.post(
 	'/',
 	checkAuth,
-	TestimonialsValidation,
+	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.testimonialPhoto),
+	//upload.single('file'),
+	//uploadWithConsoleLog
+	//TestimonialsValidation,
 	TestimonialsController.create
 );
 

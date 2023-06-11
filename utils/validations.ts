@@ -91,18 +91,49 @@ export const TeamMembersValidation = [
 
 export const TestimonialsValidation = [
 	body(
-		'name',
-		'The name is incorrect, it must contain more than 2 character'
-	).isLength({ min: 2 }),
+		'name.en',
+		'The en name is incorrect, it must contain more than 5 characters'
+	)
+		.isString()
+		.isLength({ min: 5 }),
 	body(
-		'review',
-		'The review is incorrect, it must contain more than 20 character'
-	).isLength({ min: 20 }),
-	body('date', 'The date is incorrect, it must be number').isNumeric(),
-	body('imageUrl', 'Wrong image url').isURL(),
+		'name.pl',
+		'The pl name is incorrect, it must contain more than 5 characters'
+	)
+		.isString()
+		.isLength({ min: 5 }),
+	body(
+		'name.ua',
+		'The ua name is incorrect, it must contain more than 5 characters'
+	)
+		.isString()
+		.isLength({ min: 5 }),
+	body(
+		'review.en',
+		'The en review is incorrect, it must contain more than 5 character'
+	)
+		.isString()
+		.isLength({ min: 5 }),
+	body(
+		'review.pl',
+		'The pl review is incorrect, it must contain more than 5 character'
+	)
+		.isString()
+		.isLength({ min: 5 }),
+	body(
+		'review.ua',
+		'The ua review is incorrect, it must contain more than 5 character'
+	)
+		.isString()
+		.isLength({ min: 5 }),
+	body('date', 'The date is incorrect, it must be number')
+		.notEmpty()
+		.isNumeric(),
+	//body('imageUrl', 'Wrong image url').notEmpty().isString().isURL(),
 	(req: Request, res: Response, next: () => void) =>
 		checkValidation(req, res, next),
 ];
+
 export const ContactsValidation = [
 	body('contacts.contactsDataList.phone1')
 		.isNumeric()
