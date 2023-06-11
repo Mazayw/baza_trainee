@@ -17,6 +17,11 @@ export const create = async (req: Request, res: Response) => {
 	try {
 		const { name, review, date, imageUrl } = req.body;
 		const image = imageUrl ? imageUrl : req.file?.location;
+		if (!image) {
+			return res
+				.status(400)
+				.json({ error: 'No file or image URL found in the request body' });
+		}
 		const doc = new Testimonials({
 			name,
 			review,
