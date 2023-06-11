@@ -2,6 +2,7 @@ import Testimonials from '../models/Testimonials.js';
 import { Request, Response } from 'express';
 import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
+import { mergeObjects } from '../utils/updateObject.js';
 
 export interface IMulterRequestFile {
 	key: string;
@@ -13,15 +14,14 @@ export interface IMulterRequestFile {
 }
 
 export const create = async (req: Request, res: Response) => {
-	const { name, review, date } = req.body;
-	const imageUrl = req.file.location;
-
 	try {
+		const { name, review, date, imageUrl } = req.body;
+		const image = imageUrl ? imageUrl : req.file?.location;
 		const doc = new Testimonials({
 			name,
 			review,
 			date,
-			imageUrl,
+			imageUrl: image,
 		});
 
 		const post = await doc.save();
@@ -86,37 +86,30 @@ export const removeOneById = async (req: Request, res: Response) => {
 
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
-		const { name, review, date } = req.body;
 		const testimonialId = req.params.id;
-		const oldTestimonial = await Testimonials.findById(testimonialId);
-		const imageUrl = req.body.imageUrl ? req.body.imageUrl : req.file.location;
-		const testimonial = await Testimonials.findOneAndUpdate(
-			{ _id: testimonialId },
-			{
-				name,
-				review,
-				date,
-				imageUrl,
-			},
-			{ new: true }
-		);
+		const updates = req.body;
+		const existingTestimonial = await Testimonials.findById(testimonialId);
 
-		if (!testimonial) {
+		if (!existingTestimonial) {
 			return res.status(404).json({ message: 'Testimonial not found' });
 		}
 
-		if (req.file.location && oldTestimonial?.imageUrl) {
+		const updatedTestimonial = mergeObjects(existingTestimonial._doc, updates);
+		await Testimonials.findByIdAndUpdate(testimonialId, updatedTestimonial);
+
+		if (req.file?.location && existingTestimonial?.imageUrl) {
 			try {
-				const fileKey = getFileKeyFromUrl(oldTestimonial.imageUrl);
+				const fileKey = getFileKeyFromUrl(existingTestimonial.imageUrl);
 				if (fileKey) {
 					deleteFileFromS3(fileKey);
+					console.log(`${fileKey} was deleted`);
 				}
 			} catch (error) {
 				console.error('Error deleting file from S3:', error);
 			}
 		}
 
-		res.json(testimonial);
+		res.json(updatedTestimonial);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't update testimonial`, error });

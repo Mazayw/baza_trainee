@@ -3,11 +3,7 @@ import checkAuth from '../utils/checkAuth.js';
 import { TestimonialsValidation } from '../utils/validations.js';
 import * as TestimonialsController from '../controllers/TestimonialsController.js';
 import { SETTINGS } from '../settings';
-import {
-	upload,
-	uploadWithConsoleLog,
-	uploadWithFileSizeValidation,
-} from '../controllers/fileUpload/s3-storage.js';
+import { uploadWithFileSizeValidation } from '../controllers/fileUpload/s3-storage.js';
 //import fileSizeValidator from '../utils/fileSizeValidator.js';
 
 const router = Router();
