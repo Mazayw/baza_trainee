@@ -2,7 +2,6 @@ import { DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { Request, Response, NextFunction } from 'express';
-import { SETTINGS } from '../../settings';
 import { getFileExtension } from '../../utils/getFileExtension';
 
 const { ACCESS_KEY_ID, SECRET_ACCESS_KEY, REGION, BUCKET } = process.env;
@@ -31,6 +30,7 @@ const upload = multer({
 	}),
 });
 
+//Can be deleted
 const uploadWithConsoleLog = (
 	req: Request,
 	res: Response,
@@ -50,6 +50,11 @@ const uploadWithFileSizeValidation =
 	(fileSizeLimit: number) =>
 	(req: Request, res: Response, next: NextFunction): void => {
 		const contentLength = Number(req.headers['content-length']);
+		const skipUpload = Boolean(req.headers['skip-upload']);
+		if (!req.file && skipUpload) {
+			//console.log('body', req);
+			next();
+		}
 
 		if (contentLength && contentLength > fileSizeLimit) {
 			res.status(400).json({

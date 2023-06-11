@@ -82,9 +82,7 @@ router.post(
 	'/',
 	checkAuth,
 	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.testimonialPhoto),
-	//upload.single('file'),
-	//uploadWithConsoleLog
-	//TestimonialsValidation,
+	TestimonialsValidation,
 	TestimonialsController.create
 );
 
@@ -147,6 +145,7 @@ router.delete('/:id', checkAuth, TestimonialsController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
+	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.testimonialPhoto),
 	TestimonialsValidation,
 	TestimonialsController.updateOneById
 );
