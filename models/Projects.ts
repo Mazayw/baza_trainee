@@ -77,51 +77,48 @@
 import mongoose from 'mongoose';
 import { IProject } from '../types';
 
-const ProjectSchema = new mongoose.Schema<IProject>(
-	{
-		title: {
-			type: String,
-			required: true,
-			unique: true,
-		},
-		imageUrl: {
-			type: String,
-			required: true,
-		},
-		status: {
-			type: String,
-			required: true,
-		},
-		description: {
-			type: String,
-			required: true,
-		},
-		creationDate: {
-			type: Number,
-			required: true,
-		},
-		launchDate: {
-			type: Number,
-			required: true,
-		},
-		complexity: {
-			type: Number,
-			required: true,
-		},
-		teamMembers: [
-			{
-				user: {
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'Users',
-				},
-				role: {
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'Roles',
-				},
-			},
-		],
+const ProjectSchema = new mongoose.Schema<IProject>({
+	title: {
+		type: String,
+		required: true,
+		unique: true,
 	},
-	{ timestamps: true }
-);
+	imageUrl: {
+		type: String,
+		required: true,
+	},
+	status: {
+		type: String,
+		required: true,
+	},
+	description: {
+		type: String,
+		required: true,
+	},
+	creationDate: {
+		type: Number,
+		required: true,
+	},
+	launchDate: {
+		type: Number,
+		required: true,
+	},
+	complexity: {
+		type: Number,
+		required: true,
+	},
+	teamMembers: [
+		{
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Users',
+			},
+			role: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Roles',
+			},
+		},
+	],
+});
 
 export default mongoose.model('Projects', ProjectSchema);

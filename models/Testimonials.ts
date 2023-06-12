@@ -66,22 +66,19 @@ import { ITestimonial } from '../types';
  *           description: URL of the testimonial image
  */
 
-const TestimonialSchema = new mongoose.Schema<ITestimonial>(
-	{
-		name: {
-			en: { type: String, required: true },
-			pl: { type: String, required: true },
-			ua: { type: String, required: true },
-		},
-		review: {
-			en: { type: String, required: true },
-			pl: { type: String, required: true },
-			ua: { type: String, required: true },
-		},
-		date: { type: Number, required: true },
-		imageUrl: { type: String, required: true },
+const TestimonialSchema = new mongoose.Schema<ITestimonial>({
+	name: {
+		en: { type: String, required: true },
+		pl: { type: String, required: true },
+		ua: { type: String, required: true },
 	},
-	{ timestamps: true }
-);
+	review: {
+		en: { type: String, required: true },
+		pl: { type: String, required: true },
+		ua: { type: String, required: true },
+	},
+	date: { type: Number, required: true },
+	imageUrl: { type: String, required: true },
+});
 
 export default mongoose.model('Testimonials', TestimonialSchema);

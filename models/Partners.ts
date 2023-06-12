@@ -26,22 +26,19 @@
 import mongoose from 'mongoose';
 import { IPartner } from '../types';
 
-const PartnerSchema = new mongoose.Schema<IPartner>(
-	{
-		name: {
-			type: String,
-			required: true,
-			unique: true,
-		},
-		homeUrl: {
-			type: String,
-		},
-		imageUrl: {
-			type: String,
-			required: true,
-		},
+const PartnerSchema = new mongoose.Schema<IPartner>({
+	name: {
+		type: String,
+		required: true,
+		unique: true,
 	},
-	{ timestamps: true }
-);
+	homeUrl: {
+		type: String,
+	},
+	imageUrl: {
+		type: String,
+		required: true,
+	},
+});
 
 export default mongoose.model('Partners', PartnerSchema);
