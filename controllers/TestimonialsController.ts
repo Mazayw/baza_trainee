@@ -3,20 +3,16 @@ import { Request, Response } from 'express';
 import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
 import { mergeObjects } from '../utils/updateObject.js';
-
-export interface IMulterRequestFile {
-	key: string;
-	path: string;
-	mimetype: string;
-	originalname: string;
-	size: number;
-	location: string;
-}
+import { SETTINGS } from '../settings';
 
 export const create = async (req: Request, res: Response) => {
 	try {
 		const { name, review, date, imageUrl } = req.body;
-		const image = imageUrl ? imageUrl : req.file?.location;
+
+		const image = SETTINGS.allowCreateDocumentWithoutFile
+			? req.file?.location || imageUrl
+			: req.file?.location;
+
 		if (!image) {
 			return res
 				.status(400)
@@ -29,8 +25,8 @@ export const create = async (req: Request, res: Response) => {
 			imageUrl: image,
 		});
 
-		const post = await doc.save();
-		res.json(post);
+		const document = await doc.save();
+		res.json(document);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't create testimonial`, error });
@@ -39,8 +35,8 @@ export const create = async (req: Request, res: Response) => {
 
 export const getAll = async (req: Request, res: Response) => {
 	try {
-		const testimonial = await Testimonials.find();
-		res.json(testimonial);
+		const allDocuments = await Testimonials.find();
+		res.json(allDocuments);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't get testimonials`, error });
@@ -49,12 +45,12 @@ export const getAll = async (req: Request, res: Response) => {
 
 export const getOneById = async (req: Request, res: Response) => {
 	try {
-		const testimonialId = req.params.id;
-		const testimonial = await Testimonials.findById(testimonialId);
-		if (!testimonial) {
+		const id = req.params.id;
+		const document = await Testimonials.findById(id);
+		if (!document) {
 			return res.status(404).json({ message: 'Testimonial not found' });
 		}
-		res.json(testimonial);
+		res.json(document);
 	} catch (error) {
 		console.log(error);
 		res.status(404).json({ message: `Can't get testimonial`, error });
@@ -63,26 +59,25 @@ export const getOneById = async (req: Request, res: Response) => {
 
 export const removeOneById = async (req: Request, res: Response) => {
 	try {
-		const testimonialId = req.params.id;
-		const testimonial = await Testimonials.findOneAndRemove({
-			_id: testimonialId,
+		const id = req.params.id;
+		const document = await Testimonials.findOneAndRemove({
+			_id: id,
 		});
-		if (!testimonial) {
+		if (!document) {
 			return res.status(404).json({ message: 'Testimonial not found' });
 		}
 
 		try {
-			const fileKey = getFileKeyFromUrl(testimonial.imageUrl);
+			const fileKey = getFileKeyFromUrl(document.imageUrl);
 			if (fileKey) {
-				console.log(fileKey);
 				const response = await deleteFileFromS3(fileKey);
-				console.log(response);
+				console.log(`File ${fileKey} deleted`, response);
 			}
 		} catch (error) {
 			console.error('Error deleting file from S3:', error);
 		}
 
-		res.json(testimonial);
+		res.json(document);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't remove testimonial card`, error });
@@ -91,20 +86,20 @@ export const removeOneById = async (req: Request, res: Response) => {
 
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
-		const testimonialId = req.params.id;
+		const id = req.params.id;
 		const updates = req.body;
-		const existingTestimonial = await Testimonials.findById(testimonialId);
+		const existingDocument = await Testimonials.findById(id);
 
-		if (!existingTestimonial) {
+		if (!existingDocument) {
 			return res.status(404).json({ message: 'Testimonial not found' });
 		}
 
-		const updatedTestimonial = mergeObjects(existingTestimonial._doc, updates);
-		await Testimonials.findByIdAndUpdate(testimonialId, updatedTestimonial);
+		const updatedDocument = mergeObjects(existingDocument._doc, updates);
+		await Testimonials.findByIdAndUpdate(id, updatedDocument);
 
-		if (req.file?.location && existingTestimonial?.imageUrl) {
+		if (req.file?.location && existingDocument?.imageUrl) {
 			try {
-				const fileKey = getFileKeyFromUrl(existingTestimonial.imageUrl);
+				const fileKey = getFileKeyFromUrl(existingDocument.imageUrl);
 				if (fileKey) {
 					deleteFileFromS3(fileKey);
 					console.log(`${fileKey} was deleted`);
@@ -114,7 +109,7 @@ export const updateOneById = async (req: Request, res: Response) => {
 			}
 		}
 
-		res.json(updatedTestimonial);
+		res.json(updatedDocument);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't update testimonial`, error });

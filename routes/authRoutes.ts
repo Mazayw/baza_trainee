@@ -4,6 +4,7 @@ const router = express.Router();
 import * as UserController from '../controllers/UserController.js';
 import checkAuth from '../utils/checkAuth.js';
 import { loginValidation, registerValidation } from '../utils/validations.js';
+import { SETTINGS } from '../settings';
 
 /**
  * @openapi
@@ -59,37 +60,40 @@ router.get('/user', checkAuth, UserController.getUserInfo);
  */
 router.post('/login', loginValidation, UserController.login);
 
-/**
- * @openapi
- * /auth/register:
- *   post:
- *     summary: User registration
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *               name:
- *                 type: string
- *             example:
- *               email: user@example.com
- *               password: password123
- *               name: John
- *     responses:
- *       201:
- *         description: User registered successfully
- *       400:
- *         description: Bad Request - Invalid request body
- *       500:
- *         description: Server Error
- */
-router.post('/register', registerValidation, UserController.register);
+if (SETTINGS.allowUserRegistration) {
+	/**
+	 * @openapi
+	 * /auth/register:
+	 *   post:
+	 *     summary: User registration
+	 *     tags: [User]
+	 *     requestBody:
+	 *       required: true
+	 *       content:
+	 *         application/json:
+	 *           schema:
+	 *             type: object
+	 *             properties:
+	 *               email:
+	 *                 type: string
+	 *               password:
+	 *                 type: string
+	 *               name:
+	 *                 type: string
+	 *             example:
+	 *               email: user@example.com
+	 *               password: password123
+	 *               name: John
+	 *     responses:
+	 *       201:
+	 *         description: User registered successfully
+	 *       400:
+	 *         description: Bad Request - Invalid request body
+	 *       500:
+	 *         description: Server Error
+	 */
+
+	router.post('/register', registerValidation, UserController.register);
+}
 
 export default router;

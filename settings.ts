@@ -6,4 +6,6 @@ export const SETTINGS = {
 		report: 500 * 1024,
 		testimonialPhoto: 500 * 1024,
 	},
+	allowCreateDocumentWithoutFile: true, //If true, the document can be created with the URL.
+	allowUserRegistration: true,
 };
