@@ -1,5 +1,6 @@
 import TeamMembers from '../models/TeamMembers.js';
 import { Request, Response } from 'express';
+import { mergeObjects } from '../utils/updateObject.js';
 
 export const create = async (req: Request, res: Response) => {
 	const { name, profileUrl } = req.body;
@@ -57,20 +58,18 @@ export const removeOneById = async (req: Request, res: Response) => {
 
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
-		const { name, profileUrl } = req.body;
-		const memberId = req.params.id;
-		const member = await TeamMembers.findOneAndUpdate(
-			{ _id: memberId },
-			{
-				name,
-				profileUrl,
-			},
-			{ new: true }
-		);
-		if (!member) {
+		const id = req.params.id;
+		const updates = req.body;
+		const existingDocument = await TeamMembers.findById(id);
+
+		if (!existingDocument) {
 			return res.status(404).json({ message: 'Member not found' });
 		}
-		res.json(member);
+
+		const updatedDocument = mergeObjects(existingDocument._doc, updates);
+		await TeamMembers.findByIdAndUpdate(id, updatedDocument);
+
+		res.json(updatedDocument);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't update member`, error });

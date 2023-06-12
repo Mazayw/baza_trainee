@@ -80,11 +80,28 @@ export const roleCreateValidation = [
 ];
 
 export const TeamMembersValidation = [
-	body(
-		'name',
-		'The name is incorrect, it must contain more than 2 character'
-	).isLength({ min: 2 }),
-	body('profileUrl', 'Wrong profile url').isURL(),
+	body('name.en')
+		.optional()
+		.isString()
+		.isLength({ min: 5 })
+		.withMessage(
+			'The en name is incorrect, it must contain more than 5 characters'
+		),
+	body('name.pl')
+		.optional()
+		.isString()
+		.isLength({ min: 5 })
+		.withMessage(
+			'The pl name is incorrect, it must contain more than 5 characters'
+		),
+	body('name.ua')
+		.optional()
+		.isString()
+		.isLength({ min: 5 })
+		.withMessage(
+			'The ua name is incorrect, it must contain more than 5 characters'
+		),
+	body('profileUrl', 'Wrong profile url').optional().isURL(),
 	(req: Request, res: Response, next: () => void) =>
 		checkValidation(req, res, next),
 ];
