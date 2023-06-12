@@ -19,7 +19,6 @@ export const create = async (req: Request, res: Response) => {
 				.json({ error: 'No file or image URL found in the request body' });
 		}
 		const doc = new PartnerModel({
-			name,
 			homeUrl,
 			imageUrl: image,
 		});
