@@ -67,7 +67,7 @@ export const updateOneById = async (req: Request, res: Response) => {
 		}
 
 		const updatedDocument = mergeObjects(existingDocument._doc, updates);
-		await TeamMembers.findByIdAndUpdate(id, updatedDocument);
+		await TeamMembers.findByIdAndUpdate(id, updatedDocument, { new: true });
 
 		res.json(updatedDocument);
 	} catch (error) {

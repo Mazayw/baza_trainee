@@ -41,7 +41,7 @@ export interface ITeamMember extends IDocumentResult<ITestimonial> {
 }
 
 export interface ITeamMemberRole extends IDocumentResult<ITeamMemberRole> {
-	name: string;
+	name: ILanguageSelector<string>;
 }
 
 interface IProjectTeamMember {

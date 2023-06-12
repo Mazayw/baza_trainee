@@ -1,5 +1,6 @@
 import RoleModel from '../models/Roles.js';
 import { Request, Response } from 'express';
+import { mergeObjects } from '../utils/updateObject.js';
 
 export const create = async (req: Request, res: Response) => {
 	const { name } = req.body;
@@ -56,19 +57,18 @@ export const removeOneById = async (req: Request, res: Response) => {
 
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
-		const { name } = req.body;
-		const roleId = req.params.id;
-		const role = await RoleModel.findOneAndUpdate(
-			{ _id: roleId },
-			{
-				name,
-			},
-			{ new: true }
-		);
-		if (!role) {
+		const id = req.params.id;
+		const updates = req.body;
+		const existingDocument = await RoleModel.findById(id);
+
+		if (!existingDocument) {
 			return res.status(404).json({ message: 'Role not found' });
 		}
-		res.json(role);
+
+		const updatedDocument = mergeObjects(existingDocument._doc, updates);
+		await RoleModel.findByIdAndUpdate(id, updatedDocument, { new: true });
+
+		res.json(updatedDocument);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't update role`, error });

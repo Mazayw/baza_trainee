@@ -95,7 +95,7 @@ export const updateOneById = async (req: Request, res: Response) => {
 		}
 
 		const updatedDocument = mergeObjects(existingDocument._doc, updates);
-		await Testimonials.findByIdAndUpdate(id, updatedDocument);
+		await Testimonials.findByIdAndUpdate(id, updatedDocument, { new: true });
 
 		if (req.file?.location && existingDocument?.imageUrl) {
 			try {

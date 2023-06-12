@@ -8,18 +8,32 @@
  *         - name
  *       properties:
  *         name:
- *           type: string
- *           description: The name of the team member role.
+ *           type: object
+ *           properties:
+ *             en:
+ *               type: string
+ *               description: The name of the team member role in English.
+ *             pl:
+ *               type: string
+ *               description: The name of the team member role in Polish.
+ *             ua:
+ *               type: string
+ *               description: The name of the team member role in Ukrainian.
  *       example:
- *         name: Developer
+ *         name:
+ *           en: Developer
+ *           pl: Programista
+ *           ua: Розробник
  */
 
 import mongoose from 'mongoose';
+import { ITeamMemberRole } from '../types/index';
 
-const TeamMemberRoleSchema = new mongoose.Schema({
+const TeamMemberRoleSchema = new mongoose.Schema<ITeamMemberRole>({
 	name: {
-		type: String,
-		required: true,
+		en: { type: String, required: true },
+		pl: { type: String, required: true },
+		ua: { type: String, required: true },
 	},
 });
 
