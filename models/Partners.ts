@@ -8,9 +8,6 @@
  *         - name
  *         - imageUrl
  *       properties:
- *         name:
- *           type: string
- *           description: The name of the partner.
  *         homeUrl:
  *           type: string
  *           description: The URL of the partner's homepage.
@@ -27,11 +24,6 @@ import mongoose from 'mongoose';
 import { IPartner } from '../types';
 
 const PartnerSchema = new mongoose.Schema<IPartner>({
-	name: {
-		type: String,
-		required: true,
-		unique: true,
-	},
 	homeUrl: {
 		type: String,
 	},

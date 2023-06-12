@@ -35,12 +35,8 @@ export const loginValidation = [
 ];
 
 export const partnerCreateValidation = [
-	body(
-		'name',
-		'The name is incorrect, it must contain more than 1 character'
-	).isLength({ min: 1 }),
-	body('imageUrl', 'Wrong image url').isURL(),
-	body('homeUrl', 'Wrong partner homepage url').isURL(),
+	body('imageUrl', 'Wrong image url').optional().isURL(),
+	body('homeUrl', 'Wrong partner homepage url').optional().isURL(),
 	(req: Request, res: Response, next: () => void) =>
 		checkValidation(req, res, next),
 ];
@@ -178,20 +174,25 @@ export const TestimonialsValidation = [
 
 export const ContactsValidation = [
 	body('contacts.contactsDataList.phone1')
+		.optional()
 		.isNumeric()
 		.matches(/^380\d{9}$/)
 		.withMessage('Phone1 must be a number'),
 	body('contacts.contactsDataList.phone2')
+		.optional()
 		.isNumeric()
 		.matches(/^380\d{9}$/)
 		.withMessage('Phone2 must be a number'),
 	body('contacts.contactsDataList.email')
+		.optional()
 		.isEmail()
 		.withMessage('Invalid email address'),
 	body('contacts.socialsMediaList.linkedin')
+		.optional()
 		.isURL()
 		.withMessage('Invalid LinkedIn URL'),
 	body('contacts.socialsMediaList.facebook')
+		.optional()
 		.isURL()
 		.withMessage('Invalid Facebook URL'),
 	(req: Request, res: Response, next: () => void) =>
