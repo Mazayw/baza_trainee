@@ -79,9 +79,9 @@ import { IProject } from '../types';
 
 const ProjectSchema = new mongoose.Schema<IProject>({
 	title: {
-		type: String,
-		required: true,
-		unique: true,
+		en: { type: String, required: true },
+		pl: { type: String, required: true },
+		ua: { type: String, required: true },
 	},
 	imageUrl: {
 		type: String,
@@ -92,8 +92,9 @@ const ProjectSchema = new mongoose.Schema<IProject>({
 		required: true,
 	},
 	description: {
-		type: String,
-		required: true,
+		en: { type: String, required: true },
+		pl: { type: String, required: true },
+		ua: { type: String, required: true },
 	},
 	creationDate: {
 		type: Number,

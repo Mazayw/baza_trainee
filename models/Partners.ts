@@ -5,7 +5,6 @@
  *     Partner:
  *       type: object
  *       required:
- *         - name
  *         - imageUrl
  *       properties:
  *         homeUrl:
@@ -15,7 +14,6 @@
  *           type: string
  *           description: The URL of the partner's image.
  *       example:
- *         name: Partner A
  *         homeUrl: https://example.com
  *         imageUrl: /example.com/image.jpg
  */

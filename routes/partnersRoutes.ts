@@ -9,6 +9,8 @@ import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
 import { partnerCreateValidation } from '../utils/validations.js';
 import * as PartnersController from '../controllers/PartnersController.js';
+import { uploadWithFileSizeValidation } from '../controllers/fileUpload/s3-storage.js';
+import { SETTINGS } from '../settings.js';
 
 const router = Router();
 
@@ -71,7 +73,13 @@ router.get('/:id', PartnersController.getOneById);
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  */
-router.post('/', checkAuth, partnerCreateValidation, PartnersController.create);
+router.post(
+	'/',
+	checkAuth,
+	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.partnerLogo),
+	partnerCreateValidation,
+	PartnersController.create
+);
 
 /**
  * @swagger
@@ -128,6 +136,7 @@ router.delete('/:id', checkAuth, PartnersController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
+	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.partnerLogo),
 	partnerCreateValidation,
 	PartnersController.updateOneById
 );
