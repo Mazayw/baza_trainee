@@ -40,28 +40,30 @@ export interface ITeamMemberRole extends IDocumentResult<ITeamMemberRole> {
 	name: ILanguageSelector<string>;
 }
 
-interface IProjectTeamMember {
-	user: {
+export interface IProjectTeamMember {
+	userId: {
 		_id: Types.ObjectId;
 		name?: string;
 	};
-	role: {
+	roleId: {
 		_id: Types.ObjectId;
 		name?: string;
 	};
 }
 
 export interface IStack extends IDocumentResult<IStack> {
+	stackId: any;
 	_id: Types.ObjectId;
 	name: string;
 }
 
 export interface IProject extends IDocumentResult<IProject> {
+	[x: string]: any;
 	title: ILanguageSelector<string>;
 	imageUrl: string;
 	deployUrl?: string;
 	stack: Array<{
-		stack: Partial<IStack>;
+		stackId: Partial<IStack>;
 	}>;
 	isTeamRequired: boolean;
 	creationDate: number;
@@ -87,4 +89,33 @@ export interface IContacts extends IDocumentResult<IContacts> {
 			facebook: string;
 		};
 	};
+}
+
+export interface IProjectResponse {
+	title: {
+		en: string;
+		pl: string;
+		ua: string;
+	};
+	_id: string;
+	imageUrl: string;
+	deployUrl?: string;
+	stack: Array<{
+		_id: string;
+		name: string;
+	}>;
+	isTeamRequired: boolean;
+	creationDate: number;
+	launchDate: number;
+	complexity: number;
+	teamMembers: Array<{
+		user: {
+			name: string;
+			_id: string;
+		};
+		role: {
+			name: string;
+			_id: string;
+		};
+	}>;
 }

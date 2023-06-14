@@ -71,12 +71,15 @@ export const projectCreateValidation = [
 		.isArray({ min: 1 })
 		.withMessage('At least one stack object is required')
 		.custom((value) => {
-			for (const stackObj of value) {
-				if (!stackObj._id) {
-					throw new Error('Invalid stack object: _id is required');
+			if (Array.isArray(value)) {
+				for (const stack of value) {
+					if (typeof stack !== 'object' || !stack.stackId) {
+						throw new Error('Invalid stack object');
+					}
 				}
+				return true;
 			}
-			return true;
+			throw new Error('Invalid stack value');
 		}),
 	body('isTeamRequired')
 		.optional()

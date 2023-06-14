@@ -103,9 +103,9 @@ import { IProject } from '../types';
 
 const ProjectSchema = new mongoose.Schema<IProject>({
 	title: {
-		en: { type: String, required: true },
-		pl: { type: String, required: true },
-		ua: { type: String, required: true },
+		en: { type: String, required: true, unique: true },
+		pl: { type: String, required: true, unique: true },
+		ua: { type: String, required: true, unique: true },
 	},
 	imageUrl: {
 		type: String,
@@ -139,11 +139,11 @@ const ProjectSchema = new mongoose.Schema<IProject>({
 	},
 	teamMembers: [
 		{
-			user: {
+			userId: {
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Users',
 			},
-			role: {
+			roleId: {
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'TeamMemberRoles',
 			},
