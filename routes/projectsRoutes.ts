@@ -2,6 +2,8 @@ import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
 import { projectCreateValidation } from '../utils/validations.js';
 import * as ProjectsController from '../controllers/ProjectsController.js';
+import { uploadWithFileSizeValidation } from '../controllers/fileUpload/s3-storage.js';
+import { SETTINGS } from '../settings.js';
 
 const router = Router();
 
@@ -71,7 +73,13 @@ router.get('/:id', ProjectsController.getOneById);
  *       500:
  *         description: Internal Server Error
  */
-router.post('/', checkAuth, projectCreateValidation, ProjectsController.create);
+router.post(
+	'/',
+	checkAuth,
+	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.projectCard),
+	projectCreateValidation,
+	ProjectsController.create
+);
 
 /**
  * @swagger
@@ -132,6 +140,7 @@ router.delete('/:id', checkAuth, ProjectsController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
+	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.projectCard),
 	projectCreateValidation,
 	ProjectsController.updateOneById
 );
