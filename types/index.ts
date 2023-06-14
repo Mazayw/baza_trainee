@@ -29,15 +29,11 @@ export interface ITestimonial extends IDocumentResult<ITestimonial> {
 	review: ILanguageSelector<string>;
 	date: number;
 	imageUrl: string;
-	createdAt: Date;
-	updatedAt: Date;
 }
 
 export interface ITeamMember extends IDocumentResult<ITestimonial> {
 	name: string;
 	profileUrl?: string;
-	createdAt: Date;
-	updatedAt: Date;
 }
 
 export interface ITeamMemberRole extends IDocumentResult<ITeamMemberRole> {
@@ -64,16 +60,11 @@ export interface IProject extends IDocumentResult<IProject> {
 	launchDate: number;
 	complexity: number;
 	teamMembers: IProjectTeamMember[];
-	createdAt: Date;
-	updatedAt: Date;
 }
 
 export interface IPartner extends IDocumentResult<IPartner> {
-	name: string;
 	homeUrl?: string;
 	imageUrl: string;
-	createdAt: Date;
-	updatedAt: Date;
 }
 
 export interface IContacts extends IDocumentResult<IContacts> {
@@ -88,4 +79,8 @@ export interface IContacts extends IDocumentResult<IContacts> {
 			facebook: string;
 		};
 	};
+}
+
+export interface IStack extends IDocumentResult<IStack> {
+	name: string;
 }

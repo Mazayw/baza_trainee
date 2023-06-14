@@ -198,3 +198,15 @@ export const ContactsValidation = [
 	(req: Request, res: Response, next: () => void) =>
 		checkValidation(req, res, next),
 ];
+
+export const stackCreateValidation = [
+	body('name')
+		.optional()
+		.isString()
+		.isLength({ min: 1 })
+		.withMessage(
+			'The name is incorrect, it must contain more than 1 characters'
+		),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
+];
