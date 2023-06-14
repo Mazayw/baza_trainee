@@ -30,6 +30,39 @@ router.get('/', ProjectsController.getAll);
 
 /**
  * @swagger
+ * /projects/search:
+ *   get:
+ *     summary: Search projects
+ *     tags: [Projects]
+ *     parameters:
+ *       - in: query
+ *         name: query
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Search query
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Page number, default 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Number of results per page, default 9
+ *     responses:
+ *       200:
+ *         description: Success
+ *       500:
+ *         description: Internal Server Error
+ */
+router.get('/search', ProjectsController.search);
+
+/**
+ * @swagger
  * /projects/{id}:
  *   get:
  *     summary: Get a project by ID

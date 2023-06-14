@@ -66,6 +66,91 @@ export const getAll = async (req: Request, res: Response) => {
 	}
 };
 
+export const search = async (req: Request, res: Response) => {
+	try {
+		const { query, page, limit } = req.query;
+		const searchQuery = new RegExp(query as string, 'i');
+
+		const currentPage = parseInt(page as string) || 1;
+		const itemsPerPage = parseInt(limit as string) || 9;
+		const skip = (currentPage - 1) * itemsPerPage;
+
+		const totalDocuments = await ProjectModel.countDocuments({
+			$or: [
+				{ 'title.en': searchQuery },
+				{ 'title.pl': searchQuery },
+				{ 'title.ua': searchQuery },
+			],
+		});
+
+		const projects = await ProjectModel.find({
+			$or: [
+				{ 'title.en': searchQuery },
+				{ 'title.pl': searchQuery },
+				{ 'title.ua': searchQuery },
+			],
+		})
+			.skip(skip)
+			.limit(itemsPerPage)
+			.populate({
+				path: 'teamMembers',
+				populate: {
+					path: 'userId',
+					select: 'name',
+					model: TeamMembers,
+				},
+			})
+			.populate({
+				path: 'teamMembers',
+				populate: {
+					path: 'roleId',
+					select: 'name',
+					model: RoleModel,
+				},
+			})
+			.populate({
+				path: 'stack',
+				populate: {
+					path: 'stackId',
+					select: 'name',
+					model: StackModel,
+				},
+			})
+			.exec();
+
+		const transformedProject = projects.map((project) => {
+			const transformedTeamMembers = project.teamMembers.map(
+				(teamMember: IProjectTeamMember) => ({
+					user: teamMember.userId,
+					role: teamMember.roleId,
+				})
+			);
+			const transformedStack = project.stack.map((stack: IStack) => ({
+				_id: stack.stackId['_id'],
+				name: stack.stackId.name,
+			}));
+
+			return {
+				...project.toObject(),
+				teamMembers: transformedTeamMembers,
+				stack: transformedStack,
+			};
+		});
+
+		res.json({
+			results: transformedProject,
+			pagination: {
+				currentPage,
+				totalPages: Math.ceil(totalDocuments / itemsPerPage),
+				totalResults: totalDocuments,
+			},
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+};
+
 export const create = async (req: Request, res: Response) => {
 	const {
 		title,
