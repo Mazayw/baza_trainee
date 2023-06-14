@@ -43,23 +43,31 @@ export interface ITeamMemberRole extends IDocumentResult<ITeamMemberRole> {
 interface IProjectTeamMember {
 	user: {
 		_id: Types.ObjectId;
-		name: string;
+		name?: string;
 	};
 	role: {
 		_id: Types.ObjectId;
-		name: string;
+		name?: string;
 	};
 }
 
+export interface IStack extends IDocumentResult<IStack> {
+	_id: Types.ObjectId;
+	name: string;
+}
+
 export interface IProject extends IDocumentResult<IProject> {
-	title: string;
+	title: ILanguageSelector<string>;
 	imageUrl: string;
-	status: string;
-	description: string;
+	deployUrl?: string;
+	stack: Array<{
+		stack: Partial<IStack>;
+	}>;
+	isTeamRequired: boolean;
 	creationDate: number;
 	launchDate: number;
 	complexity: number;
-	teamMembers: IProjectTeamMember[];
+	teamMembers: Partial<IProjectTeamMember>[];
 }
 
 export interface IPartner extends IDocumentResult<IPartner> {
@@ -79,8 +87,4 @@ export interface IContacts extends IDocumentResult<IContacts> {
 			facebook: string;
 		};
 	};
-}
-
-export interface IStack extends IDocumentResult<IStack> {
-	name: string;
 }

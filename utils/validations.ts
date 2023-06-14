@@ -42,13 +42,60 @@ export const partnerCreateValidation = [
 ];
 
 export const projectCreateValidation = [
-	body('imageUrl').isURL({ require_tld: false, require_host: false }), //isURL(),
-	body('status').isString(), //isIn(['active', 'inactive']),
-	body('description').isString(),
-	body('creationDate').isNumeric(),
-	body('launchDate').isNumeric(),
-	body('complexity').isInt({ min: 1, max: 5 }),
+	body('title.en')
+		.optional()
+		.isString()
+		.isLength({ min: 5 })
+		.withMessage(
+			'The en title is incorrect, it must contain more than 5 characters'
+		),
+	body('title.pl')
+		.optional()
+		.isString()
+		.isLength({ min: 5 })
+		.withMessage(
+			'The pl title is incorrect, it must contain more than 5 characters'
+		),
+	body('title.ua')
+		.optional()
+		.isString()
+		.isLength({ min: 5 })
+		.withMessage(
+			'The ua title is incorrect, it must contain more than 5 characters'
+		),
+	body('imageUrl')
+		.optional()
+		.isURL({ require_tld: false, require_host: false }),
+	body('stack')
+		.optional()
+		.isArray({ min: 1 })
+		.withMessage('At least one stack object is required')
+		.custom((value) => {
+			for (const stackObj of value) {
+				if (!stackObj._id) {
+					throw new Error('Invalid stack object: _id is required');
+				}
+			}
+			return true;
+		}),
+	body('isTeamRequired')
+		.optional()
+		.isBoolean()
+		.withMessage('isTeamRequired must be a boolean'),
+	body('creationDate')
+		.optional()
+		.isNumeric()
+		.withMessage('Creation date must be a number'),
+	body('launchDate')
+		.optional()
+		.isNumeric()
+		.withMessage('Launch date must be a number'),
+	body('complexity')
+		.optional()
+		.isNumeric()
+		.withMessage('Complexity must be a number'),
 	body('teamMembers')
+		.optional()
 		.isArray({ min: 1 })
 		.custom((value) => {
 			if (Array.isArray(value)) {
@@ -61,7 +108,6 @@ export const projectCreateValidation = [
 			}
 			throw new Error('Invalid teamMembers value');
 		}),
-	body('title').isString().notEmpty(),
 	(req: Request, res: Response, next: () => void) =>
 		checkValidation(req, res, next),
 ];

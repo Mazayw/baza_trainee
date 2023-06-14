@@ -7,24 +7,42 @@
  *       required:
  *         - title
  *         - imageUrl
- *         - status
- *         - description
+ *         - isTeamRequired
  *         - creationDate
- *         - launchDate
  *         - complexity
  *       properties:
  *         title:
- *           type: string
- *           description: The title of the project.
+ *           type: object
+ *           properties:
+ *             en:
+ *               type: string
+ *               description: The English title of the project.
+ *             pl:
+ *               type: string
+ *               description: The Polish title of the project.
+ *             ua:
+ *               type: string
+ *               description: The Ukrainian title of the project.
  *         imageUrl:
  *           type: string
  *           description: The URL of the project's image.
- *         status:
+ *         deployUrl:
  *           type: string
- *           description: The status of the project.
- *         description:
- *           type: string
- *           description: The description of the project.
+ *           description: The URL of the deployed project.
+ *         stack:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *                   _id:
+ *                     type: string
+ *                     description: The ID of the stack assigned to the project.
+ *                   name:
+ *                     type: string
+ *                     description: The name of the stack assigned to the project.
+ *         isTeamRequired:
+ *           type: boolean
+ *           description: Indicates if the project requires a team.
  *         creationDate:
  *           type: number
  *           description: The creation date of the project in milliseconds.
@@ -58,20 +76,26 @@
  *                     type: string
  *                     description: The name of the role assigned to the user for the project.
  *       example:
- *         title: Project A
+ *         title:
+ *           en: Project A
+ *           pl: Projekt A
+ *           ua: Проект A
  *         imageUrl: /example.com/image.jpg
- *         status: Active
- *         description: Lorem ipsum dolor sit amet
+ *         deployUrl: https://example.com/deploy
+ *         stack:
+ *           _id: 6471fa06933513f26024a990
+ *           name: HTML
+ *         isTeamRequired: true
  *         creationDate: 1669872000000
  *         launchDate: 1669872000000
  *         complexity: 1
  *         teamMembers:
  *           - user:
  *               _id: 6471fa06933513f26024a990
- *               name: QA
+ *               name: John Doe
  *             role:
  *               _id: 6471f9a29c17ac2190eb8791
- *               name: PM
+ *               name: Developer
  */
 
 import mongoose from 'mongoose';
@@ -87,14 +111,20 @@ const ProjectSchema = new mongoose.Schema<IProject>({
 		type: String,
 		required: true,
 	},
-	status: {
+	deployUrl: {
 		type: String,
-		required: true,
 	},
-	description: {
-		en: { type: String, required: true },
-		pl: { type: String, required: true },
-		ua: { type: String, required: true },
+	stack: [
+		{
+			stackId: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Stack',
+			},
+		},
+	],
+	isTeamRequired: {
+		type: Boolean,
+		required: true,
 	},
 	creationDate: {
 		type: Number,
@@ -102,7 +132,6 @@ const ProjectSchema = new mongoose.Schema<IProject>({
 	},
 	launchDate: {
 		type: Number,
-		required: true,
 	},
 	complexity: {
 		type: Number,
@@ -116,7 +145,7 @@ const ProjectSchema = new mongoose.Schema<IProject>({
 			},
 			role: {
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Roles',
+				ref: 'TeamMemberRoles',
 			},
 		},
 	],
