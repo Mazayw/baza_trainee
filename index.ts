@@ -16,6 +16,7 @@ import rolesRoutes from './routes/rolesRoutes.js';
 import contactsRoutes from './routes/contactsRoutes.js';
 import stacksRoutes from './routes/stacksRoutes.js';
 import achievementsRoutes from './routes/achievementsRoutes.js';
+import heroSliderRoutes from './routes/heroSliderRoutes.js';
 
 config();
 
@@ -51,6 +52,7 @@ app.use('/roles', rolesRoutes);
 app.use('/contacts', contactsRoutes);
 app.use('/stacks', stacksRoutes);
 app.use('/achievements', achievementsRoutes);
+app.use('/heroslider', heroSliderRoutes);
 
 const port: number = PORT ? parseInt(PORT) : 3000;
 

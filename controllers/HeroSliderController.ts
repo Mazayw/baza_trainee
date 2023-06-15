@@ -7,7 +7,7 @@ import { SETTINGS } from '../settings';
 
 export const create = async (req: Request, res: Response) => {
 	try {
-		const { name, review, imageUrl } = req.body;
+		const { title, subtitle, imageUrl } = req.body;
 
 		const image = SETTINGS.allowCreateDocumentWithoutFile
 			? req.file?.location || imageUrl
@@ -19,8 +19,8 @@ export const create = async (req: Request, res: Response) => {
 				.json({ error: 'No file or image URL found in the request body' });
 		}
 		const doc = new HeroSlider({
-			name,
-			review,
+			title,
+			subtitle,
 			imageUrl: image,
 		});
 
@@ -36,7 +36,7 @@ export const create = async (req: Request, res: Response) => {
 		res.json(document);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ message: `Can't create testimonial`, error });
+		res.status(500).json({ message: `Can't create hero slider item`, error });
 	}
 };
 
@@ -46,7 +46,7 @@ export const getAll = async (req: Request, res: Response) => {
 		res.json(allDocuments);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ message: `Can't get testimonials`, error });
+		res.status(500).json({ message: `Can't get hero slider items`, error });
 	}
 };
 
@@ -55,12 +55,12 @@ export const getOneById = async (req: Request, res: Response) => {
 		const id = req.params.id;
 		const document = await HeroSlider.findById(id);
 		if (!document) {
-			return res.status(404).json({ message: 'Testimonial not found' });
+			return res.status(404).json({ message: 'Hero slider item not found' });
 		}
 		res.json(document);
 	} catch (error) {
 		console.log(error);
-		res.status(404).json({ message: `Can't get testimonial`, error });
+		res.status(404).json({ message: `Can't get hero slider item`, error });
 	}
 };
 
@@ -71,7 +71,7 @@ export const removeOneById = async (req: Request, res: Response) => {
 			_id: id,
 		});
 		if (!document) {
-			return res.status(404).json({ message: 'Testimonial not found' });
+			return res.status(404).json({ message: 'hero slider item not found' });
 		}
 
 		try {
@@ -87,7 +87,7 @@ export const removeOneById = async (req: Request, res: Response) => {
 		res.json(document);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ message: `Can't remove testimonial card`, error });
+		res.status(500).json({ message: `Can't remove hero slider item`, error });
 	}
 };
 
@@ -98,7 +98,7 @@ export const updateOneById = async (req: Request, res: Response) => {
 		const existingDocument = await HeroSlider.findById(id);
 
 		if (!existingDocument) {
-			return res.status(404).json({ message: 'Testimonial not found' });
+			return res.status(404).json({ message: 'Hero slider item not found' });
 		}
 
 		const updatedDocument = mergeObjects(existingDocument._doc, updates);
@@ -119,6 +119,6 @@ export const updateOneById = async (req: Request, res: Response) => {
 		res.json(updatedDocument);
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ message: `Can't update testimonial`, error });
+		res.status(500).json({ message: `Can't update hero slider item`, error });
 	}
 };
