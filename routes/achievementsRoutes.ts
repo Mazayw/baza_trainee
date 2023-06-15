@@ -8,13 +8,13 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: Contacts
+ *   name: Achievements
  *   description: Achievements API
  */
 
 /**
  * @swagger
- * /contacts:
+ * /achievements:
  *   get:
  *     summary: Get achievements
  *     tags: [Achievements]
@@ -30,7 +30,7 @@ router.get('/', AchievementsController.getAchievements);
 
 /**
  * @swagger
- * /contacts/employed:
+ * /achievements/employed:
  *   get:
  *     summary: Get employed data
  *     tags: [Achievements]
@@ -46,10 +46,10 @@ router.get('/employed', AchievementsController.getEmployed);
 
 /**
  * @swagger
- * /contacts:
+ * /achievements:
  *   patch:
  *     summary: Update contacts
- *     tags: [Contacts]
+ *     tags: [Achievements]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
