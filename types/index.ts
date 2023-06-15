@@ -58,7 +58,6 @@ export interface IStack extends IDocumentResult<IStack> {
 }
 
 export interface IProject extends IDocumentResult<IProject> {
-	[x: string]: any;
 	title: ILanguageSelector<string>;
 	imageUrl: string;
 	deployUrl?: string;
@@ -70,6 +69,7 @@ export interface IProject extends IDocumentResult<IProject> {
 	launchDate: number;
 	complexity: number;
 	teamMembers: Partial<IProjectTeamMember>[];
+	_id: Types.ObjectId;
 }
 
 export interface IPartner extends IDocumentResult<IPartner> {

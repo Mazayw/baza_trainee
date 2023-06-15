@@ -1,68 +1,20 @@
 import ProjectModel from '../models/Projects.js';
-import RoleModel from '../models/Roles.js';
-import StackModel from '../models/Stacks.js';
-import TeamMembers from '../models/TeamMembers.js';
 import { Request, Response } from 'express';
 import { SETTINGS } from '../settings.js';
-import { IProjectTeamMember } from '../types/index.js';
-import { IStack } from '../types/index';
 import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
 import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { mergeObjects } from '../utils/updateObject.js';
-//ToDo Refactor
+import { formatProjectsServerResponse } from '../utils/formatProjectsServerResponse.js';
+import { populateProject } from '../utils/populateProjects.js';
 
 export const getAll = async (req: Request, res: Response) => {
 	try {
-		const projects = await ProjectModel.find()
-			.populate({
-				path: 'teamMembers',
-				populate: {
-					path: 'userId',
-					select: 'name',
-					model: TeamMembers,
-				},
-			})
-			.populate({
-				path: 'teamMembers',
-				populate: {
-					path: 'roleId',
-					select: 'name',
-					model: RoleModel,
-				},
-			})
-			.populate({
-				path: 'stack',
-				populate: {
-					path: 'stackId',
-					select: 'name',
-					model: StackModel,
-				},
-			})
-			.exec();
-
-		const transformedProject = projects.map((project) => {
-			const transformedTeamMembers = project.teamMembers.map(
-				(teamMember: IProjectTeamMember) => ({
-					user: teamMember.userId,
-					role: teamMember.roleId,
-				})
-			);
-			const transformedStack = project.stack.map((stack: IStack) => ({
-				_id: stack.stackId['_id'],
-				name: stack.stackId.name,
-			}));
-
-			return {
-				...project.toObject(),
-				teamMembers: transformedTeamMembers,
-				stack: transformedStack,
-			};
-		});
-
-		res.json(transformedProject);
+		const projects = await populateProject(ProjectModel.find()).exec();
+		const transformedProjects = formatProjectsServerResponse(projects);
+		res.json(transformedProjects);
 	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: `Can't get projects cards`, error });
+		console.error(error);
+		res.status(500).json({ message: `Can't get project cards`, error });
 	}
 };
 
@@ -83,62 +35,22 @@ export const search = async (req: Request, res: Response) => {
 			],
 		});
 
-		const projects = await ProjectModel.find({
-			$or: [
-				{ 'title.en': searchQuery },
-				{ 'title.pl': searchQuery },
-				{ 'title.ua': searchQuery },
-			],
-		})
-			.skip(skip)
-			.limit(itemsPerPage)
-			.populate({
-				path: 'teamMembers',
-				populate: {
-					path: 'userId',
-					select: 'name',
-					model: TeamMembers,
-				},
+		const projects = await populateProject(
+			ProjectModel.find({
+				$or: [
+					{ 'title.en': searchQuery },
+					{ 'title.pl': searchQuery },
+					{ 'title.ua': searchQuery },
+				],
 			})
-			.populate({
-				path: 'teamMembers',
-				populate: {
-					path: 'roleId',
-					select: 'name',
-					model: RoleModel,
-				},
-			})
-			.populate({
-				path: 'stack',
-				populate: {
-					path: 'stackId',
-					select: 'name',
-					model: StackModel,
-				},
-			})
-			.exec();
+				.skip(skip)
+				.limit(itemsPerPage)
+		).exec();
 
-		const transformedProject = projects.map((project) => {
-			const transformedTeamMembers = project.teamMembers.map(
-				(teamMember: IProjectTeamMember) => ({
-					user: teamMember.userId,
-					role: teamMember.roleId,
-				})
-			);
-			const transformedStack = project.stack.map((stack: IStack) => ({
-				_id: stack.stackId['_id'],
-				name: stack.stackId.name,
-			}));
-
-			return {
-				...project.toObject(),
-				teamMembers: transformedTeamMembers,
-				stack: transformedStack,
-			};
-		});
+		const transformedProjects = formatProjectsServerResponse(projects);
 
 		res.json({
-			results: transformedProject,
+			results: transformedProjects,
 			pagination: {
 				currentPage,
 				totalPages: Math.ceil(totalDocuments / itemsPerPage),
@@ -169,7 +81,7 @@ export const create = async (req: Request, res: Response) => {
 		: req.file?.location;
 
 	try {
-		const doc = new ProjectModel({
+		const project = new ProjectModel({
 			title,
 			imageUrl: image,
 			deployUrl,
@@ -181,86 +93,45 @@ export const create = async (req: Request, res: Response) => {
 			teamMembers,
 		});
 
-		const post = await doc.save();
-		res.json(post);
+		const savedProject = await project.save();
+		res.json(savedProject);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: `Can't create project card`, error });
 	}
 };
 
 export const getOneById = async (req: Request, res: Response) => {
 	try {
-		const projectId = req.params.id;
-		const project = await ProjectModel.find({ _id: projectId })
-			.populate({
-				path: 'teamMembers',
-				populate: {
-					path: 'userId',
-					select: 'name',
-					model: TeamMembers,
-				},
-			})
-			.populate({
-				path: 'teamMembers',
-				populate: {
-					path: 'roleId',
-					select: 'name',
-					model: RoleModel,
-				},
-			})
-			.populate({
-				path: 'stack',
-				populate: {
-					path: 'stackId',
-					select: 'name',
-					model: StackModel,
-				},
-			})
-			.exec();
+		const { id } = req.params;
+		const project = await populateProject(
+			ProjectModel.findOne({ _id: id })
+		).exec();
 
 		if (!project) {
 			return res.status(404).json({ message: 'Project not found' });
 		}
 
-		const transformedProject = project.map((project) => {
-			const transformedTeamMembers = project.teamMembers.map(
-				(teamMember: IProjectTeamMember) => ({
-					user: teamMember.userId,
-					role: teamMember.roleId,
-				})
-			);
-			const transformedStack = project.stack.map((stack: IStack) => ({
-				_id: stack.stackId['_id'],
-				name: stack.stackId.name,
-			}));
-
-			return {
-				...project.toObject(),
-				teamMembers: transformedTeamMembers,
-				stack: transformedStack,
-			};
-		});
+		const transformedProject = formatProjectsServerResponse([project]);
 
 		res.json(...transformedProject);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(404).json({ message: `Can't get project`, error });
 	}
 };
 
 export const removeOneById = async (req: Request, res: Response) => {
 	try {
-		const id = req.params.id;
-		const document = await ProjectModel.findOneAndRemove({
-			_id: id,
-		});
-		if (!document) {
+		const { id } = req.params;
+		const project = await ProjectModel.findOneAndRemove({ _id: id });
+
+		if (!project) {
 			return res.status(404).json({ message: 'Project not found' });
 		}
 
 		try {
-			const fileKey = getFileKeyFromUrl(document.imageUrl);
+			const fileKey = getFileKeyFromUrl(project.imageUrl);
 			if (fileKey) {
 				const response = await deleteFileFromS3(fileKey);
 				console.log(`File ${fileKey} deleted`, response);
@@ -269,29 +140,29 @@ export const removeOneById = async (req: Request, res: Response) => {
 			console.error('Error deleting file from S3:', error);
 		}
 
-		res.json(document);
+		res.json(project);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: `Can't remove project card`, error });
 	}
 };
 
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
-		const id = req.params.id;
+		const { id } = req.params;
 		const updates = req.body;
-		const existingDocument = await ProjectModel.findById(id);
+		const existingProject = await ProjectModel.findById(id);
 
-		if (!existingDocument) {
+		if (!existingProject) {
 			return res.status(404).json({ message: 'Project not found' });
 		}
 
-		const updatedDocument = mergeObjects(existingDocument._doc, updates);
-		await ProjectModel.findByIdAndUpdate(id, updatedDocument, { new: true });
+		const updatedProject = mergeObjects(existingProject._doc, updates);
+		await ProjectModel.findByIdAndUpdate(id, updatedProject, { new: true });
 
-		if (req.file?.location && existingDocument?.imageUrl) {
+		if (req.file?.location && existingProject.imageUrl) {
 			try {
-				const fileKey = getFileKeyFromUrl(existingDocument.imageUrl);
+				const fileKey = getFileKeyFromUrl(existingProject.imageUrl);
 				if (fileKey) {
 					deleteFileFromS3(fileKey);
 					console.log(`${fileKey} was deleted`);
@@ -301,9 +172,9 @@ export const updateOneById = async (req: Request, res: Response) => {
 			}
 		}
 
-		res.json(updatedDocument);
+		res.json(updatedProject);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: `Can't update project`, error });
 	}
 };
