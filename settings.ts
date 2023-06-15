@@ -9,4 +9,8 @@ export const SETTINGS = {
 	},
 	allowCreateDocumentWithoutFile: true, //If true, the document can be created with the URL.
 	allowUserRegistration: true,
+	maxNumberOfItems: {
+		heroSlider: 5,
+		testimonialsSlider: 3,
+	},
 };

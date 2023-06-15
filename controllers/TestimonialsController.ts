@@ -25,6 +25,14 @@ export const create = async (req: Request, res: Response) => {
 			imageUrl: image,
 		});
 
+		const allDocuments = await Testimonials.find();
+
+		if (allDocuments.length >= SETTINGS.maxNumberOfItems.testimonialsSlider) {
+			res.status(409).json({
+				message: `Maximum item count reached in the database. Please delete an existing document before creating a new one. Current limit is ${SETTINGS.maxNumberOfItems.testimonialsSlider} items`,
+			});
+		}
+
 		const document = await doc.save();
 		res.json(document);
 	} catch (error) {
