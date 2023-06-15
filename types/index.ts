@@ -91,6 +91,12 @@ export interface IContacts extends IDocumentResult<IContacts> {
 	};
 }
 
+export interface IAchievements {
+	employed: {
+		type: number;
+	};
+}
+
 export interface IProjectResponse {
 	title: {
 		en: string;

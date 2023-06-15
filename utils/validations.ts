@@ -259,3 +259,9 @@ export const stackCreateValidation = [
 	(req: Request, res: Response, next: () => void) =>
 		checkValidation(req, res, next),
 ];
+
+export const AchievementsValidation = [
+	body('employed').isNumeric().withMessage('Employed must be a number'),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
+];

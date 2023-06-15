@@ -15,6 +15,7 @@ import projectsRoutes from './routes/projectsRoutes.js';
 import rolesRoutes from './routes/rolesRoutes.js';
 import contactsRoutes from './routes/contactsRoutes.js';
 import stacksRoutes from './routes/stacksRoutes.js';
+import achievementsRoutes from './routes/achievementsRoutes.js';
 
 config();
 
@@ -49,6 +50,7 @@ app.use('/projects', projectsRoutes);
 app.use('/roles', rolesRoutes);
 app.use('/contacts', contactsRoutes);
 app.use('/stacks', stacksRoutes);
+app.use('/achievements', achievementsRoutes);
 
 const port: number = PORT ? parseInt(PORT) : 3000;
 
