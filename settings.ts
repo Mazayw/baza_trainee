@@ -5,6 +5,7 @@ export const SETTINGS = {
 		projectCard: 1 * 1024 * 1024,
 		report: 500 * 1024,
 		testimonialPhoto: 500 * 1024,
+		heroSliderPhoto: 1 * 1024 * 1024,
 	},
 	allowCreateDocumentWithoutFile: true, //If true, the document can be created with the URL.
 	allowUserRegistration: true,

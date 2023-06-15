@@ -125,3 +125,9 @@ export interface IProjectResponse {
 		};
 	}>;
 }
+
+export interface IHeroSlider extends IDocumentResult<IHeroSlider> {
+	title: ILanguageSelector<string>;
+	subtitle: ILanguageSelector<string>;
+	imageUrl: string;
+}
