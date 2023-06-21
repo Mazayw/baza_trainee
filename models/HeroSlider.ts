@@ -1,6 +1,9 @@
 /**
  * @swagger
  * components:
+ *   security:
+ *     - bearerAuth:
+ *         - write:heroSlider
  *   schemas:
  *     HeroSlider:
  *       type: object
@@ -32,10 +35,12 @@
  *         imageUrl:
  *           type: string
  *           description: URL of the hero slider image
+ *         file:
+ *           type: file
+ *           description: The file to upload
  *       required:
  *         - title
  *         - subtitle
- *         - imageUrl
  */
 
 import mongoose from 'mongoose';

@@ -43,7 +43,7 @@ export const create = async (req: Request, res: Response) => {
 export const getAll = async (req: Request, res: Response) => {
 	try {
 		const allDocuments = await HeroSlider.find();
-		res.json(allDocuments);
+		res.status(200).json(allDocuments);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't get hero slider items`, error });
@@ -71,7 +71,7 @@ export const removeOneById = async (req: Request, res: Response) => {
 			_id: id,
 		});
 		if (!document) {
-			return res.status(404).json({ message: 'hero slider item not found' });
+			return res.status(404).json({ message: 'Hero slider item not found' });
 		}
 
 		try {
@@ -116,7 +116,7 @@ export const updateOneById = async (req: Request, res: Response) => {
 			}
 		}
 
-		res.json(updatedDocument);
+		res.status(200).json(updatedDocument);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't update hero slider item`, error });

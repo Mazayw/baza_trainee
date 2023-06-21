@@ -1,10 +1,10 @@
 import { Request } from 'express';
 import { ObjectId, Types } from 'mongoose';
 
-export interface ILanguageSelector<T> {
-	en: T;
-	pl: T;
-	ua: T;
+export interface ILanguageSelector {
+	en: string;
+	pl: string;
+	ua: string;
 }
 
 export interface IAuthenticatedRequest extends Request {
@@ -17,16 +17,14 @@ export interface IDocumentResult<T> {
 
 export interface IUser extends IDocumentResult<IUser> {
 	_id: ObjectId;
-	createdAt: Date;
-	updatedAt: Date;
 	name: string;
 	email: string;
 	passwordHash: string;
 }
 
 export interface ITestimonial extends IDocumentResult<ITestimonial> {
-	name: ILanguageSelector<string>;
-	review: ILanguageSelector<string>;
+	name: ILanguageSelector;
+	review: ILanguageSelector;
 	date: number;
 	imageUrl: string;
 }
@@ -37,7 +35,7 @@ export interface ITeamMember extends IDocumentResult<ITestimonial> {
 }
 
 export interface ITeamMemberRole extends IDocumentResult<ITeamMemberRole> {
-	name: ILanguageSelector<string>;
+	name: ILanguageSelector;
 }
 
 export interface IProjectTeamMember {
@@ -58,7 +56,7 @@ export interface IStack extends IDocumentResult<IStack> {
 }
 
 export interface IProject extends IDocumentResult<IProject> {
-	title: ILanguageSelector<string>;
+	title: ILanguageSelector;
 	imageUrl: string;
 	deployUrl?: string;
 	stack: Array<{
@@ -127,7 +125,7 @@ export interface IProjectResponse {
 }
 
 export interface IHeroSlider extends IDocumentResult<IHeroSlider> {
-	title: ILanguageSelector<string>;
-	subtitle: ILanguageSelector<string>;
+	title: ILanguageSelector;
+	subtitle: ILanguageSelector;
 	imageUrl: string;
 }

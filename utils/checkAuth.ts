@@ -18,9 +18,9 @@ export default (
 			req.userId = decoded._id;
 			next();
 		} catch (error) {
-			return res.status(403).json({ message: 'The token is incorrect', error });
+			return res.status(401).json({ message: 'The token is incorrect', error });
 		}
 	} else {
-		return res.status(403).json({ message: 'Oops, something went wrong' });
+		return res.status(500).json({ message: 'Oops, something went wrong' });
 	}
 };

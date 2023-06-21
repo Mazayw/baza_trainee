@@ -24,6 +24,12 @@ const router = Router();
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/HeroSlider'
  *       500:
  *         description: Internal Server Error
  */
@@ -35,16 +41,22 @@ router.get('/', HeroSliderController.getAll);
  *   get:
  *     summary: Get a hero slider by ID
  *     tags: [HeroSlider]
+ *     responseBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/HeroSlider'
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: string
- *         required: true
  *         description: ID of the hero slider
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/HeroSlider'
  *       404:
  *         description: hero slider not found
  *       500:
@@ -58,21 +70,31 @@ router.get('/:id', HeroSliderController.getOneById);
  *   post:
  *     summary: Create a new hero slider
  *     tags: [HeroSlider]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/heroslider'
+ *             $ref: '#/components/schemas/HeroSlider'
  *     responses:
  *       201:
  *         description: hero slider created successfully
+ *         content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/HeroSlider'
  *       400:
- *         description: Invalid request body
+ *         description: No file or image URL found in the request body
  *       401:
  *         description: Unauthorized
+ *       404:
+ *         description: Hero slider item not found
+ *       409:
+ *         description: Maximum item count reached in the database. Please delete an existing document before creating a new one. Current limit is X items
  *       500:
- *         description: Internal Server Error
+ *         description: Can't update hero slider item
  */
 router.post(
 	'/',
@@ -88,6 +110,8 @@ router.post(
  *   delete:
  *     summary: Delete a hero slider by ID
  *     tags: [HeroSlider]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -98,12 +122,16 @@ router.post(
  *     responses:
  *       200:
  *         description: Testimonial deleted successfully
- *       404:
- *         description: Testimonial not found
+ *         content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/HeroSlider'
  *       401:
  *         description: Unauthorized
+ *       404:
+ *         description: Hero slider item not found
  *       500:
- *         description: Internal Server Error
+ *         description: Can't remove hero slider item
  */
 router.delete('/:id', checkAuth, HeroSliderController.removeOneById);
 
@@ -113,30 +141,35 @@ router.delete('/:id', checkAuth, HeroSliderController.removeOneById);
  *   patch:
  *     summary: Update a hero slider by ID
  *     tags: [HeroSlider]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: string
  *         required: true
  *         description: ID of the hero slider
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/heroslider'
+ *             $ref: '#/components/schemas/HeroSlider'
+ *           encoding:
+ *             file:
+ *               contentType: image/jpeg
  *     responses:
  *       200:
  *         description: Hero slider updated successfully
- *       400:
- *         description: Invalid request body
+ *         content:
+ *           application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/HeroSlider'
  *       401:
  *         description: Unauthorized
  *       404:
- *         description: Hero slider not found
+ *         description: Hero slider item not found
  *       500:
- *         description: Internal Server Error
+ *         description: Can't update hero slider item
  */
 router.patch(
 	'/:id',
