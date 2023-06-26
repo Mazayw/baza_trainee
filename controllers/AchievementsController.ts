@@ -55,12 +55,12 @@ export const updateAchievements = async (req: Request, res: Response) => {
 		if (updatedAchievements) {
 			if (updatedAchievements.isNew) {
 				res.status(201).json({
-					message: 'Contacts data created successfully',
+					message: 'Achievements data created successfully',
 					employed: updatedAchievements.employed,
 				});
 			} else {
 				res.status(200).json({
-					message: 'Contacts data updated successfully',
+					message: 'Achievements data updated successfully',
 					employed: updatedAchievements.employed,
 				});
 			}

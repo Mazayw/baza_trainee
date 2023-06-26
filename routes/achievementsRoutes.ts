@@ -20,12 +20,17 @@ const router = Router();
  *     tags: [Achievements]
  *     responses:
  *       200:
- *         description: Returns the achievements
+ *         description: Success
+ *         content:
+ *          application/json:
+ *            schema:
+ *                $ref: '#/components/schemas/Achievements'
  *       404:
- *         description: achievements data not found
+ *         description: Can't get achievements data
  *       500:
  *         description: An error occurred while retrieving achievements data
  */
+
 router.get('/', AchievementsController.getAchievements);
 
 /**
@@ -37,36 +42,65 @@ router.get('/', AchievementsController.getAchievements);
  *     responses:
  *       200:
  *         description: Returns the employed data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 employed:
+ *                   type: number
+ *                   example: 5
  *       404:
  *         description: Employed data not found
  *       500:
  *         description: An error occurred while retrieving employed data
  */
+
 router.get('/employed', AchievementsController.getEmployed);
 
 /**
  * @swagger
  * /achievements:
  *   patch:
- *     summary: Update contacts
+ *     summary: Update employed data
  *     tags: [Achievements]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Contacts'
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 employed:
+ *                   type: number
+ *                   example: 5
  *     responses:
  *       200:
- *         description: Contacts data updated successfully
+ *         description: Achievements data updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 employed:
+ *                   type: number
+ *                   example: 5
  *       201:
- *         description: Contacts data created successfully
+ *         description: Achievements data created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 employed:
+ *                   type: number
+ *                   example: 5
  *       403:
  *         description: The token is incorrect OR Oops, something went wrong
  *       500:
- *         description: An error occurred while saving contacts data
+ *         description: An error occurred while saving achievements data
  */
 router.patch(
 	'/',

@@ -5,9 +5,15 @@
  *     Achievements:
  *       type: object
  *       properties:
- *         employed:
+ *         projects:
  *           type: number
  *           example: 5
+ *         members:
+ *           type: number
+ *           example: 201
+ *         employed:
+ *           type: number
+ *           example: 99
  */
 
 import mongoose from 'mongoose';
