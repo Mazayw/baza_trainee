@@ -54,7 +54,7 @@ app.use('/stacks', stacksRoutes);
 app.use('/achievements', achievementsRoutes);
 app.use('/heroslider', heroSliderRoutes);
 
-const port: number = PORT ? parseInt(PORT) : 3000;
+const port: number = PORT ? parseInt(PORT) : 3001;
 
 app.listen(port, (error?: Error) => {
 	if (error) {
