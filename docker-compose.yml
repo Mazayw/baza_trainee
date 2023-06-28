@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  baza-back:
+    build: .
+    image: baza-back
+    restart: unless-stopped
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - baza-static:/uploads
+    networks:
+      - mongodb
+      - localnet
+
+networks:
+  mongodb:
+    external: true
+    name: mongodb
+
+  localnet:
+    external: true
+    name: localnet
+
+volumes:
+  baza-static:
