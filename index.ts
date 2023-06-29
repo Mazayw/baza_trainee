@@ -20,10 +20,18 @@ import heroSliderRoutes from './routes/heroSliderRoutes.js';
 
 config();
 
-const { PORT, USER_NAME_DB, PASSWORD_DB, HOST_NAME_DB, DB_NAME, QUERY_PARAMS } =
-	process.env;
+const {
+	PORT,
+	USER_NAME_DB,
+	PASSWORD_DB,
+	HOST_NAME_DB,
+	DB_NAME,
+	QUERY_PARAMS,
+	DB_STRING,
+} = process.env;
 
-const dbURL = `mongodb+srv://${USER_NAME_DB}:${PASSWORD_DB}@${HOST_NAME_DB}/${DB_NAME}${QUERY_PARAMS}`;
+//const dbURL = `mongodb+srv://${USER_NAME_DB}:${PASSWORD_DB}@${HOST_NAME_DB}/${DB_NAME}${QUERY_PARAMS}`;
+const dbURL = DB_STRING || '';
 
 mongoose
 	.connect(dbURL)
