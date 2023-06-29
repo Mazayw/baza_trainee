@@ -2,11 +2,13 @@ version: '3.9'
 
 services:
   baza-back:
+    env_file:
+      - .env
     build: .
-    image: baza-back
+    container_name: baza-back
     restart: unless-stopped
     ports:
-      - 3001:3001
+      - ${PORT}:${PORT}
     volumes:
       - baza-static:/uploads
     networks:
