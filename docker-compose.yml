@@ -6,7 +6,7 @@ services:
     image: baza-back
     restart: unless-stopped
     ports:
-      - ${PORT}:${PORT}
+      - 3001:3001
     volumes:
       - baza-static:/uploads
     networks:
