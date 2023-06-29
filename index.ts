@@ -32,9 +32,14 @@ const {
 
 //const dbURL = `mongodb+srv://${USER_NAME_DB}:${PASSWORD_DB}@${HOST_NAME_DB}/${DB_NAME}${QUERY_PARAMS}`;
 const dbURL = DB_STRING || '';
+const dbOptions = {
+	dbName: 'baza',
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+};
 
 mongoose
-	.connect(dbURL)
+	.connect(dbURL, dbOptions)
 	.then(() => {
 		console.log('Connected to MongoDB');
 	})
