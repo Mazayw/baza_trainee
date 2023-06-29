@@ -13,5 +13,5 @@ COPY package-lock.json ./
 RUN npm ci --only=production
 COPY --from=builder /app/dist ./dist
 EXPOSE 3001
-VOLUME [ "/baza-res" ]
+VOLUME [ "/uploads" ]
 CMD ["node", "dist/index.js"]
