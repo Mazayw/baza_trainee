@@ -22,6 +22,10 @@ const options = {
 		security: [{ bearerAuth: [] }],
 		servers: [
 			{
+				url: 'https://baza.foradmin.fun/',
+				description: 'VPS server',
+			},
+			{
 				url: 'https://baza-trainee-7ain.onrender.com/',
 				description: 'Live server',
 			},
