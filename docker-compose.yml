@@ -12,13 +12,13 @@ services:
     volumes:
       - baza-static:/uploads
     networks:
-      - mongodb
+      - mongodb-net
       - localnet
 
 networks:
-  mongodb:
+  mongodb-net:
     external: true
-    name: mongodb
+    name: mongodb-net
 
   localnet:
     external: true
