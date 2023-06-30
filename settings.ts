@@ -13,4 +13,5 @@ export const SETTINGS = {
 		heroSlider: 5,
 		testimonialsSlider: 3,
 	},
+	fileUploadMethod: 'disk', //disk or s3 storage
 };

@@ -20,11 +20,11 @@ import heroSliderRoutes from './routes/heroSliderRoutes.js';
 
 config();
 
-const { PORT, DB_STRING } = process.env;
+const { PORT, DB_STRING, DB_NAME } = process.env;
 
 const dbURL = DB_STRING || '';
 const dbOptions = {
-	dbName: 'baza',
+	dbName: DB_NAME || 'baza',
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 };
@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
-app.use('/upload', fileUploadRoutes);
+//app.use('/upload', fileUploadRoutes);
 app.use('/partners', partnersRoutes);
 app.use('/members', teamMembersRoutes);
 app.use('/testimonials', testimonialsRoutes);

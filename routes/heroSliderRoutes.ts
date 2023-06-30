@@ -3,7 +3,8 @@ import checkAuth from '../utils/checkAuth.js';
 import { HeroSliderValidation } from '../utils/validations.js';
 import * as HeroSliderController from '../controllers/HeroSliderController.js';
 import { SETTINGS } from '../settings';
-import { uploadWithFileSizeValidation } from '../controllers/fileUpload/s3-storage.js';
+import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
+
 //import fileSizeValidator from '../utils/fileSizeValidator.js';
 
 const router = Router();

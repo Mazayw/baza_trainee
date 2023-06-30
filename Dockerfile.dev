@@ -10,6 +10,6 @@ COPY . .
 
 EXPOSE 3001
 
-VOLUME [ "/baza-res" ]
+VOLUME [ "/uploads" ]
 
 CMD ["npm", "run", "dev"]

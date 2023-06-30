@@ -45,3 +45,6 @@ Thumbs.db
 # Cache and Build files
 .cache/
 yarn-error.log
+
+# Uploads directory
+uploads/

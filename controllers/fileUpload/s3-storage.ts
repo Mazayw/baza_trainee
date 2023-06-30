@@ -14,7 +14,7 @@ const s3Config = new S3Client({
 	},
 });
 
-const upload = multer({
+const s3Upload = multer({
 	storage: multerS3({
 		s3: s3Config,
 		bucket: BUCKET || '',
@@ -29,22 +29,6 @@ const upload = multer({
 		},
 	}),
 });
-
-//Can be deleted
-const uploadWithConsoleLog = (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
-	upload.single('imageUrl')(req, res, function (err) {
-		if (err) {
-			console.log('Error uploading file:', err);
-		} else {
-			console.log('Request body:', req.body);
-		}
-		next();
-	});
-};
 
 const uploadWithFileSizeValidation =
 	(fileSizeLimit: number) =>
@@ -61,7 +45,7 @@ const uploadWithFileSizeValidation =
 				error: `File size exceeds the allowed limit. File size is ${contentLength}, limit is ${fileSizeLimit}`,
 			});
 		} else {
-			upload.single('file')(req, res, function (err) {
+			s3Upload.single('file')(req, res, function (err) {
 				if (err) {
 					console.log('Error uploading file:', err);
 					res.status(500).json({ error: 'Internal server error' });
@@ -87,9 +71,4 @@ const deleteFileFromS3 = async (key: string) => {
 	}
 };
 
-export {
-	upload,
-	uploadWithConsoleLog,
-	uploadWithFileSizeValidation,
-	deleteFileFromS3,
-};
+export { s3Upload, deleteFileFromS3 };

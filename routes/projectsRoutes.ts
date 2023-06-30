@@ -2,8 +2,9 @@ import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
 import { projectCreateValidation } from '../utils/validations.js';
 import * as ProjectsController from '../controllers/ProjectsController.js';
-import { uploadWithFileSizeValidation } from '../controllers/fileUpload/s3-storage.js';
+
 import { SETTINGS } from '../settings.js';
+import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
 
 const router = Router();
 
