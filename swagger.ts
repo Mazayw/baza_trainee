@@ -23,14 +23,10 @@ const options = {
 		servers: [
 			{
 				url: 'https://baza.foradmin.fun/',
-				description: 'VPS server',
-			},
-			{
-				url: 'https://baza-trainee-7ain.onrender.com/',
 				description: 'Live server',
 			},
 			{
-				url: 'http://localhost:3000/',
+				url: 'http://localhost:3001/',
 				description: 'Local server',
 			},
 		],

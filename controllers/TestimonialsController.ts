@@ -1,15 +1,13 @@
 import Testimonials from '../models/Testimonials.js';
 import { Request, Response } from 'express';
-import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
-import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
 import { mergeObjects } from '../utils/updateObject.js';
 import { SETTINGS } from '../settings';
 import { getFilePath } from '../utils/getFilePath.js';
+import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const create = async (req: Request, res: Response) => {
 	try {
 		const { name, review, date, imageUrl } = req.body;
-		console.log(req.file);
 		const image = SETTINGS.allowCreateDocumentWithoutFile
 			? getFilePath(req) || imageUrl
 			: getFilePath(req);
@@ -76,7 +74,9 @@ export const removeOneById = async (req: Request, res: Response) => {
 			return res.status(404).json({ message: 'Testimonial not found' });
 		}
 
-		try {
+		deleteFile(document.imageUrl);
+
+		/*try {
 			const fileKey = getFileKeyFromUrl(document.imageUrl);
 			if (fileKey) {
 				const response = await deleteFileFromS3(fileKey);
@@ -84,7 +84,7 @@ export const removeOneById = async (req: Request, res: Response) => {
 			}
 		} catch (error) {
 			console.error('Error deleting file from S3:', error);
-		}
+		}*/
 
 		res.json(document);
 	} catch (error) {
@@ -96,8 +96,12 @@ export const removeOneById = async (req: Request, res: Response) => {
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const id = req.params.id;
-		const updates = req.body;
+
 		const existingDocument = await Testimonials.findById(id);
+
+		const updates = req.file?.filename
+			? { ...req.body, imageUrl: req.file?.filename }
+			: req.body;
 
 		if (!existingDocument) {
 			return res.status(404).json({ message: 'Testimonial not found' });
@@ -106,16 +110,17 @@ export const updateOneById = async (req: Request, res: Response) => {
 		const updatedDocument = mergeObjects(existingDocument._doc, updates);
 		await Testimonials.findByIdAndUpdate(id, updatedDocument, { new: true });
 
-		if (req.file?.location && existingDocument?.imageUrl) {
-			try {
-				const fileKey = getFileKeyFromUrl(existingDocument.imageUrl);
+		if (req.file?.filename && existingDocument?.imageUrl) {
+			deleteFile(existingDocument.imageUrl);
+			/*try {
+				const fileKey = existingDocument.imageUrl;
 				if (fileKey) {
-					deleteFileFromS3(fileKey);
+					deleteFile(existingDocument.imageUrl);
 					console.log(`${fileKey} was deleted`);
 				}
 			} catch (error) {
-				console.error('Error deleting file from S3:', error);
-			}
+				console.error('Error deleting file:', error);
+			}*/
 		}
 
 		res.json(updatedDocument);

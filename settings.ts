@@ -14,4 +14,5 @@ export const SETTINGS = {
 		testimonialsSlider: 23,
 	},
 	fileUploadMethod: 'disk', //disk or s3 storage
+	fileUploadFolderName: 'baza-static',
 };

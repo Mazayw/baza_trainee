@@ -4,14 +4,16 @@ import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
 import { mergeObjects } from '../utils/updateObject.js';
 import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { SETTINGS } from '../settings.js';
+import { getFilePath } from '../utils/getFilePath.js';
+import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const create = async (req: Request, res: Response) => {
 	try {
 		const { name, homeUrl, imageUrl } = req.body;
 
 		const image = SETTINGS.allowCreateDocumentWithoutFile
-			? req.file?.location || imageUrl
-			: req.file?.location;
+			? getFilePath(req) || imageUrl
+			: getFilePath(req);
 
 		if (!image) {
 			return res
@@ -64,7 +66,8 @@ export const removeOneById = async (req: Request, res: Response) => {
 		if (!document) {
 			return res.status(404).json({ message: 'Partner not found' });
 		}
-
+		deleteFile(document.imageUrl);
+		/*
 		try {
 			const fileKey = getFileKeyFromUrl(document.imageUrl);
 			if (fileKey) {
@@ -74,7 +77,7 @@ export const removeOneById = async (req: Request, res: Response) => {
 		} catch (error) {
 			console.error('Error deleting file from S3:', error);
 		}
-
+*/
 		res.json(document);
 	} catch (error) {
 		console.log(error);
@@ -85,7 +88,9 @@ export const removeOneById = async (req: Request, res: Response) => {
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const id = req.params.id;
-		const updates = req.body;
+		const updates = req.file?.filename
+			? { ...req.body, imageUrl: req.file?.filename }
+			: req.body;
 		const existingDocument = await PartnerModel.findById(id);
 
 		if (!existingDocument) {
@@ -95,7 +100,10 @@ export const updateOneById = async (req: Request, res: Response) => {
 		const updatedDocument = mergeObjects(existingDocument._doc, updates);
 		await PartnerModel.findByIdAndUpdate(id, updatedDocument, { new: true });
 
-		if (req.file?.location && existingDocument?.imageUrl) {
+		if (req.file?.filename && existingDocument?.imageUrl)
+			deleteFile(existingDocument.imageUrl);
+		/* {
+			
 			try {
 				const fileKey = getFileKeyFromUrl(existingDocument.imageUrl);
 				if (fileKey) {
@@ -105,7 +113,7 @@ export const updateOneById = async (req: Request, res: Response) => {
 			} catch (error) {
 				console.error('Error deleting file from S3:', error);
 			}
-		}
+		}*/
 
 		res.json(updatedDocument);
 	} catch (error) {

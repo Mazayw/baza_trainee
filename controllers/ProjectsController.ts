@@ -6,6 +6,8 @@ import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { mergeObjects } from '../utils/updateObject.js';
 import { formatProjectsServerResponse } from '../utils/formatProjectsServerResponse.js';
 import { populateProject } from '../utils/populateProjects.js';
+import { getFilePath } from '../utils/getFilePath.js';
+import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const getAll = async (req: Request, res: Response) => {
 	try {
@@ -77,8 +79,8 @@ export const create = async (req: Request, res: Response) => {
 	} = req.body;
 
 	const image = SETTINGS.allowCreateDocumentWithoutFile
-		? req.file?.location || imageUrl
-		: req.file?.location;
+		? getFilePath(req) || imageUrl
+		: getFilePath(req);
 
 	try {
 		const project = new ProjectModel({
@@ -124,12 +126,13 @@ export const getOneById = async (req: Request, res: Response) => {
 export const removeOneById = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const project = await ProjectModel.findOneAndRemove({ _id: id });
+		const document = await ProjectModel.findOneAndRemove({ _id: id });
 
-		if (!project) {
+		if (!document) {
 			return res.status(404).json({ message: 'Project not found' });
 		}
-
+		deleteFile(document.imageUrl);
+		/*
 		try {
 			const fileKey = getFileKeyFromUrl(project.imageUrl);
 			if (fileKey) {
@@ -138,9 +141,9 @@ export const removeOneById = async (req: Request, res: Response) => {
 			}
 		} catch (error) {
 			console.error('Error deleting file from S3:', error);
-		}
+		}*/
 
-		res.json(project);
+		res.json(document);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: `Can't remove project card`, error });
@@ -150,17 +153,21 @@ export const removeOneById = async (req: Request, res: Response) => {
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const updates = req.body;
-		const existingProject = await ProjectModel.findById(id);
+		const updates = req.file?.filename
+			? { ...req.body, imageUrl: req.file?.filename }
+			: req.body;
+		const existingDocument = await ProjectModel.findById(id);
 
-		if (!existingProject) {
+		if (!existingDocument) {
 			return res.status(404).json({ message: 'Project not found' });
 		}
 
-		const updatedProject = mergeObjects(existingProject._doc, updates);
+		const updatedProject = mergeObjects(existingDocument._doc, updates);
 		await ProjectModel.findByIdAndUpdate(id, updatedProject, { new: true });
 
-		if (req.file?.location && existingProject.imageUrl) {
+		if (req.file?.location && existingDocument.imageUrl)
+			deleteFile(existingDocument.imageUrl);
+		/* {
 			try {
 				const fileKey = getFileKeyFromUrl(existingProject.imageUrl);
 				if (fileKey) {
@@ -170,7 +177,7 @@ export const updateOneById = async (req: Request, res: Response) => {
 			} catch (error) {
 				console.error('Error deleting file from S3:', error);
 			}
-		}
+		}*/
 
 		res.json(updatedProject);
 	} catch (error) {

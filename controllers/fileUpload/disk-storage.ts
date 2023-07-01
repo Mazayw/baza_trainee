@@ -2,8 +2,9 @@ import multer from 'multer';
 import { getFileExtension } from '../../utils/getFileExtension';
 import fs from 'fs';
 import { Request, Response } from 'express';
+import { SETTINGS } from '../../settings';
 
-const uploadDir = 'baza-static';
+const uploadDir = SETTINGS.fileUploadFolderName;
 
 const storage = multer.diskStorage({
 	destination: (_, __, cb) => {
@@ -29,6 +30,16 @@ const getFile = (req: Request, res: Response) => {
 	});
 };
 
+const deleteFile = (fileName: string) => {
+	fs.unlink(`${uploadDir}/${fileName}`, (err) => {
+		if (err) {
+			console.error(`Error deleting file: ${fileName}`, err);
+		} else {
+			console.log(`File ${fileName} deleted successfully`);
+		}
+	});
+};
+
 const diskUpload = multer({ storage });
 
-export { diskUpload, getFile };
+export { diskUpload, getFile, deleteFile };

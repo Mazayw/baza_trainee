@@ -1,24 +1,33 @@
 import { Router } from 'express';
-import multer from 'multer';
-import checkAuth from '../utils/checkAuth.js';
 import { getFile } from '../controllers/fileUpload/disk-storage.js';
 
 const router = Router();
-const storage = multer.diskStorage({
-	destination: (_, __, cb) => {
-		cb(null, 'uploads');
-	},
-	filename: (_, file, cb) => {
-		cb(null, file.originalname);
-	},
-});
+/**
+ * @swagger
+ * tags:
+ *   name: Files
+ *   description: API endpoints for managing files
+ */
 
-const upload = multer({ storage });
-
-router.post('/', checkAuth, upload.single('image'), (req, res) => {
-	res.json({ url: `/uploads/${req.file!.originalname}` });
-});
-
+/**
+ * @swagger
+ * /files/{filename}:
+ *   get:
+ *     summary: Get file
+ *     tags: [Files]
+ *     parameters:
+ *       - in: path
+ *         name: filename
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The filename of the requested file
+ *     responses:
+ *       200:
+ *         description: Success
+ *       404:
+ *         description: File not found
+ */
 router.get('/:filename', getFile);
 
 export default router;
