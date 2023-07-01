@@ -11,7 +11,7 @@ export const SETTINGS = {
 	allowUserRegistration: true,
 	maxNumberOfItems: {
 		heroSlider: 5,
-		testimonialsSlider: 3,
+		testimonialsSlider: 23,
 	},
 	fileUploadMethod: 'disk', //disk or s3 storage
 };

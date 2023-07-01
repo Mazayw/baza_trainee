@@ -1,10 +1,12 @@
 import multer from 'multer';
 import { getFileExtension } from '../../utils/getFileExtension';
 import fs from 'fs';
+import { Request, Response } from 'express';
+
+const uploadDir = 'baza-static';
 
 const storage = multer.diskStorage({
 	destination: (_, __, cb) => {
-		const uploadDir = 'uploads';
 		if (!fs.existsSync(uploadDir)) {
 			fs.mkdirSync(uploadDir);
 		}
@@ -15,6 +17,18 @@ const storage = multer.diskStorage({
 	},
 });
 
+const getFile = (req: Request, res: Response) => {
+	const filename = req.params.filename;
+	res.sendFile(filename, { root: `${uploadDir}/` }, (err) => {
+		if (err) {
+			console.error('Error sending file:', err);
+			res.status(404).json({
+				message: 'File not found',
+			});
+		}
+	});
+};
+
 const diskUpload = multer({ storage });
 
-export { diskUpload };
+export { diskUpload, getFile };

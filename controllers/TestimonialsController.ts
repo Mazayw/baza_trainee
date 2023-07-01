@@ -4,19 +4,20 @@ import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
 import { mergeObjects } from '../utils/updateObject.js';
 import { SETTINGS } from '../settings';
+import { getFilePath } from '../utils/getFilePath.js';
 
 export const create = async (req: Request, res: Response) => {
 	try {
 		const { name, review, date, imageUrl } = req.body;
-
+		console.log(req.file);
 		const image = SETTINGS.allowCreateDocumentWithoutFile
-			? req.file?.location || imageUrl
-			: req.file?.location;
+			? getFilePath(req) || imageUrl
+			: getFilePath(req);
 
 		if (!image) {
-			return res
-				.status(400)
-				.json({ error: 'No file or image URL found in the request body' });
+			return res.status(400).json({
+				message: 'No file or image URL found in the request body',
+			});
 		}
 		const doc = new Testimonials({
 			name,

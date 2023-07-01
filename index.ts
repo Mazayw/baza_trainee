@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
-//app.use('/upload', fileUploadRoutes);
+app.use('/files', fileUploadRoutes);
 app.use('/partners', partnersRoutes);
 app.use('/members', teamMembersRoutes);
 app.use('/testimonials', testimonialsRoutes);

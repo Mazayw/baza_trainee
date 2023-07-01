@@ -10,7 +10,7 @@ services:
     ports:
       - ${PORT}:${PORT}
     volumes:
-      - baza-static:/uploads
+      - baza-static:/baza-static
     networks:
       - mongodb-net
       - localnet
