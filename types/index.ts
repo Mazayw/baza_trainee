@@ -89,6 +89,15 @@ export interface IContacts extends IDocumentResult<IContacts> {
 	};
 }
 
+export interface IDocs extends IDocumentResult<IDocs> {
+	docs: {
+		report: string;
+		statute: string;
+		privacyPolicy: ILanguageSelector;
+		termsOfUse: ILanguageSelector;
+	};
+}
+
 export interface IAchievements {
 	employed: {
 		type: number;
@@ -96,11 +105,7 @@ export interface IAchievements {
 }
 
 export interface IProjectResponse {
-	title: {
-		en: string;
-		pl: string;
-		ua: string;
-	};
+	title: ILanguageSelector;
 	_id: string;
 	imageUrl: string;
 	deployUrl?: string;

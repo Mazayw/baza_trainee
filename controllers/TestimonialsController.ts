@@ -1,6 +1,6 @@
 import Testimonials from '../models/Testimonials.js';
 import { Request, Response } from 'express';
-import { mergeObjects } from '../utils/updateObject.js';
+import { mergeObjects } from '../utils/mergeObject.js';
 import { SETTINGS } from '../settings';
 import { getFilePath } from '../utils/getFilePath.js';
 import { deleteFile } from './fileUpload/disk-storage.js';
@@ -96,6 +96,7 @@ export const removeOneById = async (req: Request, res: Response) => {
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const id = req.params.id;
+		console.log(req.files);
 
 		const existingDocument = await Testimonials.findById(id);
 

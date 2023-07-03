@@ -17,6 +17,7 @@ import contactsRoutes from './routes/contactsRoutes.js';
 import stacksRoutes from './routes/stacksRoutes.js';
 import achievementsRoutes from './routes/achievementsRoutes.js';
 import heroSliderRoutes from './routes/heroSliderRoutes.js';
+import docsRoutes from './routes/docsRoutes.js';
 
 config();
 
@@ -58,6 +59,7 @@ app.use('/contacts', contactsRoutes);
 app.use('/stacks', stacksRoutes);
 app.use('/achievements', achievementsRoutes);
 app.use('/heroslider', heroSliderRoutes);
+app.use('/docs', docsRoutes);
 
 const port: number = PORT ? parseInt(PORT) : 3001;
 

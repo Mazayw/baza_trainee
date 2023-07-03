@@ -1,7 +1,7 @@
 import PartnerModel from '../models/Partners.js';
 import { Request, Response } from 'express';
 import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
-import { mergeObjects } from '../utils/updateObject.js';
+import { mergeObjects } from '../utils/mergeObject.js';
 import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { SETTINGS } from '../settings.js';
 import { getFilePath } from '../utils/getFilePath.js';

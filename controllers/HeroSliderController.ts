@@ -1,6 +1,6 @@
 import HeroSlider from '../models/HeroSlider.js';
 import { Request, Response } from 'express';
-import { mergeObjects } from '../utils/updateObject.js';
+import { mergeObjects } from '../utils/mergeObject.js';
 import { SETTINGS } from '../settings';
 import { deleteFile } from './fileUpload/disk-storage.js';
 import { getFilePath } from '../utils/getFilePath.js';

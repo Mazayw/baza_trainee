@@ -1,6 +1,6 @@
 import RoleModel from '../models/Roles.js';
 import { Request, Response } from 'express';
-import { mergeObjects } from '../utils/updateObject.js';
+import { mergeObjects } from '../utils/mergeObject.js';
 
 export const create = async (req: Request, res: Response) => {
 	const { name } = req.body;
