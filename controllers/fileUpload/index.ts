@@ -1,4 +1,3 @@
-import multer, { Multer } from 'multer';
 import { SETTINGS } from '../../settings';
 import { diskUpload } from './disk-storage';
 import { s3Upload } from './s3-storage';
@@ -32,7 +31,7 @@ const uploadWithFileSizeValidation =
 				break;
 		}
 
-		if (contentLength && contentLength > fileSizeLimit) {
+		if (contentLength && contentLength > fileSizeLimit && type !== 'any') {
 			res.status(400).json({
 				error: `File size exceeds the allowed limit. File size is ${contentLength}, limit is ${fileSizeLimit}`,
 			});

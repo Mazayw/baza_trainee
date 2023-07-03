@@ -1,11 +1,14 @@
 import { body, validationResult } from 'express-validator';
 import { Request, Response } from 'express';
+import { SETTINGS } from '../settings';
 
 const checkValidation = (req: Request, res: Response, next: () => void) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		console.log('Validation failed:', errors.array());
-		return res.status(400).json(errors.array());
+		return res
+			.status(400)
+			.json({ message: 'Validation error(s)', errors: errors.array() });
 	}
 	next();
 };
@@ -310,6 +313,27 @@ export const stackCreateValidation = [
 
 export const AchievementsValidation = [
 	body('employed').isNumeric().withMessage('Employed must be a number'),
+	(req: Request, res: Response, next: () => void) =>
+		checkValidation(req, res, next),
+];
+
+export const validateReportSize = [
+	body().custom((_, { req }) => {
+		if (!req.files || !req.files.length) {
+			throw new Error('No files were uploaded');
+		}
+
+		req.files.forEach((file: Express.Multer.File) => {
+			if (file.size > SETTINGS.fileSizeLimits.report) {
+				throw new Error(
+					`File size of ${file.filename} exceeded the maximum limit of ${SETTINGS.fileSizeLimits.report} bytes`
+				);
+			}
+		});
+
+		return true;
+	}),
+
 	(req: Request, res: Response, next: () => void) =>
 		checkValidation(req, res, next),
 ];
