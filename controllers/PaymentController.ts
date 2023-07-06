@@ -1,28 +1,10 @@
 import { Request, Response } from 'express';
-import { SETTINGS } from '../settings.js';
-import { body } from 'express-validator';
 import { paymentSignatureGenerator } from '../utils/paymentSignatureGenerator.js';
+import fetch from 'node-fetch';
 
-const { FONDY_PASSWORD, FONDY_MERCHANT_ID } = process.env;
+const { FONDY_MERCHANT_ID } = process.env;
 
 const merchant_id = FONDY_MERCHANT_ID || '';
-
-const paymentRequest = (merchant_id: string, order_desc: string) => {
-	return {
-		order_id: Date.now().toString(),
-		merchant_id: merchant_id,
-		order_desc: '',
-		signature: '',
-		amount: 0,
-		currency: 'UAH',
-	};
-};
-
-interface IPaymentRequest {
-	merchant_id: string;
-	amount: string;
-	currency: string;
-}
 
 export const makePayment = async (req: Request, res: Response) => {
 	try {
@@ -38,7 +20,7 @@ export const makePayment = async (req: Request, res: Response) => {
 				signature,
 			},
 		};
-
+		console.log(body);
 		const response = await fetch(url, {
 			method: 'POST',
 			headers,
