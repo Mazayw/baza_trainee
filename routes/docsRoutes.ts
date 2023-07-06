@@ -13,16 +13,16 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: Contacts
- *   description: Contacts API
+ *   name: Documents API
+ *   description: Documents API
  */
 
 /**
  * @swagger
- * /contacts:
+ * /documents:
  *   get:
  *     summary: Get contacts
- *     tags: [Contacts]
+ *     tags: [Documents]
  *     responses:
  *       200:
  *         description: Returns the contacts
@@ -39,7 +39,7 @@ router.get('/', DocsController.getDocs);
  * /contacts:
  *   patch:
  *     summary: Update contacts
- *     tags: [Contacts]
+ *     tags: [Documents]
  *     security:
  *       - bearerAuth: []
  *     requestBody:

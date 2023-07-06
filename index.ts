@@ -18,6 +18,7 @@ import stacksRoutes from './routes/stacksRoutes.js';
 import achievementsRoutes from './routes/achievementsRoutes.js';
 import heroSliderRoutes from './routes/heroSliderRoutes.js';
 import docsRoutes from './routes/docsRoutes.js';
+import paymentsRoutes from './routes/paymentsRoutes.js';
 
 config();
 
@@ -42,6 +43,13 @@ mongoose
 const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
+const corsOptions = {
+	//fix it
+	origin: 'http://localhost:3000',
+	credentials: true,
+	optionSuccessStatus: 200,
+};
+
 app.use(cors());
 
 app.get('/', (req, res) => {
@@ -59,7 +67,8 @@ app.use('/contacts', contactsRoutes);
 app.use('/stacks', stacksRoutes);
 app.use('/achievements', achievementsRoutes);
 app.use('/heroslider', heroSliderRoutes);
-app.use('/docs', docsRoutes);
+app.use('/documents', docsRoutes);
+app.use('/payment', paymentsRoutes);
 
 const port: number = PORT ? parseInt(PORT) : 3001;
 
