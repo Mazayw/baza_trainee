@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { paymentSignatureGenerator } from '../utils/paymentSignatureGenerator.js';
-import fetch from 'node-fetch';
+import axios from 'axios';
 
 const { FONDY_MERCHANT_ID } = process.env;
 
@@ -10,9 +10,6 @@ export const makePayment = async (req: Request, res: Response) => {
 	try {
 		const signature = paymentSignatureGenerator(req.body);
 		const url = `https://pay.fondy.eu/api/checkout/url/`;
-		const headers = {
-			'Content-Type': 'application/json',
-		};
 		const body = {
 			request: {
 				...req.body,
@@ -20,19 +17,17 @@ export const makePayment = async (req: Request, res: Response) => {
 				signature,
 			},
 		};
-		console.log(body);
-		const response = await fetch(url, {
-			method: 'POST',
-			headers,
-			body: JSON.stringify(body),
-		});
-		const responseData = await response.json();
-		if (responseData.response.checkout_url) {
-			res.status(200).json(responseData);
+
+		const response = (await axios.post(url, body)).data;
+
+		console.log(response);
+
+		if (response.response?.checkout_url) {
+			res.status(200).json(response);
 		} else {
 			res
-				.status(responseData.response.response_status)
-				.send('Request failed with error ' + responseData.error_message);
+				.status(response.response.response_status)
+				.send('Request failed with error ' + response.error_message);
 		}
 	} catch (error) {
 		console.error(error);
