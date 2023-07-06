@@ -7,7 +7,7 @@ export const SETTINGS = {
 		testimonialPhoto: 500 * 1024,
 		heroSliderPhoto: 1 * 1024 * 1024,
 	},
-	allowCreateDocumentWithoutFile: true, //If true, the document can be created with the URL.
+	allowCreateDocumentWithoutFile: false, //If true, the document can be created with the URL.
 	allowUserRegistration: true,
 	maxNumberOfItems: {
 		heroSlider: 5,
