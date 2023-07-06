@@ -30,10 +30,10 @@ export const create = async (req: Request, res: Response) => {
 			res.status(409).json({
 				message: `Maximum item count reached in the database. Please delete an existing document before creating a new one. Current limit is ${SETTINGS.maxNumberOfItems.heroSlider} items`,
 			});
+		} else {
+			const document = await doc.save();
+			res.status(201).json(document);
 		}
-
-		const document = await doc.save();
-		res.json(document);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't create hero slider item`, error });
