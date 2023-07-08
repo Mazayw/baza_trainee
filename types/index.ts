@@ -49,19 +49,10 @@ export interface IProjectTeamMember {
 	};
 }
 
-export interface IStack extends IDocumentResult<IStack> {
-	stackId: any;
-	_id: Types.ObjectId;
-	name: string;
-}
-
 export interface IProject extends IDocumentResult<IProject> {
 	title: ILanguageSelector;
 	imageUrl: string;
 	deployUrl?: string;
-	stack: Array<{
-		stackId: Partial<IStack>;
-	}>;
 	isTeamRequired: boolean;
 	creationDate: number;
 	launchDate: number;
@@ -109,10 +100,6 @@ export interface IProjectResponse {
 	_id: string;
 	imageUrl: string;
 	deployUrl?: string;
-	stack: Array<{
-		_id: string;
-		name: string;
-	}>;
 	isTeamRequired: boolean;
 	creationDate: number;
 	launchDate: number;

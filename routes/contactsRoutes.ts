@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
-import { ContactsValidation } from '../utils/validations.js';
 import * as ContactsController from '../controllers/ContactsController.js';
+import { ContactsValidation } from '../utils/validations/contactsValidation.js';
 
 const router = Router();
 

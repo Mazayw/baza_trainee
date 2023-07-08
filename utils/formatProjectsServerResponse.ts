@@ -15,10 +15,6 @@ export const formatProjectsServerResponse = (
 				_id: teamMember.roleId?._id || '',
 			},
 		}));
-		const transformedStack = project.stack.map((stack) => ({
-			_id: stack.stackId?._id || '',
-			name: stack.stackId?.name || '',
-		}));
 
 		return {
 			_id: project._id.toString(),
@@ -29,7 +25,6 @@ export const formatProjectsServerResponse = (
 			},
 			imageUrl: project.imageUrl,
 			deployUrl: project.deployUrl,
-			stack: transformedStack,
 			isTeamRequired: project.isTeamRequired,
 			creationDate: project.creationDate,
 			launchDate: project.launchDate,

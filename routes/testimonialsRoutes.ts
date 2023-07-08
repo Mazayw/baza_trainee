@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
-import { TestimonialsValidation } from '../utils/validations.js';
 import * as TestimonialsController from '../controllers/TestimonialsController.js';
 import { SETTINGS } from '../settings';
 import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
+import { TestimonialsValidation } from '../utils/validations/testimonialsValidation.js';
 
 //import fileSizeValidator from '../utils/fileSizeValidator.js';
 

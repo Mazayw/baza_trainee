@@ -1,10 +1,10 @@
 import express from 'express';
 const router = express.Router();
-
 import * as UserController from '../controllers/UserController.js';
 import checkAuth from '../utils/checkAuth.js';
-import { loginValidation, registerValidation } from '../utils/validations.js';
 import { SETTINGS } from '../settings';
+import { loginValidation } from '../utils/validations/loginValidation.js';
+import { registerValidation } from '../utils/validations/registerValidation.js';
 
 /**
  * @openapi

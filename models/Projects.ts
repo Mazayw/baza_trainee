@@ -29,17 +29,6 @@
  *         deployUrl:
  *           type: string
  *           description: The URL of the deployed project.
- *         stack:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *                   _id:
- *                     type: string
- *                     description: The ID of the stack assigned to the project.
- *                   name:
- *                     type: string
- *                     description: The name of the stack assigned to the project.
  *         isTeamRequired:
  *           type: boolean
  *           description: Indicates if the project requires a team.
@@ -82,9 +71,6 @@
  *           ua: Проект A
  *         imageUrl: /example.com/image.jpg
  *         deployUrl: https://example.com/deploy
- *         stack:
- *           _id: 6471fa06933513f26024a990
- *           name: HTML
  *         isTeamRequired: true
  *         creationDate: 1669872000000
  *         launchDate: 1669872000000
@@ -114,14 +100,6 @@ const ProjectSchema = new mongoose.Schema<IProject>({
 	deployUrl: {
 		type: String,
 	},
-	stack: [
-		{
-			stackId: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Stack',
-			},
-		},
-	],
 	isTeamRequired: {
 		type: Boolean,
 		required: true,

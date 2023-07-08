@@ -1,12 +1,9 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
-import {
-	ContactsValidation,
-	validateReportSize,
-} from '../utils/validations.js';
 import * as DocsController from '../controllers/DocsController.js';
 import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
 import { SETTINGS } from '../settings.js';
+import { validateReportSize } from '../utils/validations/validateReportSize.js';
 
 const router = Router();
 

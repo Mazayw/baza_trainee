@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
-import { AchievementsValidation } from '../utils/validations.js';
 import * as AchievementsController from '../controllers/AchievementsController.js';
+import { AchievementsValidation } from '../utils/validations/achievementsValidation.js';
 
 const router = Router();
 

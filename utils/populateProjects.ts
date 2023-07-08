@@ -1,6 +1,5 @@
 import { Query } from 'mongoose';
 import RoleModel from '../models/Roles.js';
-import StackModel from '../models/Stacks.js';
 import TeamMembers from '../models/TeamMembers.js';
 
 export const populateProject = (query: Query<any, any>) =>
@@ -19,13 +18,5 @@ export const populateProject = (query: Query<any, any>) =>
 				path: 'roleId',
 				select: 'name',
 				model: RoleModel,
-			},
-		})
-		.populate({
-			path: 'stack',
-			populate: {
-				path: 'stackId',
-				select: 'name',
-				model: StackModel,
 			},
 		});

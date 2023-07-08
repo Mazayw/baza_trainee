@@ -14,11 +14,11 @@ import testimonialsRoutes from './routes/testimonialsRoutes.js';
 import projectsRoutes from './routes/projectsRoutes.js';
 import rolesRoutes from './routes/rolesRoutes.js';
 import contactsRoutes from './routes/contactsRoutes.js';
-import stacksRoutes from './routes/stacksRoutes.js';
 import achievementsRoutes from './routes/achievementsRoutes.js';
 import heroSliderRoutes from './routes/heroSliderRoutes.js';
 import docsRoutes from './routes/docsRoutes.js';
 import paymentsRoutes from './routes/paymentsRoutes.js';
+import { SETTINGS } from './settings.js';
 
 config();
 
@@ -43,12 +43,6 @@ mongoose
 const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
-const corsOptions = {
-	//fix it
-	origin: 'http://localhost:3000',
-	credentials: true,
-	optionSuccessStatus: 200,
-};
 
 app.use(cors());
 
@@ -64,7 +58,6 @@ app.use('/testimonials', testimonialsRoutes);
 app.use('/projects', projectsRoutes);
 app.use('/roles', rolesRoutes);
 app.use('/contacts', contactsRoutes);
-app.use('/stacks', stacksRoutes);
 app.use('/achievements', achievementsRoutes);
 app.use('/heroslider', heroSliderRoutes);
 app.use('/documents', docsRoutes);
@@ -76,6 +69,6 @@ app.listen(port, (error?: Error) => {
 	if (error) {
 		return console.log('Something went wrong', error);
 	}
-	console.log(`Server started on port ${port}`);
+	console.log(`Server started on port ${port}. V.${SETTINGS.version}`);
 });
 swaggerDocs(app, port);

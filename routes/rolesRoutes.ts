@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
-import { roleCreateValidation } from '../utils/validations.js';
 import * as RolesController from '../controllers/RolesController.js';
+import { roleCreateValidation } from '../utils/validations/roleCreateValidation.js';
 
 const router = Router();
 

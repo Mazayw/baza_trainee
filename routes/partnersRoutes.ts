@@ -1,19 +1,18 @@
+import { Router } from 'express';
+import checkAuth from '../utils/checkAuth.js';
+import * as PartnersController from '../controllers/PartnersController.js';
+import { SETTINGS } from '../settings.js';
+import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
+import { partnerCreateValidation } from '../utils/validations/partnerCreateValidation.js';
+
+const router = Router();
+
 /**
  * @swagger
  * tags:
  *   name: Partners
  *   description: Partner management
  */
-
-import { Router } from 'express';
-import checkAuth from '../utils/checkAuth.js';
-import { partnerCreateValidation } from '../utils/validations.js';
-import * as PartnersController from '../controllers/PartnersController.js';
-
-import { SETTINGS } from '../settings.js';
-import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
-
-const router = Router();
 
 /**
  * @swagger

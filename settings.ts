@@ -1,4 +1,5 @@
 export const SETTINGS = {
+	version: '080723',
 	fileSizeLimits: {
 		// The maximum file size in bytes (e.g., 1 * 1024 * 1024 = 1MB)
 		partnerLogo: 500 * 1024,

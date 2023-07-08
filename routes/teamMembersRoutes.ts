@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
-import { TeamMembersValidation } from '../utils/validations.js';
 import * as TeamMembersController from '../controllers/TeamMembersController.js';
+import { TeamMembersValidation } from '../utils/validations/teamMembersValidation.js';
 
 const router = Router();
 
