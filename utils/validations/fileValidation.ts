@@ -1,5 +1,3 @@
-import { deleteFile } from '../../controllers/fileUpload/disk-storage';
-
 const fileTypes = {
 	image: {
 		types: ['image/jpeg', 'image/png', 'image/webp'],
@@ -30,5 +28,6 @@ export const fileValidation = (
 			`File size of ${file.originalname} exceeded the maximum limit of ${maxFileSize} bytes`
 		);
 	}
+
 	return true;
 };
