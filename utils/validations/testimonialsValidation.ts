@@ -1,6 +1,9 @@
-import { body } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import { Request, Response } from 'express';
 import { checkValidationError } from './checkValidationError';
+import { SETTINGS } from '../../settings';
+import { fileValidation } from './fileValidation';
+import { deleteFile } from '../../controllers/fileUpload/disk-storage';
 
 export const TestimonialsValidation = [
 	body('name.en')
@@ -51,6 +54,21 @@ export const TestimonialsValidation = [
 		.isNumeric()
 		.withMessage('The date is incorrect, it must be a number'),
 	body('imageUrl', 'Wrong image url').optional().notEmpty().isString().isURL(),
-	(req: Request, res: Response, next: () => void) =>
-		checkValidationError(req, res, next),
+	body()
+		.optional()
+		.custom((_, { req }) => {
+			if (req.file)
+				return fileValidation(
+					req.file,
+					SETTINGS.fileSizeLimits.testimonialPhoto,
+					'image'
+				);
+		}),
+	(req: Request, res: Response, next: () => void) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty() && req.file) {
+			deleteFile(req.file.filename);
+		}
+		checkValidationError(req, res, next);
+	},
 ];

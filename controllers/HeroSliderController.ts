@@ -107,7 +107,9 @@ export const updateOneById = async (req: Request, res: Response) => {
 		}
 
 		const updatedDocument = mergeObjects(existingDocument._doc, updates);
-		await HeroSlider.findByIdAndUpdate(id, updatedDocument, { new: true });
+		await HeroSlider.findByIdAndUpdate(id, updatedDocument, {
+			new: true,
+		});
 
 		if (req.file?.filename && existingDocument?.imageUrl) {
 			deleteFile(existingDocument.imageUrl); /*

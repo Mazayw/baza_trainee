@@ -1,10 +1,9 @@
-import { body } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import { Request, Response } from 'express';
 import { checkValidationError } from './checkValidationError';
-import { deleteFile } from '../../controllers/fileUpload/disk-storage';
 import { SETTINGS } from '../../settings';
-
-const imageFileTypes = ['image/jpeg', 'image/png', 'image/webp'];
+import { fileValidation } from './fileValidation';
+import { deleteFile } from '../../controllers/fileUpload/disk-storage';
 
 export const HeroSliderValidation = [
 	body('title.en')
@@ -50,28 +49,21 @@ export const HeroSliderValidation = [
 			'The ua subtitle is incorrect, it must contain more than 5 characters'
 		),
 	body('imageUrl', 'Wrong image url').optional().notEmpty().isString().isURL(), //fix it
-	body('file')
+	body()
 		.optional()
 		.custom((_, { req }) => {
-			const maxFileSize = SETTINGS.fileSizeLimits.heroSliderPhoto;
-			if (!req.file) {
-				throw new Error('No file was uploaded');
-			}
-			if (!imageFileTypes.includes(req.file.mimetype)) {
-				deleteFile(req.file.filename);
-				throw new Error(
-					`The file type of ${req.file.originalname} should be an image (jpeg, png, webp).`
+			if (req.file)
+				return fileValidation(
+					req.file,
+					SETTINGS.fileSizeLimits.heroSliderPhoto,
+					'image'
 				);
-			}
-
-			if (req.file.size > maxFileSize) {
-				throw new Error(
-					`File size of ${req.file.originalname} exceeded the maximum limit of ${maxFileSize} bytes`
-				);
-			}
-
-			return true;
 		}),
-	(req: Request, res: Response, next: () => void) =>
-		checkValidationError(req, res, next),
+	(req: Request, res: Response, next: () => void) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty() && req.file) {
+			deleteFile(req.file.filename);
+		}
+		checkValidationError(req, res, next);
+	},
 ];
