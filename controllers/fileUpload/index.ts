@@ -4,9 +4,8 @@ import { s3Upload } from './s3-storage';
 import { Request, Response, NextFunction } from 'express';
 
 const uploadWithFileSizeValidation =
-	(fileSizeLimit: number, type = 'single') =>
+	(type = 'single') =>
 	(req: Request, res: Response, next: NextFunction): void => {
-		const contentLength = Number(req.headers['content-length']);
 		const skipUpload = Boolean(req.headers['skip-upload']);
 		if (!req.file && skipUpload) {
 			next();
@@ -31,20 +30,14 @@ const uploadWithFileSizeValidation =
 				break;
 		}
 
-		if (contentLength && contentLength > fileSizeLimit && type !== 'any') {
-			res.status(400).json({
-				error: `File size exceeds the allowed limit. File size is ${contentLength}, limit is ${fileSizeLimit}`,
-			});
-		} else {
-			upload(req, res, function (err) {
-				if (err) {
-					console.log('Error uploading file:', err);
-					res.status(500).json({ error: 'Internal server error' });
-				} else {
-					next();
-				}
-			});
-		}
+		upload(req, res, function (err) {
+			if (err) {
+				console.log('Error uploading file:', err);
+				res.status(500).json({ error: 'Internal server error' });
+			} else {
+				next();
+			}
+		});
 	};
 
 export { uploadWithFileSizeValidation };

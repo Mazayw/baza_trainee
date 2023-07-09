@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
 import * as TestimonialsController from '../controllers/TestimonialsController.js';
-import { SETTINGS } from '../settings';
 import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
 import { TestimonialsValidation } from '../utils/validations/testimonialsValidation.js';
 
@@ -78,7 +77,7 @@ router.get('/:id', TestimonialsController.getOneById);
 router.post(
 	'/',
 	checkAuth,
-	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.testimonialPhoto),
+	uploadWithFileSizeValidation,
 	TestimonialsValidation,
 	TestimonialsController.create
 );
@@ -142,7 +141,7 @@ router.delete('/:id', checkAuth, TestimonialsController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
-	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.testimonialPhoto),
+	uploadWithFileSizeValidation,
 	TestimonialsValidation,
 	TestimonialsController.updateOneById
 );

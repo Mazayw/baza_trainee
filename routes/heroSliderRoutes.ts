@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
 import * as HeroSliderController from '../controllers/HeroSliderController.js';
-import { SETTINGS } from '../settings';
 import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
 import { HeroSliderValidation } from '../utils/validations/heroSliderValidation.js';
 
@@ -100,7 +99,7 @@ router.get('/:id', HeroSliderController.getOneById);
 router.post(
 	'/',
 	checkAuth,
-	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.heroSliderPhoto),
+	uploadWithFileSizeValidation,
 	HeroSliderValidation,
 	HeroSliderController.create
 );
@@ -175,7 +174,7 @@ router.delete('/:id', checkAuth, HeroSliderController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
-	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.heroSliderPhoto),
+	uploadWithFileSizeValidation,
 	HeroSliderValidation,
 	HeroSliderController.updateOneById
 );

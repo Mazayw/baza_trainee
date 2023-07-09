@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import checkAuth from '../utils/checkAuth.js';
 import * as ProjectsController from '../controllers/ProjectsController.js';
-import { SETTINGS } from '../settings.js';
 import { uploadWithFileSizeValidation } from '../controllers/fileUpload/index.js';
 import { projectCreateValidation } from '../utils/validations/projectCreateValidation.js';
 
@@ -109,7 +108,7 @@ router.get('/:id', ProjectsController.getOneById);
 router.post(
 	'/',
 	checkAuth,
-	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.projectCard),
+	uploadWithFileSizeValidation,
 	projectCreateValidation,
 	ProjectsController.create
 );
@@ -173,7 +172,7 @@ router.delete('/:id', checkAuth, ProjectsController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
-	uploadWithFileSizeValidation(SETTINGS.fileSizeLimits.projectCard),
+	uploadWithFileSizeValidation,
 	projectCreateValidation,
 	ProjectsController.updateOneById
 );
