@@ -9,7 +9,9 @@ import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const getAll = async (req: Request, res: Response) => {
 	try {
-		const projects = await populateProject(ProjectModel.find()).exec();
+		const projects = await populateProject(ProjectModel.find())
+			.sort({ _id: -1 })
+			.exec();
 		const transformedProjects = formatProjectsServerResponse(projects);
 		res.json(transformedProjects);
 	} catch (error) {
@@ -43,6 +45,7 @@ export const search = async (req: Request, res: Response) => {
 					{ 'title.ua': searchQuery },
 				],
 			})
+				.sort({ _id: -1 })
 				.skip(skip)
 				.limit(itemsPerPage)
 		).exec();
