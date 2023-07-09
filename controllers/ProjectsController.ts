@@ -1,8 +1,6 @@
 import ProjectModel from '../models/Projects.js';
 import { Request, Response } from 'express';
 import { SETTINGS } from '../settings.js';
-import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
-import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { mergeObjects } from '../utils/mergeObject.js';
 import { formatProjectsServerResponse } from '../utils/formatProjectsServerResponse.js';
 import { populateProject } from '../utils/populateProjects.js';

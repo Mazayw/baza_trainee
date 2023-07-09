@@ -37,7 +37,7 @@ export const register = async (req: Request, res: Response) => {
 			{ expiresIn: '30d' }
 		);
 
-		const { passwordHash, ...userData } = user._doc;
+		const { ...userData } = user._doc;
 
 		res.status(201).json({ ...userData, token });
 	} catch (error) {
@@ -67,7 +67,7 @@ export const login = async (req: Request, res: Response) => {
 			{ expiresIn: '30d' }
 		);
 
-		const { passwordHash, ...userData } = user._doc;
+		const { ...userData } = user._doc;
 
 		res.json({ ...userData, token });
 	} catch (error) {
@@ -85,7 +85,7 @@ export const getUserInfo = async (
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
-		const { passwordHash, ...userData } = user._doc;
+		const { ...userData } = user._doc;
 
 		return res.json(userData);
 	} catch (error) {

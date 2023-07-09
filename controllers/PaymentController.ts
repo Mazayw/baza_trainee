@@ -20,8 +20,6 @@ export const makePayment = async (req: Request, res: Response) => {
 
 		const response = (await axios.post(url, body)).data;
 
-		console.log(response);
-
 		if (response.response?.checkout_url) {
 			res.status(200).json(response);
 		} else {

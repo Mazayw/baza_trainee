@@ -1,15 +1,13 @@
 import PartnerModel from '../models/Partners.js';
 import { Request, Response } from 'express';
-import { getFileKeyFromUrl } from '../utils/getFileKeyFromUrl.js';
 import { mergeObjects } from '../utils/mergeObject.js';
-import { deleteFileFromS3 } from './fileUpload/s3-storage.js';
 import { SETTINGS } from '../settings.js';
 import { getFilePath } from '../utils/getFilePath.js';
 import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const create = async (req: Request, res: Response) => {
 	try {
-		const { name, homeUrl, imageUrl } = req.body;
+		const { homeUrl, imageUrl } = req.body;
 
 		const image = SETTINGS.allowCreateDocumentWithoutFile
 			? getFilePath(req) || imageUrl
