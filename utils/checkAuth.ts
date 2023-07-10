@@ -20,6 +20,8 @@ export default (
 		} catch (error) {
 			return res.status(401).json({ message: 'The token is incorrect', error });
 		}
+	} else if (!token) {
+		return res.status(401).json({ message: 'Unauthorized' });
 	} else {
 		return res.status(500).json({ message: 'Oops, something went wrong' });
 	}
