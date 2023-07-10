@@ -31,9 +31,9 @@ export const getTranslation = async (req: Request, res: Response) => {
 			});
 		}
 
-		if (translationText.length > SETTINGS.translatedTextMaxLength) {
+		if (translationText.length > SETTINGS.textToTranslateTextMaxLength) {
 			return res.status(406).json({
-				message: `The text to be translated should be no longer than ${SETTINGS.translatedTextMaxLength} characters`,
+				message: `The text to be translated should be no longer than ${SETTINGS.textToTranslateTextMaxLength} characters`,
 			});
 		}
 
