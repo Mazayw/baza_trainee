@@ -9,5 +9,6 @@ if git diff --quiet origin/dev; then
 else
   git pull origin dev
 
-  make build
+cd /app/baza/baza_trainee_back
+make build
 fi
