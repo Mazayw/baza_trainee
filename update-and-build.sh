@@ -9,6 +9,5 @@ if git diff --quiet origin/dev; then
 else
   git pull origin dev
 
-cd /app/baza/baza_trainee_back
-make build
+docker-compose up -d --build --force-recreate
 fi
