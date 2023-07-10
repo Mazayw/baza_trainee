@@ -16,4 +16,5 @@ export const SETTINGS = {
 	},
 	fileUploadMethod: 'disk', //disk or s3 storage
 	fileUploadFolderName: 'baza-static',
+	translatedTextMaxLength: 450,
 };

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { googleTranslateApi, translate } from 'google-translate-api-x';
 import { languages } from './languages';
+import { SETTINGS } from '../../settings';
 
 async function retryRequest(
 	requestFn: () => Promise<googleTranslateApi.TranslationResponse>,
@@ -27,6 +28,12 @@ export const getTranslation = async (req: Request, res: Response) => {
 		if (!(lang in languages) || !translationText) {
 			return res.status(406).json({
 				message: 'Wrong translation language or there is no text to translate',
+			});
+		}
+
+		if (translationText.length > SETTINGS.translatedTextMaxLength) {
+			return res.status(406).json({
+				message: `The text to be translated should be no longer than ${SETTINGS.translatedTextMaxLength} characters`,
 			});
 		}
 

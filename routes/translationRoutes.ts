@@ -23,7 +23,7 @@ const router = Router();
  *       - in: path
  *         name: lang
  *         required: true
- *         description: 'Target language code. Example: en, pl, es'
+ *         description: 'Target language code. Example: en, pl, es. [Supported Languages](https://cloud.google.com/translate/docs/languages)'
  *         schema:
  *           type: string
  *     requestBody:
@@ -51,7 +51,7 @@ const router = Router();
  *                   type: string
  *                   description: Translated text
  *       '406':
- *         description: Invalid language or no text provided
+ *         description: Invalid language or no text provided OR The text to be translated should be no longer than XXX characters
  *       '500':
  *         description: Error occurred during translation
  */
