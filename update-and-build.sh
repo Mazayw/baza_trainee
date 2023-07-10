@@ -8,6 +8,5 @@ if git diff --quiet origin/dev; then
   echo "No changes on the remote branch."
 else
   git pull origin dev
-
-docker-compose up -d --build --force-recreate
+/usr/local/bin/docker-compose up -d --build --force-recreate
 fi
