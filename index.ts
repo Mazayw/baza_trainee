@@ -18,6 +18,7 @@ import achievementsRoutes from './routes/achievementsRoutes.js';
 import heroSliderRoutes from './routes/heroSliderRoutes.js';
 import docsRoutes from './routes/docsRoutes.js';
 import paymentsRoutes from './routes/paymentsRoutes.js';
+import translationRoutes from './routes/translationRoutes.js';
 import { SETTINGS } from './settings.js';
 
 config();
@@ -62,6 +63,7 @@ app.use('/achievements', achievementsRoutes);
 app.use('/heroslider', heroSliderRoutes);
 app.use('/documents', docsRoutes);
 app.use('/payment', paymentsRoutes);
+app.use('/translation', translationRoutes);
 
 const port: number = PORT ? parseInt(PORT) : 3001;
 
