@@ -11,8 +11,6 @@ export const fileValidation = (
 	maxFileSize: number,
 	fileType: 'image' | 'document'
 ) => {
-	console.log(file);
-	console.log(1111);
 	if (!file) {
 		throw new Error('No file was uploaded');
 	}

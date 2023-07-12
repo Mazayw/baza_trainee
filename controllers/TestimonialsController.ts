@@ -7,7 +7,7 @@ import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const create = async (req: Request, res: Response) => {
 	try {
-		const { name, review, date, imageUrl } = req.body;
+		const { name, review, role, imageUrl } = req.body;
 		const image = SETTINGS.allowCreateDocumentWithoutFile
 			? getFilePath(req) || imageUrl
 			: getFilePath(req);
@@ -20,7 +20,7 @@ export const create = async (req: Request, res: Response) => {
 		const doc = new Testimonials({
 			name,
 			review,
-			date,
+			role,
 			imageUrl: image,
 		});
 
@@ -30,10 +30,10 @@ export const create = async (req: Request, res: Response) => {
 			res.status(409).json({
 				message: `Maximum item count reached in the database. Please delete an existing document before creating a new one. Current limit is ${SETTINGS.maxNumberOfItems.testimonialsSlider} items`,
 			});
+		} else {
+			const document = await doc.save();
+			res.status(201).json(document);
 		}
-
-		const document = await doc.save();
-		res.json(document);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't create testimonial`, error });
@@ -96,7 +96,6 @@ export const removeOneById = async (req: Request, res: Response) => {
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const id = req.params.id;
-		console.log(req.files);
 
 		const existingDocument = await Testimonials.findById(id);
 

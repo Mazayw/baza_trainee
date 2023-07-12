@@ -48,11 +48,13 @@ export const TestimonialsValidation = [
 		.withMessage(
 			'The ua review is incorrect, it must contain more than 5 characters'
 		),
-	body('date')
+	body('role')
 		.optional()
-		.if(body('date').exists())
-		.isNumeric()
-		.withMessage('The date is incorrect, it must be a number'),
+		.isString()
+		.isLength({ min: 2 })
+		.withMessage(
+			'The role is incorrect, it must contain more than 2 characters'
+		),
 	body('imageUrl', 'Wrong image url').optional().notEmpty().isString().isURL(),
 	body()
 		.optional()
