@@ -99,7 +99,7 @@ router.get('/:id', HeroSliderController.getOneById);
 router.post(
 	'/',
 	checkAuth,
-	uploadWithFileSizeValidation,
+	uploadWithFileSizeValidation('single'),
 	HeroSliderValidation,
 	HeroSliderController.create
 );
@@ -174,7 +174,7 @@ router.delete('/:id', checkAuth, HeroSliderController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
-	uploadWithFileSizeValidation,
+	uploadWithFileSizeValidation('single'),
 	HeroSliderValidation,
 	HeroSliderController.updateOneById
 );

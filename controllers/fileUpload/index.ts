@@ -4,7 +4,7 @@ import { s3Upload } from './s3-storage';
 import { Request, Response, NextFunction } from 'express';
 
 const uploadWithFileSizeValidation =
-	(type = 'single') =>
+	(type: string) =>
 	(req: Request, res: Response, next: NextFunction): void => {
 		const skipUpload = Boolean(req.headers['skip-upload']);
 		if (!req.file && skipUpload) {
@@ -12,6 +12,7 @@ const uploadWithFileSizeValidation =
 		}
 
 		let upload;
+		/*
 		switch (SETTINGS.fileUploadMethod) {
 			case 's3':
 				upload = s3Upload;
@@ -19,14 +20,14 @@ const uploadWithFileSizeValidation =
 			default:
 				upload = diskUpload;
 				break;
-		}
+		}*/
 
 		switch (type) {
 			case 'any':
-				upload = upload.any();
+				upload = diskUpload.any();
 				break;
 			default:
-				upload = upload.single('file');
+				upload = diskUpload.single('file');
 				break;
 		}
 

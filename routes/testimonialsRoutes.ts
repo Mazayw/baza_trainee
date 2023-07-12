@@ -77,7 +77,7 @@ router.get('/:id', TestimonialsController.getOneById);
 router.post(
 	'/',
 	checkAuth,
-	uploadWithFileSizeValidation,
+	uploadWithFileSizeValidation('single'),
 	TestimonialsValidation,
 	TestimonialsController.create
 );
@@ -141,7 +141,7 @@ router.delete('/:id', checkAuth, TestimonialsController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
-	uploadWithFileSizeValidation,
+	uploadWithFileSizeValidation('single'),
 	TestimonialsValidation,
 	TestimonialsController.updateOneById
 );

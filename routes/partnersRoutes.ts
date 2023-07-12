@@ -75,7 +75,7 @@ router.get('/:id', PartnersController.getOneById);
 router.post(
 	'/',
 	checkAuth,
-	uploadWithFileSizeValidation,
+	uploadWithFileSizeValidation('single'),
 	partnerCreateValidation,
 	PartnersController.create
 );
@@ -135,7 +135,7 @@ router.delete('/:id', checkAuth, PartnersController.removeOneById);
 router.patch(
 	'/:id',
 	checkAuth,
-	uploadWithFileSizeValidation,
+	uploadWithFileSizeValidation('single'),
 	partnerCreateValidation,
 	PartnersController.updateOneById
 );
