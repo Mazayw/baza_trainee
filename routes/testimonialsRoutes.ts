@@ -24,6 +24,12 @@ const router = Router();
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/TestimonialResponse'
  *       500:
  *         description: Internal Server Error
  */
@@ -45,6 +51,10 @@ router.get('/', TestimonialsController.getAll);
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TestimonialResponse'
  *       404:
  *         description: Testimonial not found
  *       500:
@@ -61,12 +71,16 @@ router.get('/:id', TestimonialsController.getOneById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/TestimonialInput'
+ *             $ref: '#/components/schemas/TestimonialRequest'
  *     responses:
  *       201:
  *         description: Testimonial created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TestimonialResponse'
  *       400:
  *         description: Invalid request body
  *       401:
@@ -98,12 +112,16 @@ router.post(
  *     responses:
  *       200:
  *         description: Testimonial deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TestimonialResponse'
  *       404:
  *         description: Testimonial not found
  *       401:
  *         description: Unauthorized
  *       500:
- *         description: Internal Server Error
+ *         description: Can't remove testimonial card
  */
 router.delete('/:id', checkAuth, TestimonialsController.removeOneById);
 
@@ -123,12 +141,16 @@ router.delete('/:id', checkAuth, TestimonialsController.removeOneById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/TestimonialInput'
+ *             $ref: '#/components/schemas/TestimonialRequest'
  *     responses:
  *       200:
  *         description: Testimonial updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TestimonialResponse'
  *       400:
  *         description: Invalid request body
  *       401:

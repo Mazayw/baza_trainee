@@ -86,7 +86,7 @@ export const removeOneById = async (req: Request, res: Response) => {
 			console.error('Error deleting file from S3:', error);
 		}*/
 
-		res.json(document);
+		res.status(200).json(document);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't remove testimonial card`, error });
