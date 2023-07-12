@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { googleTranslateApi, translate } from 'google-translate-api-x';
 import { languages } from './languages';
 import { SETTINGS } from '../../settings';
+import { TranslationResult, translate } from 'bing-translate-api';
 
 async function retryRequest(
-	requestFn: () => Promise<googleTranslateApi.TranslationResponse>,
+	requestFn: () => Promise<TranslationResult>,
 	maxRetries = 4
 ) {
 	let retries = 0;
@@ -38,19 +38,16 @@ export const getTranslation = async (req: Request, res: Response) => {
 		}
 
 		const translationRequest = async () => {
-			return await translate(translationText, {
-				to: lang,
-				autoCorrect: true,
-			});
+			return await translate(translationText, null, lang);
 		};
 
 		const result = await retryRequest(
-			translationRequest as () => Promise<googleTranslateApi.TranslationResponse>,
+			translationRequest as () => Promise<TranslationResult>,
 			3
 		);
 		let translatedText;
 		if ('text' in result) {
-			translatedText = result.text;
+			translatedText = result.translation;
 		} else {
 			throw new Error('Invalid translation response');
 		}
