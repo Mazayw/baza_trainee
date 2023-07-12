@@ -58,9 +58,9 @@ import { ITestimonial } from '../types';
  *             ua:
  *               type: string
  *               description: Review in Ukrainian
- *         date:
- *           type: number
- *           description: Testimonial date
+ *         role:
+ *           type: string
+ *           description: Author's specialization
  *         imageUrl:
  *           type: string
  *           description: URL of the testimonial image
@@ -77,7 +77,7 @@ const TestimonialSchema = new mongoose.Schema<ITestimonial>({
 		pl: { type: String, required: true },
 		ua: { type: String, required: true },
 	},
-	date: { type: Number, required: true },
+	role: { type: String, required: true },
 	imageUrl: { type: String, required: true },
 });
 

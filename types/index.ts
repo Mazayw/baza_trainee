@@ -25,7 +25,7 @@ export interface IUser extends IDocumentResult<IUser> {
 export interface ITestimonial extends IDocumentResult<ITestimonial> {
 	name: ILanguageSelector;
 	review: ILanguageSelector;
-	date: number;
+	role: string;
 	imageUrl: string;
 }
 
