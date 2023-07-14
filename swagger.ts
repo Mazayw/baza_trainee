@@ -22,7 +22,7 @@ const options = {
 		security: [{ bearerAuth: [] }],
 		servers: [
 			{
-				url: 'https://baza.foradmin.fun/',
+				url: 'https://baza-trainee.tech/',
 				description: 'Live server',
 			},
 			{
