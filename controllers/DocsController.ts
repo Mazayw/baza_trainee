@@ -8,7 +8,7 @@ export const getDocs = async (req: Request, res: Response) => {
 	try {
 		const Data = await DocsModel.findOne();
 		if (Data) {
-			res.status(200).json({ docs: Data.docs });
+			res.status(200).json(Data.docs);
 		} else {
 			res.status(404).json({ message: 'Documents data not found' });
 		}

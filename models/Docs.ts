@@ -2,12 +2,9 @@
  * @swagger
  * components:
  *   schemas:
- *     Docs:
+ *     DocumentsResponse:
  *       type: object
  *       properties:
- *         docs:
- *           type: object
- *           properties:
  *             report:
  *               type: string
  *               example: report.pdf
@@ -38,6 +35,33 @@
  *                 ua:
  *                   type: string
  *                   example: terms_ua.pdf
+ *     DocumentsRequest:
+ *       type: object
+ *       properties:
+ *         report:
+ *           type: file
+ *           format: binary
+ *         statute:
+ *           type: file
+ *           format: binary
+ *         privacyPolicy[en]:
+ *               type: file
+ *               format: binary
+ *         privacyPolicy[pl]:
+ *               type: file
+ *               format: binary
+ *         privacyPolicy[ua]:
+ *               type: file
+ *               format: binary
+ *         termsOfUse[en]:
+ *               type: file
+ *               format: binary
+ *         termsOfUse[pl]:
+ *               type: file
+ *               format: binary
+ *         termsOfUse[ua]:
+ *               type: file
+ *               format: binary
  */
 
 import mongoose from 'mongoose';

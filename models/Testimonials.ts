@@ -41,30 +41,24 @@ import { ITestimonial } from '../types';
  *     TestimonialRequest:
  *       type: object
  *       properties:
- *         name:
- *           type: object
- *           properties:
- *             en:
- *               type: string
- *               description: Name in English
- *             pl:
- *               type: string
- *               description: Name in Polish
- *             ua:
- *               type: string
- *               description: Name in Ukrainian
- *         review:
- *           type: object
- *           properties:
- *             en:
- *               type: string
- *               description: Review in English
- *             pl:
- *               type: string
- *               description: Review in Polish
- *             ua:
- *               type: string
- *               description: Review in Ukrainian
+ *         name[en]:
+ *           type: string
+ *           description: Name in English
+ *         name[pl]:
+ *           type: string
+ *           description: Name in Polish
+ *         name[ua]:
+ *           type: string
+ *           description: Name in Ukrainian
+ *         review[en]:
+ *           type: string
+ *           description: Review in English
+ *         review[pl]:
+ *           type: string
+ *           description: Review in Polish
+ *         review[ua]:
+ *           type: string
+ *           description: Review in Ukrainian
  *         role:
  *           type: string
  *           description: Author's specialization
