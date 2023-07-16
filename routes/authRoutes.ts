@@ -20,7 +20,7 @@ import { registerValidation } from '../utils/validations/registerValidation.js';
  *     summary: Get user information
  *     tags: [User]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     responses:
  *       200:
  *         description: User information retrieved successfully
@@ -58,11 +58,7 @@ router.get('/user', checkAuth, UserController.getUserInfo);
  *       500:
  *         description: Server Error
  */
-router.post(
-	'/login',
-	//loginValidation,
-	UserController.login
-);
+router.post('/login', loginValidation, UserController.login);
 
 if (SETTINGS.allowUserRegistration) {
 	/**

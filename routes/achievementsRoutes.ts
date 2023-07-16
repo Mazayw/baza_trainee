@@ -65,7 +65,7 @@ router.get('/employed', AchievementsController.getEmployed);
  *     summary: Update employed data
  *     tags: [Achievements]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:

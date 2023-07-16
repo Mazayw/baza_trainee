@@ -89,6 +89,8 @@ router.get('/:id', ProjectsController.getOneById);
  *   post:
  *     summary: Create a new project
  *     tags: [Projects]
+ *     security:
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -119,6 +121,8 @@ router.post(
  *   delete:
  *     summary: Delete a project by ID
  *     tags: [Projects]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -144,6 +148,8 @@ router.delete('/:id', checkAuth, ProjectsController.removeOneById);
  *   patch:
  *     summary: Update a project by ID
  *     tags: [Projects]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

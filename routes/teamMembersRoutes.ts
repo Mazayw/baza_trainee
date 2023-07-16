@@ -55,6 +55,8 @@ router.get('/:id', TeamMembersController.getOneById);
  *   post:
  *     summary: Create a new team member
  *     tags: [Team Members]
+ *     security:
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -84,6 +86,8 @@ router.post(
  *   delete:
  *     summary: Delete a team member by ID
  *     tags: [Team Members]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -109,6 +113,8 @@ router.delete('/:id', checkAuth, TeamMembersController.removeOneById);
  *   patch:
  *     summary: Update a team member by ID
  *     tags: [Team Members]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

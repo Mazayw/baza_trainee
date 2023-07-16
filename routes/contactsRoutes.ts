@@ -36,7 +36,7 @@ router.get('/', ContactsController.getContacts);
  *     summary: Update contacts
  *     tags: [Contacts]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:

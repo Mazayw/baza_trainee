@@ -19,6 +19,8 @@ const router = Router();
  *   post:
  *     summary: Translate text to a specific language
  *     tags: [Translation]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: lang

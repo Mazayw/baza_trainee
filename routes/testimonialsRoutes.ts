@@ -68,6 +68,8 @@ router.get('/:id', TestimonialsController.getOneById);
  *   post:
  *     summary: Create a new testimonial
  *     tags: [Testimonials]
+ *     security:
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -102,6 +104,8 @@ router.post(
  *   delete:
  *     summary: Delete a testimonial by ID
  *     tags: [Testimonials]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -131,6 +135,8 @@ router.delete('/:id', checkAuth, TestimonialsController.removeOneById);
  *   patch:
  *     summary: Update a testimonial by ID
  *     tags: [Testimonials]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

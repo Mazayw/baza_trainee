@@ -1,15 +1,9 @@
-import jwt, { Secret } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
 import UserModel from '../models/Users.js';
-import { config } from 'dotenv';
 import { Request, Response } from 'express';
 import { IAuthenticatedRequest } from '../types/index.js';
-import { generateToken } from '../utils/generateToken.js';
-
-config();
-
-const SECRET_KEY = process.env.SECRET_KEY as Secret;
+import { generateToken } from '../utils/tokenHandling.js';
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password, name } = req.body;
@@ -56,7 +50,7 @@ export const login = async (req: Request, res: Response) => {
 		const token = generateToken(String(user._id));
 
 		const { ...userData } = user._doc;
-		res.cookie('token', token, { httpOnly: true });
+		res.cookie('token', token, { httpOnly: true, secure: true });
 
 		res.json({ ...userData, token });
 	} catch (error) {
@@ -76,7 +70,7 @@ export const getUserInfo = async (
 		}
 		const { ...userData } = user._doc;
 
-		return res.json(userData);
+		return res.status(200).json(userData);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Access denied`, error });

@@ -16,10 +16,9 @@ const options = {
 		},
 		components: {
 			securitySchemes: {
-				bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+				cookieAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
 			},
 		},
-		security: [{ bearerAuth: [] }],
 		servers: [
 			{
 				url: 'https://baza-trainee.tech/',

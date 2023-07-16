@@ -39,6 +39,8 @@ router.get('/', DocsController.getDocs);
  *   patch:
  *     summary: Update documents
  *     tags: [Documents]
+ *     security:
+ *       - cookieAuth: []
  *     description: Update documents
  *     requestBody:
  *       required: true

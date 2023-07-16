@@ -71,7 +71,7 @@ router.get('/:id', HeroSliderController.getOneById);
  *     summary: Create a new hero slider
  *     tags: [HeroSlider]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -111,7 +111,7 @@ router.post(
  *     summary: Delete a hero slider by ID
  *     tags: [HeroSlider]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -142,7 +142,7 @@ router.delete('/:id', checkAuth, HeroSliderController.removeOneById);
  *     summary: Update a hero slider by ID
  *     tags: [HeroSlider]
  *     security:
- *       - bearerAuth: []
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

@@ -55,6 +55,8 @@ router.get('/:id', RolesController.getOneById);
  *   post:
  *     summary: Create a new role
  *     tags: [Roles]
+ *     security:
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -79,6 +81,8 @@ router.post('/', checkAuth, roleCreateValidation, RolesController.create);
  *   delete:
  *     summary: Delete a role by ID
  *     tags: [Roles]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -104,6 +108,8 @@ router.delete('/:id', checkAuth, RolesController.removeOneById);
  *   patch:
  *     summary: Update a role by ID
  *     tags: [Roles]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id

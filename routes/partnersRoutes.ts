@@ -57,7 +57,7 @@ router.get('/:id', PartnersController.getOneById);
  *     summary: Create a new partner
  *     tags: [Partners]
  *     security:
- *       - BearerAuth: []
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -86,6 +86,8 @@ router.post(
  *   delete:
  *     summary: Delete a partner by ID
  *     tags: [Partners]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -109,6 +111,8 @@ router.delete('/:id', checkAuth, PartnersController.removeOneById);
  *   patch:
  *     summary: Update a partner by ID
  *     tags: [Partners]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
