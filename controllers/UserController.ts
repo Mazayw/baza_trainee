@@ -50,7 +50,10 @@ export const login = async (req: Request, res: Response) => {
 		const token = generateToken(String(user._id));
 
 		const { ...userData } = user._doc;
-		res.cookie('token', token, { httpOnly: true, secure: true });
+		res.cookie('token', token, {
+			httpOnly: true,
+			//	secure: true
+		});
 
 		res.json({ ...userData, token });
 	} catch (error) {
