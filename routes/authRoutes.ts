@@ -58,7 +58,11 @@ router.get('/user', checkAuth, UserController.getUserInfo);
  *       500:
  *         description: Server Error
  */
-router.post('/login', loginValidation, UserController.login);
+router.post(
+	'/login',
+	//loginValidation,
+	UserController.login
+);
 
 if (SETTINGS.allowUserRegistration) {
 	/**

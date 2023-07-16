@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 import swaggerDocs from './swagger.js';
 
@@ -42,6 +43,7 @@ mongoose
 	});
 
 const app = express();
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json());
 

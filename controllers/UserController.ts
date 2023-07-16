@@ -48,7 +48,6 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
-
 	try {
 		const user = await UserModel.findOne({ email });
 		if (!user) {
@@ -68,6 +67,7 @@ export const login = async (req: Request, res: Response) => {
 		);
 
 		const { ...userData } = user._doc;
+		res.cookie('token', token, { httpOnly: true });
 
 		res.json({ ...userData, token });
 	} catch (error) {
