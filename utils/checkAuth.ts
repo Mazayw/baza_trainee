@@ -8,7 +8,7 @@ export default (
 	next: () => void
 ) => {
 	const token = req.cookies.token;
-	console.log(token);
+
 	//const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
 	if (token) {
