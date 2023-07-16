@@ -5,6 +5,7 @@ import UserModel from '../models/Users.js';
 import { config } from 'dotenv';
 import { Request, Response } from 'express';
 import { IAuthenticatedRequest } from '../types/index.js';
+import { generateToken } from '../utils/generateToken.js';
 
 config();
 
@@ -29,13 +30,7 @@ export const register = async (req: Request, res: Response) => {
 
 		const user = await doc.save();
 
-		const token = jwt.sign(
-			{
-				_id: user._id,
-			},
-			SECRET_KEY,
-			{ expiresIn: '30d' }
-		);
+		const token = generateToken(String(user._id));
 
 		const { ...userData } = user._doc;
 
@@ -58,13 +53,7 @@ export const login = async (req: Request, res: Response) => {
 			return res.status(404).json({ message: 'Wrong username or password' });
 		}
 
-		const token = jwt.sign(
-			{
-				_id: user._id,
-			},
-			SECRET_KEY,
-			{ expiresIn: '30d' }
-		);
+		const token = generateToken(String(user._id));
 
 		const { ...userData } = user._doc;
 		res.cookie('token', token, { httpOnly: true });

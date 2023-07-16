@@ -17,4 +17,5 @@ export const SETTINGS = {
 	fileUploadMethod: 'disk', //disk or s3 storage
 	fileUploadFolderName: 'baza-static',
 	textToTranslateTextMaxLength: 700,
+	tokenExpiration: '30d',
 };
