@@ -49,23 +49,23 @@ app.use(express.json());
 
 app.use(cors());
 
-app.get('/', (req, res) => {
+app.get('/api/v1', (req, res) => {
 	res.send(`Wow! It works! Server running on port ${port}`);
 });
 
-app.use('/auth', authRoutes);
-app.use('/files', fileUploadRoutes);
-app.use('/partners', partnersRoutes);
-app.use('/members', teamMembersRoutes);
-app.use('/testimonials', testimonialsRoutes);
-app.use('/projects', projectsRoutes);
-app.use('/roles', rolesRoutes);
-app.use('/contacts', contactsRoutes);
-app.use('/achievements', achievementsRoutes);
-app.use('/heroslider', heroSliderRoutes);
-app.use('/documents', docsRoutes);
-app.use('/payment', paymentsRoutes);
-app.use('/translation', translationRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/files', fileUploadRoutes);
+app.use('/api/v1/partners', partnersRoutes);
+app.use('/api/v1/members', teamMembersRoutes);
+app.use('/api/v1/testimonials', testimonialsRoutes);
+app.use('/api/v1/projects', projectsRoutes);
+app.use('/api/v1/roles', rolesRoutes);
+app.use('/api/v1/contacts', contactsRoutes);
+app.use('/api/v1/achievements', achievementsRoutes);
+app.use('/api/v1/heroslider', heroSliderRoutes);
+app.use('/api/v1/documents', docsRoutes);
+app.use('/api/v1/payment', paymentsRoutes);
+app.use('/api/v1/translation', translationRoutes);
 
 const port: number = PORT ? parseInt(PORT) : 3001;
 

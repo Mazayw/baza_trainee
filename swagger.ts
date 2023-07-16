@@ -21,11 +21,11 @@ const options = {
 		},
 		servers: [
 			{
-				url: 'https://baza-trainee.tech/',
+				url: 'https://baza-trainee.tech/api/v1',
 				description: 'Live server',
 			},
 			{
-				url: 'http://localhost:3001/',
+				url: 'http://localhost:3001/api/v1/',
 				description: 'Local server',
 			},
 		],
