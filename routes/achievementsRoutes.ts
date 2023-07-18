@@ -25,8 +25,6 @@ const router = Router();
  *          application/json:
  *            schema:
  *                $ref: '#/components/schemas/Achievements'
- *       404:
- *         description: Can't get achievements data
  *       500:
  *         description: An error occurred while retrieving achievements data
  */

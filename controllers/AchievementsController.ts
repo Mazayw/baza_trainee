@@ -25,15 +25,11 @@ export const getAchievements = async (req: Request, res: Response) => {
 		const members = await TeamMembers.find();
 		const achievementsData = await AchievementsModel.findOne();
 
-		if (achievementsData) {
-			res.status(200).json({
-				projects: projects.length || 0,
-				members: members.length || 0,
-				employed: achievementsData.employed || 0,
-			});
-		} else {
-			res.status(404).json({ message: "Can't get achievements data" });
-		}
+		res.status(200).json({
+			projects: projects.length || 0,
+			members: members.length || 0,
+			employed: achievementsData?.employed || 0,
+		});
 	} catch (error) {
 		console.error('Error retrieving contacts data', error);
 		res
