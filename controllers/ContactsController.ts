@@ -5,7 +5,7 @@ export const getContacts = async (req: Request, res: Response) => {
 	try {
 		const contactsData = await ContactsModel.findOne();
 		if (contactsData) {
-			res.status(200).json({ contacts: contactsData.contacts });
+			res.status(200).json(contactsData.contacts);
 		} else {
 			res.status(404).json({ message: 'Contacts data not found' });
 		}
@@ -19,7 +19,7 @@ export const getContacts = async (req: Request, res: Response) => {
 
 export const updateContacts = async (req: Request, res: Response) => {
 	try {
-		const contactsData = req.body.contacts;
+		const contactsData = req.body;
 
 		const updatedContacts = await ContactsModel.findOneAndUpdate(
 			{},

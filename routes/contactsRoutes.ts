@@ -21,6 +21,10 @@ const router = Router();
  *     responses:
  *       200:
  *         description: Returns the contacts
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contacts'
  *       404:
  *         description: Contacts data not found
  *       500:
@@ -46,41 +50,22 @@ router.get('/', ContactsController.getContacts);
  *     responses:
  *       200:
  *         description: Contacts data updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contacts'
  *       201:
  *         description: Contacts data created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contacts'
+ *       401:
+ *         description: Unauthorized
  *       403:
  *         description: The token is incorrect OR Oops, something went wrong
  *       500:
  *         description: An error occurred while saving contacts data
- * components:
- *   schemas:
- *     Contacts:
- *       type: object
- *       properties:
- *         contacts:
- *           type: object
- *           properties:
- *             contactsDataList:
- *               type: object
- *               properties:
- *                 phone1:
- *                   type: number
- *                   description: Phone 1 number
- *                 phone2:
- *                   type: number
- *                   description: Phone 2 number
- *                 email:
- *                   type: string
- *                   description: Email address
- *             socialsMediaList:
- *               type: object
- *               properties:
- *                 linkedin:
- *                   type: string
- *                   description: LinkedIn URL
- *                 facebook:
- *                   type: string
- *                   description: Facebook URL
  */
 
 router.patch(
