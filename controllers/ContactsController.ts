@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import ContactsModel from '../models/Contacts';
+import { mergeObjects } from '../utils/mergeObject';
 
 export const getContacts = async (req: Request, res: Response) => {
 	try {
@@ -21,9 +22,14 @@ export const updateContacts = async (req: Request, res: Response) => {
 	try {
 		const contactsData = req.body;
 
+		const oldDocs = await ContactsModel.findOne();
+		const newContactsData = oldDocs
+			? mergeObjects(oldDocs.contacts, contactsData)
+			: contactsData;
+
 		const updatedContacts = await ContactsModel.findOneAndUpdate(
 			{},
-			{ contacts: contactsData },
+			{ contacts: newContactsData },
 			{ upsert: true, new: true }
 		);
 
