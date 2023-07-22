@@ -36,7 +36,7 @@ export const makePayment = async (req: Request, res: Response) => {
 export const completePayment = async (req: Request, res: Response) => {
 	try {
 		console.log(req.body);
-		res.redirect('/');
+		res.redirect('/?payment=success');
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: `Can't make redirect`, error });
