@@ -32,3 +32,13 @@ export const makePayment = async (req: Request, res: Response) => {
 		res.status(500).json({ message: `Can't get payment url`, error });
 	}
 };
+
+export const completePayment = async (req: Request, res: Response) => {
+	try {
+		console.log(req.body);
+		res.redirect('/');
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: `Can't make redirect`, error });
+	}
+};
