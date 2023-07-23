@@ -34,7 +34,7 @@
  *         file:
  *           type: file
  *           format: binary
- *           description: Testimonial image file (JPG, PNG, WEBP)
+ *           description: Partner's image file (JPG, PNG, WEBP)
  */
 
 import mongoose from 'mongoose';
