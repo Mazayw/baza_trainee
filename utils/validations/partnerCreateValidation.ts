@@ -7,6 +7,10 @@ import { deleteFile } from '../../controllers/fileUpload/disk-storage';
 
 export const partnerCreateValidation = [
 	body('imageUrl', 'Wrong image url').optional().isURL(),
+	body('name', `Wrong partner's name`)
+		.optional()
+		.isString()
+		.isLength({ min: 2 }),
 	body('homeUrl', 'Wrong partner homepage url').optional().isURL(),
 	body()
 		.optional()

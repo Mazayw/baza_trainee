@@ -65,6 +65,7 @@ export interface IProject extends IDocumentResult<IProject> {
 export interface IPartner extends IDocumentResult<IPartner> {
 	homeUrl?: string;
 	imageUrl: string;
+	name: string;
 }
 
 export interface IContacts extends IDocumentResult<IContacts> {

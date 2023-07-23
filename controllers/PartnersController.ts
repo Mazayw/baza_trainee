@@ -7,7 +7,7 @@ import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const create = async (req: Request, res: Response) => {
 	try {
-		const { homeUrl, imageUrl } = req.body;
+		const { homeUrl, imageUrl, name } = req.body;
 
 		const image = SETTINGS.allowCreateDocumentWithoutFile
 			? getFilePath(req) || imageUrl
@@ -21,6 +21,7 @@ export const create = async (req: Request, res: Response) => {
 		const doc = new PartnerModel({
 			homeUrl,
 			imageUrl: image,
+			name,
 		});
 
 		const document = await doc.save();
