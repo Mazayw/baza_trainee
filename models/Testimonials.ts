@@ -35,6 +35,9 @@ import { ITestimonial } from '../types';
  *         role:
  *           type: string
  *           description: Author's specialization
+ *         date:
+ *           type: number
+ *           description: Date of the testimonial
  *         imageUrl:
  *           type: string
  *           description: URL of the testimonial image
@@ -62,6 +65,9 @@ import { ITestimonial } from '../types';
  *         role:
  *           type: string
  *           description: Author's specialization
+ *         date:
+ *           type: number
+ *           description: Date of the testimonial
  *         file:
  *           type: file
  *           format: binary
