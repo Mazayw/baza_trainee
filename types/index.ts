@@ -26,6 +26,7 @@ export interface ITestimonial extends IDocumentResult<ITestimonial> {
 	name: ILanguageSelector;
 	review: ILanguageSelector;
 	role: string;
+	date: number;
 	imageUrl: string;
 }
 

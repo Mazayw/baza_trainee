@@ -7,7 +7,7 @@ import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const create = async (req: Request, res: Response) => {
 	try {
-		const { name, review, role, imageUrl } = req.body;
+		const { name, date, review, role, imageUrl } = req.body;
 		const image = SETTINGS.allowCreateDocumentWithoutFile
 			? getFilePath(req) || imageUrl
 			: getFilePath(req);
@@ -20,6 +20,7 @@ export const create = async (req: Request, res: Response) => {
 		const doc = new Testimonials({
 			name,
 			review,
+			date,
 			role,
 			imageUrl: image,
 		});

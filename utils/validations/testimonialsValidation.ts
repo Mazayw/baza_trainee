@@ -55,6 +55,10 @@ export const TestimonialsValidation = [
 		.withMessage(
 			'The role is incorrect, it must contain more than 2 characters'
 		),
+	body('date')
+		.optional()
+		.isInt()
+		.withMessage('The date is incorrect, it must be a number'),
 	body('imageUrl', 'Wrong image url').optional().notEmpty().isString().isURL(),
 	body()
 		.optional()

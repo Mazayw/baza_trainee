@@ -80,6 +80,7 @@ const TestimonialSchema = new mongoose.Schema<ITestimonial>({
 		ua: { type: String, required: true },
 	},
 	role: { type: String, required: true },
+	date: { type: Number, required: true },
 	imageUrl: { type: String, required: true },
 });
 
