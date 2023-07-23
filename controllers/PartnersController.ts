@@ -1,17 +1,14 @@
 import PartnerModel from '../models/Partners.js';
 import { Request, Response } from 'express';
 import { mergeObjects } from '../utils/mergeObject.js';
-import { SETTINGS } from '../settings.js';
 import { getFilePath } from '../utils/getFilePath.js';
 import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const create = async (req: Request, res: Response) => {
 	try {
-		const { homeUrl, imageUrl, name } = req.body;
+		const { homeUrl, name } = req.body;
 
-		const image = SETTINGS.allowCreateDocumentWithoutFile
-			? getFilePath(req) || imageUrl
-			: getFilePath(req);
+		const image = getFilePath(req);
 
 		if (!image) {
 			return res
@@ -32,10 +29,33 @@ export const create = async (req: Request, res: Response) => {
 	}
 };
 
-export const getAll = async (req: Request, res: Response) => {
+export const search = async (req: Request, res: Response) => {
 	try {
-		const partners = await PartnerModel.find();
-		res.json(partners);
+		const { query, page, limit } = req.query;
+		const searchQuery = new RegExp(query as string, 'i');
+
+		const currentPage = parseInt(page as string) || 1;
+		const itemsPerPage = parseInt(limit as string) || 23;
+		const skip = (currentPage - 1) * itemsPerPage;
+
+		const totalDocuments = await PartnerModel.countDocuments({
+			name: searchQuery,
+		});
+
+		const partners = await PartnerModel.find({ name: searchQuery })
+			.sort({ name: 1 })
+			.skip(skip)
+			.limit(itemsPerPage)
+			.exec();
+
+		res.json({
+			results: partners,
+			pagination: {
+				currentPage,
+				totalPages: Math.ceil(totalDocuments / itemsPerPage),
+				totalResults: totalDocuments,
+			},
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't get partners cards`, error });

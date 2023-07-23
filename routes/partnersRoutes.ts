@@ -19,13 +19,38 @@ const router = Router();
  *   get:
  *     summary: Get all partners
  *     tags: [Partners]
+ *     parameters:
+ *       - in: query
+ *         name: query
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Search query
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Page number, default 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Number of results per page, default 23
  *     responses:
  *       200:
- *         description: List of partners
- *       401:
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/PartnerResponse'
+ *       500:
+ *         description: Internal Server Error
  */
-router.get('/', PartnersController.getAll);
+router.get('/', PartnersController.search);
 
 /**
  * @swagger
@@ -42,11 +67,15 @@ router.get('/', PartnersController.getAll);
  *           type: string
  *     responses:
  *       200:
- *         description: The partner information
- *       401:
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PartnerResponse'
  *       404:
  *         description: Partner not found
+ *       500:
+ *         description: Internal Server Error
  */
 router.get('/:id', PartnersController.getOneById);
 
@@ -61,16 +90,22 @@ router.get('/:id', PartnersController.getOneById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/PartnerCreate'
+ *             $ref: '#/components/schemas/PartnerRequest'
  *     responses:
  *       201:
- *         description: The created partner
+ *         description: Partner created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PartnerResponse'
  *       400:
  *         description: Invalid request body
  *       401:
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal Server Error
  */
 router.post(
 	'/',
@@ -98,10 +133,16 @@ router.post(
  *     responses:
  *       200:
  *         description: Partner deleted successfully
- *       401:
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PartnerResponse'
  *       404:
  *         description: Partner not found
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Can't remove partner card
  */
 router.delete('/:id', checkAuth, PartnersController.removeOneById);
 
@@ -123,18 +164,24 @@ router.delete('/:id', checkAuth, PartnersController.removeOneById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/PartnerCreate'
+ *             $ref: '#/components/schemas/PartnerRequest'
  *     responses:
  *       200:
- *         description: The updated partner
+ *         description: Partner updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PartnerResponse'
  *       400:
  *         description: Invalid request body
  *       401:
- *         $ref: '#/components/responses/UnauthorizedError'
+ *         description: Unauthorized
  *       404:
  *         description: Partner not found
+ *       500:
+ *         description: Internal Server Error
  */
 router.patch(
 	'/:id',

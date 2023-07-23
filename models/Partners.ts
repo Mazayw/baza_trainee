@@ -2,7 +2,7 @@
  * @swagger
  * components:
  *   schemas:
- *     Partner:
+ *     PartnerResponse:
  *       type: object
  *       required:
  *         - imageUrl
@@ -17,8 +17,24 @@
  *           type: string
  *           description: The URL of the partner's image.
  *       example:
+ *         name: example
  *         homeUrl: https://example.com
- *         imageUrl: /example.com/image.jpg
+ *         imageUrl: image.jpg
+ *     PartnerRequest:
+ *       type: object
+ *       required:
+ *         - imageUrl
+ *       properties:
+ *         homeUrl:
+ *           type: string
+ *           description: The URL of the partner's homepage.
+ *         name:
+ *           type: string
+ *           description: Partner's name.
+ *         file:
+ *           type: file
+ *           format: binary
+ *           description: Testimonial image file (JPG, PNG, WEBP)
  */
 
 import mongoose from 'mongoose';
