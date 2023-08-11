@@ -58,6 +58,7 @@ export const HeroSliderValidation = [
 					SETTINGS.fileSizeLimits.heroSliderPhoto,
 					'image'
 				);
+			return true;
 		}),
 	(req: Request, res: Response, next: () => void) => {
 		const errors = validationResult(req);

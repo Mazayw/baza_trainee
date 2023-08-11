@@ -69,6 +69,7 @@ export const TestimonialsValidation = [
 					SETTINGS.fileSizeLimits.testimonialPhoto,
 					'image'
 				);
+			return true;
 		}),
 	(req: Request, res: Response, next: () => void) => {
 		const errors = validationResult(req);

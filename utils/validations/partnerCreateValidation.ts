@@ -21,6 +21,7 @@ export const partnerCreateValidation = [
 					SETTINGS.fileSizeLimits.partnerLogo,
 					'image'
 				);
+			return true;
 		}),
 	(req: Request, res: Response, next: () => void) => {
 		const errors = validationResult(req);
