@@ -20,8 +20,4 @@ export const paymentSignatureGenerator = (
 	const valuesString = Object.values(body).flat().join(';');
 
 	return crypto.createHmac('md5', secretKey).update(valuesString).digest('hex');
-	/*crypto
-		.createHash('sha1')
-		.update(`${password}|${sortedValues}`)
-		.digest('hex');*/
 };

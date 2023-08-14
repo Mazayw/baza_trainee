@@ -8,7 +8,6 @@ const merchantAccount = PAYMENT_MERCHANT_ID || '';
 
 export const makePayment = async (req: Request, res: Response) => {
 	try {
-		console.log(req.body);
 		const merchantSignature = paymentSignatureGenerator(req.body);
 		const url = `https://api.wayforpay.com/api`;
 		const body = {
@@ -19,15 +18,12 @@ export const makePayment = async (req: Request, res: Response) => {
 
 		const response = (await axios.post(url, body)).data;
 
-		console.log('body', body);
-		console.log(response);
-
-		if (response.reasonCode) {
+		if (response.invoiceUrl) {
 			res.status(200).json(response);
 		} else {
 			res
-				.status(response.response.response_status)
-				.send('Request failed with error ' + response.error_message);
+				.status(response.reasonCode)
+				.send('Request failed with error ' + response);
 		}
 	} catch (error) {
 		console.error(error);
