@@ -26,6 +26,9 @@
  *             facebook:
  *               type: string
  *               example: https://www.facebook.com/example
+ *             telegram:
+ *               type: string
+ *               example: https://t.me/+CBXkAASfvJl
  */
 
 import mongoose from 'mongoose';
@@ -54,7 +57,9 @@ const ContactsSchema = new mongoose.Schema<IContacts>({
 			},
 			facebook: {
 				type: String,
-				required: true,
+			},
+			telegram: {
+				type: String,
 			},
 		},
 	},

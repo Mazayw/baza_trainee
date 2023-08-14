@@ -26,6 +26,10 @@ export const ContactsValidation = [
 		.optional()
 		.isURL()
 		.withMessage('Invalid Facebook URL'),
+	body('socialsMediaList.telegram')
+		.optional()
+		.isURL()
+		.withMessage('Invalid Telegram URL'),
 	(req: Request, res: Response, next: () => void) =>
 		checkValidationError(req, res, next),
 ];
