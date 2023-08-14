@@ -18,6 +18,8 @@ export const makePayment = async (req: Request, res: Response) => {
 		};
 
 		const response = (await axios.post(url, body)).data;
+
+		console.log('body', body);
 		console.log(response);
 
 		if (response.reasonCode) {
