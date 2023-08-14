@@ -1,22 +1,27 @@
 import crypto from 'crypto';
-const { FONDY_PASSWORD, FONDY_MERCHANT_ID } = process.env;
+const { PAYMENT_SECRET_KEY, PAYMENT_MERCHANT_ID } = process.env;
 
 export const paymentSignatureGenerator = (
-	obj: { [key: string]: string },
-	merchant_id = FONDY_MERCHANT_ID || '',
-	password = FONDY_PASSWORD || ''
+	obj: { [key: string]: string | number },
+	merchantAccount = PAYMENT_MERCHANT_ID || '',
+	secretKey = PAYMENT_SECRET_KEY || ''
 ) => {
-	const body: { [key: string]: string } = {
-		...obj,
-		merchant_id,
+	const body = {
+		merchantAccount,
+		merchantDomainName: obj.merchantDomainName,
+		orderReference: obj.orderReference,
+		orderDate: obj.orderDate,
+		amount: obj.amount,
+		currency: obj.currency,
+		productName: obj.productName,
+		productCount: obj.productCount,
+		productPrice: obj.productPrice,
 	};
-	const sortedValues = Object.keys(body)
-		.sort((a, b) => a.localeCompare(b))
-		.map((key) => body[key])
-		.join('|');
+	const valuesString = Object.values(body).flat().join(';');
 
-	return crypto
+	return crypto.createHmac('md5', secretKey).update(valuesString).digest('hex');
+	/*crypto
 		.createHash('sha1')
 		.update(`${password}|${sortedValues}`)
-		.digest('hex');
+		.digest('hex');*/
 };

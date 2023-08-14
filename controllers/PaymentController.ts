@@ -2,25 +2,25 @@ import { Request, Response } from 'express';
 import { paymentSignatureGenerator } from '../utils/paymentSignatureGenerator.js';
 import axios from 'axios';
 
-const { FONDY_MERCHANT_ID } = process.env;
+const { PAYMENT_MERCHANT_ID } = process.env;
 
-const merchant_id = FONDY_MERCHANT_ID || '';
+const merchantAccount = PAYMENT_MERCHANT_ID || '';
 
 export const makePayment = async (req: Request, res: Response) => {
 	try {
-		const signature = paymentSignatureGenerator(req.body);
-		const url = `https://pay.fondy.eu/api/checkout/url/`;
+		console.log(req.body);
+		const merchantSignature = paymentSignatureGenerator(req.body);
+		const url = `https://api.wayforpay.com/api`;
 		const body = {
-			request: {
-				...req.body,
-				merchant_id,
-				signature,
-			},
+			...req.body,
+			merchantAccount,
+			merchantSignature,
 		};
 
 		const response = (await axios.post(url, body)).data;
+		console.log(response);
 
-		if (response.response?.checkout_url) {
+		if (response.reasonCode) {
 			res.status(200).json(response);
 		} else {
 			res
