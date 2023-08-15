@@ -10,10 +10,10 @@
  *           properties:
  *             phone1:
  *               type: number
- *               example: 1234567890
+ *               example: 380123456789
  *             phone2:
  *               type: number
- *               example: 9876543210
+ *               example: 380123456789
  *             email:
  *               type: string
  *               example: example@example.com
