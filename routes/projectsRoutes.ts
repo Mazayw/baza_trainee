@@ -19,20 +19,6 @@ const router = Router();
  *   get:
  *     summary: Get all projects
  *     tags: [Projects]
- *     responses:
- *       200:
- *         description: Success
- *       500:
- *         description: Internal Server Error
- */
-router.get('/', ProjectsController.getAll);
-
-/**
- * @swagger
- * /projects/search:
- *   get:
- *     summary: Search projects
- *     tags: [Projects]
  *     parameters:
  *       - in: query
  *         name: query
@@ -55,10 +41,16 @@ router.get('/', ProjectsController.getAll);
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/ProjectResponse'
  *       500:
  *         description: Internal Server Error
  */
-router.get('/search', ProjectsController.search);
+router.get('/', ProjectsController.search);
 
 /**
  * @swagger
@@ -76,10 +68,12 @@ router.get('/search', ProjectsController.search);
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProjectResponse'
  *       404:
- *         description: Project not found
- *       500:
- *         description: Internal Server Error
+ *         description: Can't get project
  */
 router.get('/:id', ProjectsController.getOneById);
 
@@ -94,18 +88,22 @@ router.get('/:id', ProjectsController.getOneById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/ProjectInput'
+ *             $ref: '#/components/schemas/ProjectRequest'
  *     responses:
  *       201:
  *         description: Project created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProjectResponse'
  *       400:
  *         description: Invalid request body
  *       401:
  *         description: Unauthorized
  *       500:
- *         description: Internal Server Error
+ *         description: Can't create project card
  */
 router.post(
 	'/',
@@ -133,12 +131,16 @@ router.post(
  *     responses:
  *       200:
  *         description: Project deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProjectResponse'
  *       404:
  *         description: Project not found
  *       401:
  *         description: Unauthorized
  *       500:
- *         description: Internal Server Error
+ *         description: Can't remove project card
  */
 router.delete('/:id', checkAuth, ProjectsController.removeOneById);
 
@@ -160,20 +162,22 @@ router.delete('/:id', checkAuth, ProjectsController.removeOneById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/ProjectInput'
+ *             $ref: '#/components/schemas/ProjectRequest'
  *     responses:
  *       200:
  *         description: Project updated successfully
- *       400:
- *         description: Invalid request body
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ProjectResponse'
  *       401:
  *         description: Unauthorized
  *       404:
  *         description: Project not found
  *       500:
- *         description: Internal Server Error
+ *         description: Can't update project
  */
 router.patch(
 	'/:id',

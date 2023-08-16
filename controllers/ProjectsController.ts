@@ -7,19 +7,6 @@ import { populateProject } from '../utils/populateProjects.js';
 import { getFilePath } from '../utils/getFilePath.js';
 import { deleteFile } from './fileUpload/disk-storage.js';
 
-export const getAll = async (req: Request, res: Response) => {
-	try {
-		const projects = await populateProject(ProjectModel.find())
-			.sort({ _id: -1 })
-			.exec();
-		const transformedProjects = formatProjectsServerResponse(projects);
-		res.json(transformedProjects);
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ message: `Can't get project cards`, error });
-	}
-};
-
 export const search = async (req: Request, res: Response) => {
 	try {
 		const { query, page, limit } = req.query;

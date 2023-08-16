@@ -125,7 +125,7 @@
  *         file:
  *           type: file
  *           format: binary
- *           description: Partner's image file (JPG, PNG, WEBP)
+ *           description: Project's image file (JPG, PNG, WEBP)
  *         deployUrl:
  *           type: string
  *           description: The URL of the deployed project.
