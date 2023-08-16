@@ -1,22 +1,14 @@
 import { Query } from 'mongoose';
-import RoleModel from '../models/Roles.js';
-import TeamMembers from '../models/TeamMembers.js';
 
 export const populateProject = (query: Query<any, any>) =>
 	query
 		.populate({
-			path: 'teamMembers',
-			populate: {
-				path: 'userId',
-				select: 'name',
-				model: TeamMembers,
-			},
+			path: 'teamMembers.teamMember',
+			model: 'TeamMembers',
+			select: 'name profileUrl',
 		})
 		.populate({
-			path: 'teamMembers',
-			populate: {
-				path: 'roleId',
-				select: 'name',
-				model: RoleModel,
-			},
+			path: 'teamMembers.teamMemberRole',
+			model: 'TeamMemberRoles',
+			select: 'name',
 		});

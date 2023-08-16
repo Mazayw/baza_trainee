@@ -53,7 +53,7 @@ export const search = async (req: Request, res: Response) => {
 		const transformedProjects = formatProjectsServerResponse(projects);
 
 		res.json({
-			results: transformedProjects,
+			results: projects,
 			pagination: {
 				currentPage,
 				totalPages: Math.ceil(totalDocuments / itemsPerPage),
