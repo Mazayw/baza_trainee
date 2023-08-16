@@ -37,7 +37,7 @@ export const search = async (req: Request, res: Response) => {
 				.limit(itemsPerPage)
 		).exec();
 
-		const transformedProjects = formatProjectsServerResponse(projects);
+		//const transformedProjects = formatProjectsServerResponse(projects);
 
 		res.json({
 			results: projects,
@@ -102,9 +102,9 @@ export const getOneById = async (req: Request, res: Response) => {
 			return res.status(404).json({ message: 'Project not found' });
 		}
 
-		const transformedProject = formatProjectsServerResponse([project]);
+		//const transformedProject = formatProjectsServerResponse([project]);
 
-		res.json(...transformedProject);
+		res.json(project);
 	} catch (error) {
 		console.error(error);
 		res.status(404).json({ message: `Can't get project`, error });
