@@ -87,6 +87,8 @@ router.get('/:id', TestimonialsController.getOneById);
  *         description: Invalid request body
  *       401:
  *         description: Unauthorized
+ *       409:
+ *         description: Maximum item count reached in the database. Please delete an existing document before creating a new one. Current limit is ХХХ items
  *       500:
  *         description: Internal Server Error
  */
