@@ -24,7 +24,7 @@ const router = Router();
  *         name: query
  *         schema:
  *           type: string
- *         required: true
+ *         required: false
  *         description: Search query
  *       - in: query
  *         name: page
