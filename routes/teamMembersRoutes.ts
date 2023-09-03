@@ -18,13 +18,50 @@ const router = Router();
  *   get:
  *     summary: Get all team members
  *     tags: [Team Members]
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Search query
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Page number, default 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Number of results per page, default 10
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/TeamMember'
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     currentPage:
+ *                       type: number
+ *                     totalPages:
+ *                       type: number
+ *                     totalResults:
+ *                       type: number
  *       500:
  *         description: Internal Server Error
  */
-router.get('/', TeamMembersController.getAll);
+router.get('/', TeamMembersController.search);
 
 /**
  * @swagger

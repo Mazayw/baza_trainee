@@ -21,7 +21,7 @@ const router = Router();
  *     tags: [Projects]
  *     parameters:
  *       - in: query
- *         name: query
+ *         name: search
  *         schema:
  *           type: string
  *         required: false
@@ -44,9 +44,21 @@ const router = Router();
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/ProjectResponse'
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/ProjectResponse'
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     currentPage:
+ *                       type: number
+ *                     totalPages:
+ *                       type: number
+ *                     totalResults:
+ *                       type: number
  *       500:
  *         description: Internal Server Error
  */

@@ -9,8 +9,8 @@ import { deleteFile } from './fileUpload/disk-storage.js';
 
 export const search = async (req: Request, res: Response) => {
 	try {
-		const { query, page, limit } = req.query;
-		const searchQuery = new RegExp(query as string, 'i');
+		const { search, page, limit } = req.query;
+		const searchQuery = new RegExp(search as string, 'i');
 
 		const currentPage = parseInt(page as string) || 1;
 		const itemsPerPage = parseInt(limit as string) || 9;
