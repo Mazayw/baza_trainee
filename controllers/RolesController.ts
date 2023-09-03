@@ -17,10 +17,43 @@ export const create = async (req: Request, res: Response) => {
 	}
 };
 
-export const getAll = async (req: Request, res: Response) => {
+export const search = async (req: Request, res: Response) => {
 	try {
-		const roles = await RoleModel.find();
-		res.json(roles);
+		const { search, page, limit } = req.query;
+		const searchQuery = new RegExp(search as string, 'i');
+
+		const currentPage = parseInt(page as string) || 1;
+		const itemsPerPage = parseInt(limit as string) || 10;
+		const skip = (currentPage - 1) * itemsPerPage;
+
+		const totalDocuments = await RoleModel.countDocuments({
+			$or: [
+				{ 'name.en': searchQuery },
+				{ 'name.pl': searchQuery },
+				{ 'name.ua': searchQuery },
+			],
+		});
+
+		const roles = await RoleModel.find({
+			$or: [
+				{ 'name.en': searchQuery },
+				{ 'name.pl': searchQuery },
+				{ 'name.ua': searchQuery },
+			],
+		})
+			.sort({ 'name.ua': 1 })
+			.skip(skip)
+			.limit(itemsPerPage)
+			.exec();
+
+		res.json({
+			results: roles,
+			pagination: {
+				currentPage,
+				totalPages: Math.ceil(totalDocuments / itemsPerPage),
+				totalResults: totalDocuments,
+			},
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't get roles`, error });

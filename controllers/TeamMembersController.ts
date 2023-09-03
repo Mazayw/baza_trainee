@@ -71,7 +71,7 @@ export const getOneById = async (req: Request, res: Response) => {
 		res.json(member);
 	} catch (error) {
 		console.log(error);
-		res.status(404).json({ message: `Can't get member`, error });
+		res.status(404).json({ message: `Member not found`, error });
 	}
 };
 

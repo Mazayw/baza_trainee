@@ -24,7 +24,7 @@ const router = Router();
  *       500:
  *         description: Internal Server Error
  */
-router.get('/', RolesController.getAll);
+router.get('/', RolesController.search);
 
 /**
  * @swagger

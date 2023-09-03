@@ -59,7 +59,7 @@ const router = Router();
  *                     totalResults:
  *                       type: number
  *       500:
- *         description: Internal Server Error
+ *         description: Can't get members
  */
 router.get('/', TeamMembersController.search);
 
@@ -79,10 +79,13 @@ router.get('/', TeamMembersController.search);
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TeamMember'
  *       404:
- *         description: Team member not found
- *       500:
- *         description: Internal Server Error
+ *         description: Member not found
+
  */
 router.get('/:id', TeamMembersController.getOneById);
 
@@ -99,17 +102,20 @@ router.get('/:id', TeamMembersController.getOneById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/TeamMemberInput'
+ *             $ref: '#/components/schemas/TeamMember'
  *     responses:
  *       201:
  *         description: Team member created successfully
- *       400:
- *         description: Invalid request body
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TeamMember'
  *       401:
  *         description: Unauthorized
  *       500:
- *         description: Internal Server Error
+ *         description: Can't create member
  */
+
 router.post(
 	'/',
 	checkAuth,
@@ -135,12 +141,16 @@ router.post(
  *     responses:
  *       200:
  *         description: Team member deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TeamMember'
  *       404:
- *         description: Team member not found
+ *         description: Member not found
  *       401:
  *         description: Unauthorized
  *       500:
- *         description: Internal Server Error
+ *         description: Can't remove member card
  */
 router.delete('/:id', checkAuth, TeamMembersController.removeOneById);
 
@@ -164,18 +174,22 @@ router.delete('/:id', checkAuth, TeamMembersController.removeOneById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/TeamMemberInput'
+ *             $ref: '#/components/schemas/TeamMember'
  *     responses:
  *       200:
  *         description: Team member updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TeamMember'
  *       400:
  *         description: Invalid request body
  *       401:
  *         description: Unauthorized
  *       404:
- *         description: Team member not found
+ *         description: Member not found
  *       500:
- *         description: Internal Server Error
+ *         description: Can't update member
  */
 router.patch(
 	'/:id',
