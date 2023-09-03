@@ -18,11 +18,48 @@ const router = Router();
  *   get:
  *     summary: Get all roles
  *     tags: [Roles]
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Search query
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Page number, default 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Number of results per page, default 10
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/TeamMemberRole'
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     currentPage:
+ *                       type: number
+ *                     totalPages:
+ *                       type: number
+ *                     totalResults:
+ *                       type: number
  *       500:
- *         description: Internal Server Error
+ *         description: Can't get members
  */
 router.get('/', RolesController.search);
 
@@ -38,14 +75,16 @@ router.get('/', RolesController.search);
  *         schema:
  *           type: string
  *         required: true
- *         description: ID of the role
+ *         description: ID of the team member role
  *     responses:
  *       200:
  *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TeamMemberRole'
  *       404:
  *         description: Role not found
- *       500:
- *         description: Internal Server Error
  */
 router.get('/:id', RolesController.getOneById);
 
@@ -62,16 +101,20 @@ router.get('/:id', RolesController.getOneById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/RoleInput'
+ *             $ref: '#/components/schemas/TeamMemberRole'
  *     responses:
  *       201:
- *         description: Role created successfully
- *       400:
- *         description: Invalid request body
+ *         description: Team member role created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TeamMemberRole'
  *       401:
  *         description: Unauthorized
+ *       404:
+ *         description: Role not found
  *       500:
- *         description: Internal Server Error
+ *         description: Can't update role
  */
 router.post('/', checkAuth, roleCreateValidation, RolesController.create);
 
@@ -92,13 +135,17 @@ router.post('/', checkAuth, roleCreateValidation, RolesController.create);
  *         description: ID of the role
  *     responses:
  *       200:
- *         description: Role deleted successfully
+ *         description: Team member deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TeamMemberRole'
  *       404:
  *         description: Role not found
  *       401:
  *         description: Unauthorized
  *       500:
- *         description: Internal Server Error
+ *         description: Can't remove role card
  */
 router.delete('/:id', checkAuth, RolesController.removeOneById);
 
@@ -122,10 +169,14 @@ router.delete('/:id', checkAuth, RolesController.removeOneById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/RoleInput'
+ *             $ref: '#/components/schemas/TeamMemberRole'
  *     responses:
  *       200:
- *         description: Role updated successfully
+ *         description: Team member role updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/TeamMemberRole'
  *       400:
  *         description: Invalid request body
  *       401:
@@ -133,7 +184,7 @@ router.delete('/:id', checkAuth, RolesController.removeOneById);
  *       404:
  *         description: Role not found
  *       500:
- *         description: Internal Server Error
+ *         description: Can't update role
  */
 router.patch(
 	'/:id',

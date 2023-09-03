@@ -70,7 +70,7 @@ export const getOneById = async (req: Request, res: Response) => {
 		res.json(role);
 	} catch (error) {
 		console.log(error);
-		res.status(404).json({ message: `Can't get role`, error });
+		res.status(404).json({ message: `Role not found`, error });
 	}
 };
 

@@ -85,7 +85,6 @@ router.get('/', TeamMembersController.search);
  *               $ref: '#/components/schemas/TeamMember'
  *       404:
  *         description: Member not found
-
  */
 router.get('/:id', TeamMembersController.getOneById);
 
