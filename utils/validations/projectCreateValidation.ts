@@ -63,12 +63,15 @@ export const projectCreateValidation = [
 	body()
 		.optional()
 		.custom((_, { req }) => {
-			if (req.file)
+			if (req.file) {
 				return fileValidation(
 					req.file,
 					SETTINGS.fileSizeLimits.projectCard,
 					'image'
 				);
+			} else {
+				return true;
+			}
 		}),
 	(req: Request, res: Response, next: () => void) => {
 		const errors = validationResult(req);
