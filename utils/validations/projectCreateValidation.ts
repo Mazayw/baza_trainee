@@ -52,7 +52,11 @@ export const projectCreateValidation = [
 		.custom((value) => {
 			if (Array.isArray(value)) {
 				for (const member of value) {
-					if (typeof member !== 'object' || !member.userId || !member.roleId) {
+					if (
+						typeof member !== 'object' ||
+						!member.teamMember ||
+						!member.teamMemberRole
+					) {
 						throw new Error('Invalid team member object');
 					}
 				}
