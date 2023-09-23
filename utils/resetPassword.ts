@@ -34,11 +34,11 @@ export const requestPasswordReset = async (email: string) => {
 };
 
 export const resetPassword = async (
-	userId: string,
+	userEmail: string,
 	token: string,
 	password: string
 ) => {
-	const passwordResetToken = await TokenModel.findOne({ userId });
+	const passwordResetToken = await TokenModel.findOne({ userEmail });
 	if (!passwordResetToken) {
 		throw new Error('Invalid or expired password reset token');
 	}
@@ -48,11 +48,11 @@ export const resetPassword = async (
 	}
 	const hash = await bcrypt.hash(password, Number(bcryptSalt));
 	await UserModel.updateOne(
-		{ _id: userId },
+		{ email: userEmail },
 		{ $set: { password: hash } },
 		{ new: true }
 	);
-	const user = await UserModel.findById({ _id: userId });
+	const user = await UserModel.findOne({ email: userEmail });
 	if (user) {
 		sendEmail(
 			user.email,

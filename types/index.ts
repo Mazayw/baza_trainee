@@ -23,7 +23,7 @@ export interface IUser extends IDocumentResult<IUser> {
 }
 
 export interface IToken extends IDocumentResult<IToken> {
-	userId: Types.ObjectId;
+	userEmail: string;
 	token: string;
 	createdAt: Date;
 }

@@ -4,6 +4,7 @@ import UserModel from '../models/Users.js';
 import { Request, Response } from 'express';
 import { IAuthenticatedRequest } from '../types/index.js';
 import { generateToken } from '../utils/tokenHandling.js';
+import { requestPasswordReset, resetPassword } from '../utils/resetPassword.js';
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password, name } = req.body;
@@ -75,4 +76,23 @@ export const getUserInfo = async (
 		console.log(error);
 		res.status(500).json({ message: `Access denied`, error });
 	}
+};
+
+export const resetPasswordRequestController = async (
+	req: Request,
+	res: Response
+) => {
+	const requestPasswordResetService = await requestPasswordReset(
+		req.body.email
+	);
+	return res.json(requestPasswordResetService);
+};
+
+export const resetPasswordController = async (req: Request, res: Response) => {
+	const resetPasswordService = await resetPassword(
+		req.body.userId,
+		req.body.token,
+		req.body.password
+	);
+	return res.json(resetPasswordService);
 };

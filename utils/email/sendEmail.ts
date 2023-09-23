@@ -2,7 +2,6 @@ import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
 import fs from 'fs';
 import path from 'path';
-import { Response } from 'express';
 
 type TPayload = {
 	name: string;
@@ -17,11 +16,10 @@ export const sendEmail = async (
 ) => {
 	try {
 		const transporter = nodemailer.createTransport({
-			host: process.env.EMAIL_HOST,
-			port: 465,
+			service: 'gmail',
 			auth: {
 				user: process.env.EMAIL_USERNAME,
-				pass: process.env.EMAIL_PASSWORD, // naturally, replace both with your real credentials or an application-specific password
+				pass: process.env.EMAIL_PASSWORD,
 			},
 		});
 
@@ -36,8 +34,7 @@ export const sendEmail = async (
 			};
 		};
 
-		// Send email
-		transporter.sendMail(options(), (error, info) => {
+		transporter.sendMail(options(), (error, _info) => {
 			if (error) {
 				return error;
 			} else {
@@ -50,13 +47,3 @@ export const sendEmail = async (
 		return error;
 	}
 };
-
-/*
-Example:
-sendEmail(
-  "youremail@gmail.com,
-  "Email subject",
-  { name: "Eze" },
-  "./templates/layouts/main.handlebars"
-);
-*/
