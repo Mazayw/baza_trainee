@@ -23,6 +23,9 @@
 
 import mongoose from 'mongoose';
 import { IUser } from '../types';
+import bcrypt from 'bcrypt';
+
+const bcryptSalt = process.env.BCRYPT_SALT || 10;
 
 const UserSchema = new mongoose.Schema<IUser>({
 	name: { type: String, required: true },
@@ -35,6 +38,15 @@ const UserSchema = new mongoose.Schema<IUser>({
 		type: String,
 		required: true,
 	},
+});
+
+UserSchema.pre('save', async function (next) {
+	if (!this.isModified('passwordHash')) {
+		return next();
+	}
+	const hash = await bcrypt.hash(this.passwordHash, Number(bcryptSalt));
+	this.passwordHash = hash;
+	next();
 });
 
 export default mongoose.model('Users', UserSchema);

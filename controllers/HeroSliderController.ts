@@ -1,7 +1,7 @@
+import { SETTINGS } from './../settings';
 import HeroSlider from '../models/HeroSlider.js';
 import { Request, Response } from 'express';
 import { mergeObjects } from '../utils/mergeObject.js';
-import { SETTINGS } from '../settings';
 import { deleteFile } from './fileUpload/disk-storage.js';
 import { getFilePath } from '../utils/getFilePath.js';
 
@@ -43,7 +43,14 @@ export const create = async (req: Request, res: Response) => {
 export const getAll = async (req: Request, res: Response) => {
 	try {
 		const allDocuments = await HeroSlider.find();
-		res.status(200).json(allDocuments);
+		//res.status(200).json(allDocuments);
+		res.status(200).json({
+			results: allDocuments,
+			info: {
+				totalSlides: allDocuments.length,
+				maxSlides: SETTINGS.maxNumberOfItems.heroSlider,
+			},
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: `Can't get hero slider items`, error });

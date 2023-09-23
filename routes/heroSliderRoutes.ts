@@ -27,9 +27,19 @@ const router = Router();
  *         content:
  *          application/json:
  *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/HeroSlider'
+ *              type: object
+ *              properties:
+ *                results:
+ *                  type: array
+ *                  items:
+ *                    $ref: '#/components/schemas/HeroSlider'
+ *                info:
+ *                  type: object
+ *                  properties:
+ *                    totalSlides:
+ *                      type: number
+ *                    maxSlides:
+ *                      type: number
  *       500:
  *         description: Internal Server Error
  */

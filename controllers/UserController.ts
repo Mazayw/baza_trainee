@@ -13,13 +13,10 @@ export const register = async (req: Request, res: Response) => {
 			return res.status(400).json(errors.array());
 		}
 
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(password, salt);
-
 		const doc = new UserModel({
 			email,
 			name,
-			passwordHash: hash,
+			passwordHash: password,
 		});
 
 		const user = await doc.save();
