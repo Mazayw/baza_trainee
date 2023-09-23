@@ -22,6 +22,12 @@ export interface IUser extends IDocumentResult<IUser> {
 	passwordHash: string;
 }
 
+export interface IToken extends IDocumentResult<IToken> {
+	userId: Types.ObjectId;
+	token: string;
+	createdAt: Date;
+}
+
 export interface ITestimonial extends IDocumentResult<ITestimonial> {
 	name: ILanguageSelector;
 	review: ILanguageSelector;
