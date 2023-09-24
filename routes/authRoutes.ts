@@ -92,6 +92,37 @@ router.post(
 	UserController.resetPasswordRequestController
 );
 
+/**
+ * @openapi
+ * /auth/requestReset:
+ *   post:
+ *     summary: User login
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               token:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             example:
+ *               userId: 650fec0015d612e0367f5ba6
+ *               token: 30bcd9a93cfb9adb67eca05f106251f0567fd65556a2dc1f20f51a17a07582f1
+ *               password: 1234567890
+ *     responses:
+ *       200:
+ *         description: Request sent
+ *       404:
+ *         description: Bad Request - Invalid request body
+ *       500:
+ *         description: Server Error
+ */
 router.post(
 	'/passwordReset',
 	//loginValidation,
