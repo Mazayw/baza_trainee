@@ -38,13 +38,10 @@ export const sendEmail = async (
 				html: compiledTemplate(payload),
 			};
 		};
-		console.log(compiledTemplate);
 		transporter.sendMail(options(), (error, _info) => {
 			if (error) {
-				console.log('error');
 				return error;
 			} else {
-				console.log('transporter');
 				return {
 					success: true,
 				};

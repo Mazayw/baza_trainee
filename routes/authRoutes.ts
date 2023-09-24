@@ -60,10 +60,10 @@ router.get('/user', checkAuth, UserController.getUserInfo);
  */
 router.post('/login', loginValidation, UserController.login);
 
-router.post('/requestreset', UserController.resetPasswordRequestController);
+router.post('/requestReset', UserController.resetPasswordRequestController);
 
 router.post(
-	'/resetpassword',
+	'/passwordReset',
 	//loginValidation,
 	UserController.resetPasswordController
 );

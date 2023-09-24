@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import { sendEmail } from '../utils/email/sendEmail';
 
-const clientURL = 'https://baza-trainee.tech/api/v1';
+const clientURL = 'https://baza-trainee.tech';
 
 const bcryptSalt = process.env.BCRYPT_SALT || 10;
 
@@ -18,7 +18,7 @@ export const requestPasswordReset = async (email: string) => {
 	const hash = await bcrypt.hash(resetToken, Number(bcryptSalt));
 
 	await new TokenModel({
-		userEmail: user.email,
+		userId: user._id,
 		token: hash,
 		createdAt: Date.now(),
 	}).save();

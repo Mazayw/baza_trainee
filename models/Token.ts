@@ -25,9 +25,10 @@ import mongoose from 'mongoose';
 import { IToken } from '../types';
 
 const TokenSchema = new mongoose.Schema<IToken>({
-	userEmail: {
-		type: String,
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
 		required: true,
+		ref: 'user',
 	},
 	token: {
 		type: String,
