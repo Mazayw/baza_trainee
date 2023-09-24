@@ -106,3 +106,28 @@ export const resetPasswordController = async (req: Request, res: Response) => {
 		res.status(500).json({ message: 'Server Error', error });
 	}
 };
+
+export const changePassword = async (req: Request, res: Response) => {
+	try {
+		const { email, oldPassword, newPassword } = req.body;
+		const user = await UserModel.findOne({ email });
+		if (user) {
+			const isValid = await bcrypt.compare(oldPassword, user?.passwordHash);
+			if (isValid) {
+				const user = await UserModel.findOneAndUpdate(
+					{ email: email },
+					{ $set: { password: newPassword } },
+					{ new: true }
+				);
+				return res.status(200).json({ message: 'Password updated', user });
+			} else {
+				return res.status(403).json({ message: 'Wrong password' });
+			}
+		} else {
+			return res.status(404).json({ message: 'There is no such user' });
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Server Error', error });
+	}
+};
