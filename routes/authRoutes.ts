@@ -140,9 +140,11 @@ router.post(
 /**
  * @openapi
  * /auth/changePassword:
- *   post:
- *     summary: Password reset
+ *   patch:
+ *     summary: Change password
  *     tags: [User]
+ *     security:
+ *       - cookieAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -150,14 +152,11 @@ router.post(
  *           schema:
  *             type: object
  *             properties:
- *               email:
- *                 type: string
  *               oldPassword:
  *                 type: string
  *               newPassword:
  *                 type: string
  *             example:
- *               email: some@mail.com
  *               oldPassword: 123456
  *               newPassword: 654321
  *     responses:
@@ -172,6 +171,7 @@ router.post(
  */
 router.patch(
 	'/changePassword',
+	checkAuth,
 	changePasswordValidation,
 	UserController.changePassword
 );

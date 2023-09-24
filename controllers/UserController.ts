@@ -6,8 +6,11 @@ import { IAuthenticatedRequest } from '../types/index.js';
 import { generateToken } from '../utils/tokenHandling.js';
 import { requestPasswordReset, resetPassword } from '../utils/resetPassword.js';
 
+const bcryptSalt = process.env.BCRYPT_SALT || 10;
+
 export const register = async (req: Request, res: Response) => {
 	const { email, password, name } = req.body;
+	const hash = await bcrypt.hash(password, Number(bcryptSalt));
 	try {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
@@ -17,7 +20,7 @@ export const register = async (req: Request, res: Response) => {
 		const doc = new UserModel({
 			email,
 			name,
-			passwordHash: password,
+			passwordHash: hash,
 		});
 
 		const user = await doc.save();
@@ -114,18 +117,20 @@ export const changePassword = async (
 	res: Response
 ) => {
 	try {
-		const { email, oldPassword, newPassword } = req.body;
-		const user = await UserModel.findOne({ email });
+		const id = req.userId;
+		const { oldPassword, newPassword } = req.body;
+		const hash = await bcrypt.hash(newPassword, Number(bcryptSalt));
+		const user = await UserModel.findById(id);
 		if (user) {
-			const isValid = await bcrypt.compare(oldPassword, user?.passwordHash);
+			const isValid = await bcrypt.compare(oldPassword, user.passwordHash);
 			if (isValid) {
-				const user = await UserModel.findByIdAndUpdate(
-					req.userId,
-					{ password: newPassword },
+				const newUser = await UserModel.findByIdAndUpdate(
+					id,
+					{ $set: { passwordHash: hash } },
 					{ new: true }
 				);
 
-				return res.status(200).json({ message: 'Password updated', user });
+				return res.status(200).json({ message: 'Password updated', newUser });
 			} else {
 				return res.status(400).json({ message: 'Wrong password' });
 			}

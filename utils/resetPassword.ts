@@ -50,7 +50,7 @@ export const resetPassword = async (
 		const hash = await bcrypt.hash(password, Number(bcryptSalt));
 		await UserModel.updateOne(
 			{ _id: userId },
-			{ $set: { password: hash } },
+			{ $set: { passwordHash: hash } },
 			{ new: true }
 		);
 		const user = await UserModel.findOne({ _id: userId });
