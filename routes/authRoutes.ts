@@ -5,6 +5,7 @@ import checkAuth from '../utils/checkAuth.js';
 import { SETTINGS } from '../settings';
 import { loginValidation } from '../utils/validations/loginValidation.js';
 import { registerValidation } from '../utils/validations/registerValidation.js';
+import { passwordResetRequestValidation } from '../utils/validations/passwordResetRequestValidation.js';
 
 /**
  * @openapi
@@ -60,7 +61,36 @@ router.get('/user', checkAuth, UserController.getUserInfo);
  */
 router.post('/login', loginValidation, UserController.login);
 
-router.post('/requestReset', UserController.resetPasswordRequestController);
+/**
+ * @openapi
+ * /auth/requestReset:
+ *   post:
+ *     summary: User login
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *             example:
+ *               email: user@example.com
+ *     responses:
+ *       200:
+ *         description: Request sent
+ *       404:
+ *         description: Bad Request - Invalid request body
+ *       500:
+ *         description: Server Error
+ */
+router.post(
+	'/requestReset',
+	passwordResetRequestValidation,
+	UserController.resetPasswordRequestController
+);
 
 router.post(
 	'/passwordReset',
