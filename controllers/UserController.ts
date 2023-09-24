@@ -82,17 +82,27 @@ export const resetPasswordRequestController = async (
 	req: Request,
 	res: Response
 ) => {
-	const requestPasswordResetService = await requestPasswordReset(
-		req.body.email
-	);
-	return res.json(requestPasswordResetService);
+	try {
+		const requestPasswordResetService = await requestPasswordReset(
+			req.body.email
+		);
+		return res.json(requestPasswordResetService);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Server Error', error });
+	}
 };
 
 export const resetPasswordController = async (req: Request, res: Response) => {
-	const resetPasswordService = await resetPassword(
-		req.body.userId,
-		req.body.token,
-		req.body.password
-	);
-	return res.json(resetPasswordService);
+	try {
+		const resetPasswordService = await resetPassword(
+			req.body.userId,
+			req.body.token,
+			req.body.password
+		);
+		return res.json(resetPasswordService);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Server Error', error });
+	}
 };
