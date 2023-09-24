@@ -64,9 +64,9 @@ router.post('/login', loginValidation, UserController.login);
 
 /**
  * @openapi
- * /auth/requestReset:
+ * /auth/passwordRequestReset:
  *   post:
- *     summary: User login
+ *     summary: Request password reset
  *     tags: [User]
  *     requestBody:
  *       required: true
@@ -81,23 +81,29 @@ router.post('/login', loginValidation, UserController.login);
  *               email: user@example.com
  *     responses:
  *       200:
- *         description: Request sent
+ *         description: Success
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: string
+ *            example:
+ *               https://baza-trainee.tech/passwordReset?token=0d4edd6644700fcb2a84d2b597d3413b819cae2631acbfed424a35dac4ef260e&id=650fec0015d612e0367f5ba6
  *       404:
  *         description: Bad Request - Invalid request body
  *       500:
  *         description: Server Error
  */
 router.post(
-	'/requestReset',
+	'/passwordRequestReset',
 	passwordResetRequestValidation,
 	UserController.resetPasswordRequestController
 );
 
 /**
  * @openapi
- * /auth/requestReset:
+ * /auth/passwordReset:
  *   post:
- *     summary: User login
+ *     summary: Password reset
  *     tags: [User]
  *     requestBody:
  *       required: true
