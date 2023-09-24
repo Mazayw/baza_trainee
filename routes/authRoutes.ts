@@ -60,6 +60,14 @@ router.get('/user', checkAuth, UserController.getUserInfo);
  */
 router.post('/login', loginValidation, UserController.login);
 
+router.post('/requestreset', UserController.resetPasswordRequestController);
+
+router.post(
+	'/resetpassword',
+	//loginValidation,
+	UserController.resetPasswordController
+);
+
 if (SETTINGS.allowUserRegistration) {
 	/**
 	 * @openapi

@@ -18,7 +18,7 @@ export const requestPasswordReset = async (email: string) => {
 	const hash = await bcrypt.hash(resetToken, Number(bcryptSalt));
 
 	await new TokenModel({
-		userId: user._id,
+		userEmail: user.email,
 		token: hash,
 		createdAt: Date.now(),
 	}).save();
@@ -28,7 +28,7 @@ export const requestPasswordReset = async (email: string) => {
 		user.email,
 		'Password Reset Request',
 		{ name: user.name, link: link },
-		'./template/requestResetPassword.handlebars'
+		'request'
 	);
 	return link;
 };
@@ -60,7 +60,7 @@ export const resetPassword = async (
 			{
 				name: user.name,
 			},
-			'./template/resetPassword.handlebars'
+			'reset'
 		);
 	}
 

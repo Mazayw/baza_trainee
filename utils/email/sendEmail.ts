@@ -1,7 +1,9 @@
 import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
-import fs from 'fs';
-import path from 'path';
+import {
+	requestResetPasswordTemplate,
+	resetPasswordTemplate,
+} from './templates';
 
 type TPayload = {
 	name: string;
@@ -12,7 +14,7 @@ export const sendEmail = async (
 	email: string,
 	subject: string,
 	payload: TPayload,
-	template: string
+	template: 'reset' | 'request'
 ) => {
 	try {
 		const transporter = nodemailer.createTransport({
@@ -22,8 +24,11 @@ export const sendEmail = async (
 				pass: process.env.EMAIL_PASSWORD,
 			},
 		});
+		const source =
+			template === 'request'
+				? requestResetPasswordTemplate
+				: resetPasswordTemplate;
 
-		const source = fs.readFileSync(path.join(__dirname, template), 'utf8');
 		const compiledTemplate = handlebars.compile(source);
 		const options = () => {
 			return {
@@ -33,11 +38,13 @@ export const sendEmail = async (
 				html: compiledTemplate(payload),
 			};
 		};
-
+		console.log(compiledTemplate);
 		transporter.sendMail(options(), (error, _info) => {
 			if (error) {
+				console.log('error');
 				return error;
 			} else {
+				console.log('transporter');
 				return {
 					success: true,
 				};
