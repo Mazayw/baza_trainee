@@ -6,6 +6,7 @@ import { SETTINGS } from '../settings';
 import { loginValidation } from '../utils/validations/loginValidation.js';
 import { registerValidation } from '../utils/validations/registerValidation.js';
 import { passwordResetRequestValidation } from '../utils/validations/passwordResetRequestValidation.js';
+import { resetPasswordValidation } from '../utils/validations/resetPasswordValidation.js';
 
 /**
  * @openapi
@@ -117,7 +118,7 @@ router.post(
  *               password: 1234567890
  *     responses:
  *       200:
- *         description: Request sent
+ *         description: Password changed
  *       404:
  *         description: Bad Request - Invalid request body
  *       500:
@@ -125,7 +126,7 @@ router.post(
  */
 router.post(
 	'/passwordReset',
-	//loginValidation,
+	resetPasswordValidation,
 	UserController.resetPasswordController
 );
 
