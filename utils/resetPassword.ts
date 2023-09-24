@@ -23,7 +23,7 @@ export const requestPasswordReset = async (email: string) => {
 		createdAt: Date.now(),
 	}).save();
 
-	const link = `${clientURL}/passwordReset?token=${resetToken}&id=${user._id}`;
+	const link = `${clientURL}/passwordReset?token=${resetToken}&userId=${user._id}`;
 	sendEmail(
 		user.email,
 		'Password Reset Request',
@@ -34,36 +34,39 @@ export const requestPasswordReset = async (email: string) => {
 };
 
 export const resetPassword = async (
-	userEmail: string,
+	userId: string,
 	token: string,
 	password: string
 ) => {
-	const passwordResetToken = await TokenModel.findOne({ userEmail });
-	if (!passwordResetToken) {
-		throw new Error('Invalid or expired password reset token');
-	}
-	const isValid = await bcrypt.compare(token, passwordResetToken.token);
-	if (!isValid) {
-		throw new Error('Invalid or expired password reset token');
-	}
-	const hash = await bcrypt.hash(password, Number(bcryptSalt));
-	await UserModel.updateOne(
-		{ email: userEmail },
-		{ $set: { password: hash } },
-		{ new: true }
-	);
-	const user = await UserModel.findOne({ email: userEmail });
-	if (user) {
-		sendEmail(
-			user.email,
-			'Password Reset Successfully',
-			{
-				name: user.name,
-			},
-			'reset'
+	try {
+		const passwordResetToken = await TokenModel.findOne({ userId });
+		if (!passwordResetToken) {
+			return { message: 'Invalid or expired password reset token', code: 400 };
+		}
+		const isValid = await bcrypt.compare(token, passwordResetToken.token);
+		if (!isValid) {
+			return { message: 'Invalid or expired password reset token', code: 400 };
+		}
+		const hash = await bcrypt.hash(password, Number(bcryptSalt));
+		await UserModel.updateOne(
+			{ _id: userId },
+			{ $set: { password: hash } },
+			{ new: true }
 		);
+		const user = await UserModel.findOne({ _id: userId });
+		if (user) {
+			sendEmail(
+				user.email,
+				'Password Reset Successfully',
+				{
+					name: user.name,
+				},
+				'reset'
+			);
+		}
+		await passwordResetToken.deleteOne();
+		return { message: 'Password changed', code: 200 };
+	} catch (error) {
+		return { message: error, code: 500 };
 	}
-
-	await passwordResetToken.deleteOne();
-	return true;
 };

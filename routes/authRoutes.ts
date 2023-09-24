@@ -7,6 +7,7 @@ import { loginValidation } from '../utils/validations/loginValidation.js';
 import { registerValidation } from '../utils/validations/registerValidation.js';
 import { passwordResetRequestValidation } from '../utils/validations/passwordResetRequestValidation.js';
 import { resetPasswordValidation } from '../utils/validations/resetPasswordValidation.js';
+import { changePasswordValidation } from '../utils/validations/changePasswordValidation.js';
 
 /**
  * @openapi
@@ -134,6 +135,45 @@ router.post(
 	'/passwordReset',
 	resetPasswordValidation,
 	UserController.resetPasswordController
+);
+
+/**
+ * @openapi
+ * /auth/changePassword:
+ *   post:
+ *     summary: Password reset
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               oldPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *             example:
+ *               email: some@mail.com
+ *               oldPassword: 123456
+ *               newPassword: 654321
+ *     responses:
+ *       200:
+ *         description: Password updated
+ *       400:
+ *         description: Wrong old password or validation errors
+ *       404:
+ *         description: There is no such user
+ *       500:
+ *         description: Server Error
+ */
+router.patch(
+	'/changePassword',
+	changePasswordValidation,
+	UserController.changePassword
 );
 
 if (SETTINGS.allowUserRegistration) {

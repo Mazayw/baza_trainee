@@ -100,28 +100,34 @@ export const resetPasswordController = async (req: Request, res: Response) => {
 			req.body.token,
 			req.body.password
 		);
-		return res.json(resetPasswordService);
+		return res
+			.status(resetPasswordService.code)
+			.json(resetPasswordService.message);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: 'Server Error', error });
 	}
 };
 
-export const changePassword = async (req: Request, res: Response) => {
+export const changePassword = async (
+	req: IAuthenticatedRequest,
+	res: Response
+) => {
 	try {
 		const { email, oldPassword, newPassword } = req.body;
 		const user = await UserModel.findOne({ email });
 		if (user) {
 			const isValid = await bcrypt.compare(oldPassword, user?.passwordHash);
 			if (isValid) {
-				const user = await UserModel.findOneAndUpdate(
-					{ email: email },
-					{ $set: { password: newPassword } },
+				const user = await UserModel.findByIdAndUpdate(
+					req.userId,
+					{ password: newPassword },
 					{ new: true }
 				);
+
 				return res.status(200).json({ message: 'Password updated', user });
 			} else {
-				return res.status(403).json({ message: 'Wrong password' });
+				return res.status(400).json({ message: 'Wrong password' });
 			}
 		} else {
 			return res.status(404).json({ message: 'There is no such user' });
