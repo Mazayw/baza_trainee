@@ -1,9 +1,10 @@
-import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
 import {
 	requestResetPasswordTemplate,
 	resetPasswordTemplate,
 } from './templates';
+import sgMail from '@sendgrid/mail';
+sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
 type TPayload = {
 	name: string;
@@ -17,36 +18,32 @@ export const sendEmail = async (
 	template: 'reset' | 'request'
 ) => {
 	try {
-		const transporter = nodemailer.createTransport({
-			service: 'gmail',
-			auth: {
-				user: process.env.EMAIL_USERNAME,
-				pass: process.env.EMAIL_PASSWORD,
-			},
-		});
 		const source =
 			template === 'request'
 				? requestResetPasswordTemplate
 				: resetPasswordTemplate;
 
 		const compiledTemplate = handlebars.compile(source);
-		const options = () => {
-			return {
-				from: process.env.FROM_EMAIL,
-				to: email,
-				subject: subject,
-				html: compiledTemplate(payload),
-			};
+
+		const msg = {
+			to: email,
+			from: process.env.FROM_EMAIL || '',
+			subject: subject,
+			html: compiledTemplate(payload),
 		};
-		transporter.sendMail(options(), (error, _info) => {
-			if (error) {
-				return error;
-			} else {
-				return {
-					success: true,
-				};
-			}
-		});
+
+		sgMail
+			.send(msg)
+			.then(() => {
+				console.log('Email sent');
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+
+		return {
+			success: true,
+		};
 	} catch (error) {
 		return error;
 	}
