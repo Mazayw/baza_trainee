@@ -11,7 +11,7 @@ const bcryptSalt = process.env.BCRYPT_SALT || 10;
 export const requestPasswordReset = async (email: string) => {
 	const user = await UserModel.findOne({ email });
 
-	if (!user) throw new Error('User does not exist');
+	if (!user) return { message: 'Email sent' };
 	const token = await TokenModel.findOne({ userId: user._id });
 	if (token) await token.deleteOne();
 	const resetToken = crypto.randomBytes(32).toString('hex');
@@ -30,7 +30,7 @@ export const requestPasswordReset = async (email: string) => {
 		{ name: user.name, link: link },
 		'request'
 	);
-	return link;
+	return { message: 'Email sent' };
 };
 
 export const resetPassword = async (
