@@ -159,7 +159,7 @@ router.delete('/:id', checkAuth, ProjectsController.removeOneById);
 /**
  * @swagger
  * /projects/{id}:
- *   patch:
+ *   put:
  *     summary: Update a project by ID
  *     tags: [Projects]
  *     security:
@@ -191,7 +191,7 @@ router.delete('/:id', checkAuth, ProjectsController.removeOneById);
  *       500:
  *         description: Can't update project
  */
-router.patch(
+router.put(
 	'/:id',
 	checkAuth,
 	uploadWithFileSizeValidation('single'),

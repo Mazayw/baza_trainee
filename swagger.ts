@@ -12,7 +12,7 @@ const options = {
 				name: 'Ihor',
 				Discord: '@Mazayw#8624',
 			},
-			version: '240923',
+			version: '290923',
 		},
 		components: {
 			securitySchemes: {

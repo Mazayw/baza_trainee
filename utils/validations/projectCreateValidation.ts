@@ -7,21 +7,21 @@ import { deleteFile } from '../../controllers/fileUpload/disk-storage';
 
 export const projectCreateValidation = [
 	body('title.en')
-		.optional()
+		//.optional()
 		.isString()
 		.isLength({ min: 5 })
 		.withMessage(
 			'The en title is incorrect, it must contain more than 5 characters'
 		),
 	body('title.pl')
-		.optional()
+		//.optional()
 		.isString()
 		.isLength({ min: 5 })
 		.withMessage(
 			'The pl title is incorrect, it must contain more than 5 characters'
 		),
 	body('title.ua')
-		.optional()
+		//.optional()
 		.isString()
 		.isLength({ min: 5 })
 		.withMessage(
@@ -31,24 +31,24 @@ export const projectCreateValidation = [
 		.optional()
 		.isURL({ require_tld: false, require_host: false }),
 	body('isTeamRequired')
-		.optional()
+		//.optional()
 		.isBoolean()
 		.withMessage('isTeamRequired must be a boolean'),
 	body('creationDate')
-		.optional()
+		//.optional()
 		.isNumeric()
 		.withMessage('Creation date must be a number'),
 	body('launchDate')
-		.optional()
+		//.optional()
 		.isNumeric()
 		.withMessage('Launch date must be a number'),
 	body('complexity')
-		.optional()
+		//.optional()
 		.isNumeric()
 		.withMessage('Complexity must be a number'),
 	body('teamMembers')
-		.optional()
-		.isArray({ min: 1 })
+		//.optional()
+		.isArray()
 		.custom((value) => {
 			if (Array.isArray(value)) {
 				for (const member of value) {

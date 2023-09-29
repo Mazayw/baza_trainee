@@ -139,17 +139,15 @@ export const removeOneById = async (req: Request, res: Response) => {
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const updates = req.file?.filename
-			? { ...req.body, imageUrl: req.file?.filename }
-			: req.body;
+		const updates = req.body;
 		const existingDocument = await ProjectModel.findById(id);
 
 		if (!existingDocument) {
 			return res.status(404).json({ message: 'Project not found' });
 		}
 
-		const updatedProject = mergeObjects(existingDocument._doc, updates);
-		await ProjectModel.findByIdAndUpdate(id, updatedProject, { new: true });
+		//const updatedProject = mergeObjects(existingDocument._doc, updates);
+		await ProjectModel.findByIdAndUpdate(id, updates, { new: true });
 
 		if (req.file?.location && existingDocument.imageUrl)
 			deleteFile(existingDocument.imageUrl);
@@ -165,7 +163,7 @@ export const updateOneById = async (req: Request, res: Response) => {
 			}
 		}*/
 
-		res.json(updatedProject);
+		res.json(updates);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: `Can't update project`, error });
