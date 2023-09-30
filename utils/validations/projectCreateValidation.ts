@@ -39,15 +39,19 @@ export const projectCreateValidation = [
 		.isNumeric()
 		.withMessage('Creation date must be a number'),
 	body('launchDate')
-		//.optional()
+		.optional()
 		.isNumeric()
 		.withMessage('Launch date must be a number'),
 	body('complexity')
 		//.optional()
 		.isNumeric()
 		.withMessage('Complexity must be a number'),
+	body('deployUrl')
+		.optional()
+		.isURL()
+		.withMessage('deployUrl should be an URL'),
 	body('teamMembers')
-		//.optional()
+		.optional()
 		.isArray()
 		.custom((value) => {
 			if (Array.isArray(value)) {

@@ -139,7 +139,9 @@ export const removeOneById = async (req: Request, res: Response) => {
 export const updateOneById = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const updates = req.body;
+		const updates = req.file?.filename
+			? { ...req.body, imageUrl: req.file?.filename }
+			: req.body;
 		const existingDocument = await ProjectModel.findById(id);
 
 		if (!existingDocument) {
