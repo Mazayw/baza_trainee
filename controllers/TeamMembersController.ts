@@ -7,7 +7,7 @@ export const create = async (req: Request, res: Response) => {
 	try {
 		const doc = new TeamMembers({
 			name,
-			profileUrl,
+			profileUrl: profileUrl || '',
 		});
 
 		const post = await doc.save();
