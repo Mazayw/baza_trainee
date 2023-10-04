@@ -9,23 +9,23 @@ export const TestimonialsValidation = [
 	body('name.en')
 		.optional()
 		.isString()
-		.isLength({ min: 5 })
+		.isLength({ min: 2 })
 		.withMessage(
-			'The en name is incorrect, it must contain more than 5 characters'
+			'The en name is incorrect, it must contain more than 2 characters'
 		),
 	body('name.pl')
 		.optional()
 		.isString()
-		.isLength({ min: 5 })
+		.isLength({ min: 2 })
 		.withMessage(
-			'The pl name is incorrect, it must contain more than 5 characters'
+			'The pl name is incorrect, it must contain more than 2 characters'
 		),
 	body('name.ua')
 		.optional()
 		.isString()
-		.isLength({ min: 5 })
+		.isLength({ min: 2 })
 		.withMessage(
-			'The ua name is incorrect, it must contain more than 5 characters'
+			'The ua name is incorrect, it must contain more than 2 characters'
 		),
 	body('review.en')
 		.optional()
