@@ -95,9 +95,9 @@ router.post('/login', loginValidation, UserController.login);
  *         description: Server Error
  */
 router.post(
-	'/passwordRequestReset',
-	passwordResetRequestValidation,
-	UserController.resetPasswordRequestController
+  '/passwordRequestReset',
+  passwordResetRequestValidation,
+  UserController.resetPasswordRequestController
 );
 
 /**
@@ -132,9 +132,9 @@ router.post(
  *         description: Server Error
  */
 router.post(
-	'/passwordReset',
-	resetPasswordValidation,
-	UserController.resetPasswordController
+  '/passwordReset',
+  resetPasswordValidation,
+  UserController.resetPasswordController
 );
 
 /**
@@ -170,46 +170,45 @@ router.post(
  *         description: Server Error
  */
 router.patch(
-	'/changePassword',
-	checkAuth,
-	changePasswordValidation,
-	UserController.changePassword
+  '/changePassword',
+  checkAuth,
+  changePasswordValidation,
+  UserController.changePassword
 );
 
 if (SETTINGS.allowUserRegistration) {
-	/**
-	 * @openapi
-	 * /auth/register:
-	 *   post:
-	 *     summary: User registration
-	 *     tags: [User]
-	 *     requestBody:
-	 *       required: true
-	 *       content:
-	 *         application/json:
-	 *           schema:
-	 *             type: object
-	 *             properties:
-	 *               email:
-	 *                 type: string
-	 *               password:
-	 *                 type: string
-	 *               name:
-	 *                 type: string
-	 *             example:
-	 *               email: user@example.com
-	 *               password: password123
-	 *               name: John
-	 *     responses:
-	 *       201:
-	 *         description: User registered successfully
-	 *       400:
-	 *         description: Bad Request - Invalid request body
-	 *       500:
-	 *         description: Server Error
-	 */
-
-	router.post('/register', registerValidation, UserController.register);
+  /**
+   * @openapi
+   * /auth/register:
+   *   post:
+   *     summary: User registration
+   *     tags: [User]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *               name:
+   *                 type: string
+   *             example:
+   *               email: user@example.com
+   *               password: password123
+   *               name: John
+   *     responses:
+   *       201:
+   *         description: User registered successfully
+   *       400:
+   *         description: Bad Request - Invalid request body
+   *       500:
+   *         description: Server Error
+   */
+  router.post('/register', registerValidation, UserController.register);
 }
 
 export default router;

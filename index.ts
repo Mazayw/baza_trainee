@@ -20,6 +20,7 @@ import heroSliderRoutes from './routes/heroSliderRoutes.js';
 import docsRoutes from './routes/docsRoutes.js';
 import paymentsRoutes from './routes/paymentsRoutes.js';
 import translationRoutes from './routes/translationRoutes.js';
+import feedbackRouter from './routes/feedbackRouter.js';
 import { SETTINGS } from './settings.js';
 
 config();
@@ -28,19 +29,19 @@ const { PORT, DB_STRING, DB_NAME } = process.env;
 
 const dbURL = DB_STRING || '';
 const dbOptions = {
-	dbName: DB_NAME || 'baza',
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
+  dbName: DB_NAME || 'baza',
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 };
 
 mongoose
-	.connect(dbURL, dbOptions)
-	.then(() => {
-		console.log('Connected to MongoDB');
-	})
-	.catch((error) => {
-		console.error('Error connecting to MongoDB:', error);
-	});
+  .connect(dbURL, dbOptions)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
 
 const app = express();
 app.use(cookieParser());
@@ -50,7 +51,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/api/v1', (req, res) => {
-	res.send(`Wow! It works! Server running on port ${port}`);
+  res.send(`Wow! It works! Server running on port ${port}`);
 });
 
 app.use('/api/v1/auth', authRoutes);
@@ -66,13 +67,14 @@ app.use('/api/v1/heroslider', heroSliderRoutes);
 app.use('/api/v1/documents', docsRoutes);
 app.use('/api/v1/payment', paymentsRoutes);
 app.use('/api/v1/translation', translationRoutes);
+app.use('/api/v1/feedback', feedbackRouter);
 
 const port: number = PORT ? parseInt(PORT) : 3001;
 
 app.listen(port, (error?: Error) => {
-	if (error) {
-		return console.log('Something went wrong', error);
-	}
-	console.log(`Server started on port ${port}. V.${SETTINGS.version}`);
+  if (error) {
+    return console.log('Something went wrong', error);
+  }
+  console.log(`Server started on port ${port}. V.${SETTINGS.version}`);
 });
 swaggerDocs(app, port);
