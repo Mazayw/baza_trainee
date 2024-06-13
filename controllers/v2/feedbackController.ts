@@ -5,6 +5,7 @@ export const sendFeedback = async (req: Request, res: Response) => {
   try {
     const sendEmailDTO = req.body;
     const text = `New message from baza-trainee feedback form
+name : ${sendEmailDTO.name}
 email: ${sendEmailDTO.email}
 text : ${sendEmailDTO.text}
 `;
