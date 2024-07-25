@@ -7,10 +7,9 @@ export default (
 	res: Response,
 	next: () => void
 ) => {
-	const token = req.cookies.token;
 
-	//const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
-
+	const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
+	
 	if (token) {
 		try {
 			const decoded = verifyToken(token);
