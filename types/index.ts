@@ -129,3 +129,11 @@ export interface IHeroSlider extends IDocumentResult<IHeroSlider> {
 	subtitle: ILanguageSelector;
 	imageUrl: string;
 }
+
+export interface IArticle {
+  img: string;
+  title: string;
+  description: string;
+  link: string;
+  date: number;
+}
