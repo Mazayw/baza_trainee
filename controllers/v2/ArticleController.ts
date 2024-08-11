@@ -13,14 +13,37 @@ export const createArticle = async (req: Request, res: Response) => {
 };
 
 export const getArticles = async (req: Request, res: Response) => {
-  try {
-    const data = await Article.find();
+  const { search, page, limit } = req.query;
 
-    if (!data) {
+  const searchQuery = new RegExp(search as string, "i");
+
+  const currentPage = parseInt(page as string) || 1;
+  const itemsPerPage = parseInt(limit as string) || 9;
+  const skip = (currentPage - 1) * itemsPerPage;
+
+  try {
+    const totalDocuments = await Article.countDocuments({
+      $or: [{ title: searchQuery }],
+    });
+
+    const data = await Article.find({
+      $or: [{ title: searchQuery }],
+    })
+      .skip(skip)
+      .limit(itemsPerPage)
+
+    if (!data.length) {
       res.status(404).json({ message: "Articles not found" });
     }
 
-    res.status(200).json(data);
+    res.status(200).json({
+      results: data,
+      pagination: {
+        currentPage,
+        totalPages: Math.ceil(totalDocuments / itemsPerPage),
+        totalResults: totalDocuments,
+      },
+    });
   } catch (error) {
     console.error("Error, can't get articles", error);
     res.status(500).json({
