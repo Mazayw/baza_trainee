@@ -12,7 +12,7 @@ import { IArticle } from "../types";
  *          - description
  *          - link
  *       properties:
- *         img:
+ *         imageUrl:
  *           type: string
  *           description: The image of the partner's article.
  *         title:
@@ -30,7 +30,7 @@ import { IArticle } from "../types";
  */
 
 const ArticleSchema = new Schema<IArticle>({
-  img: { type: String },
+  imageUrl: { type: String },
   title: { type: String, required: true },
   description: { type: String, required: true },
   link: { type: String, required: true },

@@ -130,8 +130,8 @@ export interface IHeroSlider extends IDocumentResult<IHeroSlider> {
 	imageUrl: string;
 }
 
-export interface IArticle {
-  img: string;
+export interface IArticle extends IDocumentResult<IArguments> {
+  imageUrl: string;
   title: string;
   description: string;
   link: string;
