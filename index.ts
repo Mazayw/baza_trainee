@@ -22,6 +22,7 @@ import paymentsRoutes from './routes/paymentsRoutes.js';
 import translationRoutes from './routes/translationRoutes.js';
 import feedbackRouter from './routes/feedbackRouter.js';
 import articlesRouter from './routes/v2/articleRouter.js'
+import blogRouter from './routes/v2/blogArticleRouter.js'
 import { SETTINGS } from './settings.js';
 
 config();
@@ -69,7 +70,9 @@ app.use('/api/v1/documents', docsRoutes);
 app.use('/api/v1/payment', paymentsRoutes);
 app.use('/api/v1/translation', translationRoutes);
 app.use('/api/v1/feedback', feedbackRouter);
-app.use('/api/v1/articles', articlesRouter )
+app.use('/api/v1/articles', articlesRouter);
+app.use("/api/v1/blog", blogRouter);
+
 const port: number = PORT ? parseInt(PORT) : 3001;
 
 app.listen(port, (error?: Error) => {

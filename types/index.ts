@@ -130,10 +130,17 @@ export interface IHeroSlider extends IDocumentResult<IHeroSlider> {
 	imageUrl: string;
 }
 
-export interface IArticle extends IDocumentResult<IArguments> {
+export interface IArticle extends IDocumentResult<IArticle> {
   imageUrl: string;
   title: string;
   description: string;
   link: string;
+  date: number;
+}
+
+export interface IBlogArticle extends IDocumentResult<IBlogArticle> {
+  imageUrl: string;
+  title: string;
+  text: string;
   date: number;
 }

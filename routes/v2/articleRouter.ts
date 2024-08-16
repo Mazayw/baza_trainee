@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as ArticleController from "../../controllers/v2/ArticleController";
 import { uploadWithFileSizeValidation } from "../../controllers/fileUpload";
 import checkAuth from "../../utils/checkAuth";
-import { articleValidation } from "../../utils/validations/articleValidation";
+import { articleValidation } from "../../utils/validations/v2/articleValidation";
 
 const router = Router();
 

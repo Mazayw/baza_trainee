@@ -1,11 +1,11 @@
 import { body, validationResult } from "express-validator";
 import { Request, Response } from "express";
-import { checkValidationError } from "./checkValidationError";
-import { fileValidation } from "./fileValidation";
-import { SETTINGS } from "../../settings";
-import { deleteFile } from "../../controllers/fileUpload/disk-storage";
+import { checkValidationError } from "../checkValidationError";
+import { fileValidation } from "../fileValidation";
+import { SETTINGS } from "../../../settings";
+import { deleteFile } from "../../../controllers/fileUpload/disk-storage";
 
-export const articleValidation = [
+export const blogArticleValidation = [
   body(
     "title",
     `The title is incorrect, it must contain more than 2 characters`
@@ -13,15 +13,11 @@ export const articleValidation = [
     .optional()
     .isString()
     .isLength({ min: 2 }),
-  body(
-    "description",
-    "Wrong description, it must contain more than 5 characters"
-  )
+  body("text", "Wrong text, it must contain more than 5 characters")
     .optional()
     .isString()
     .isLength({ min: 5 }),
   body("date", "Wrong date").optional(),
-  body("link", "Wrong link").optional(),
   body("imageUrl", "Wrong image url").optional().isString().isURL(),
   body()
     .optional()

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Article from "../../models/v2/Article";
+import BlogArticle from "../../models/v2/BlogArticle";
 import { getFilePath } from "../../utils/getFilePath";
 import { SETTINGS } from "../../settings";
 import { mergeObjects } from "../../utils/mergeObject";
@@ -11,7 +11,7 @@ export const createArticle = async (req: Request, res: Response) => {
       ? getFilePath(req) || req.body.image
       : getFilePath(req);
 
-    const article = new Article({
+    const article = new BlogArticle({
       ...req.body,
       imageUrl: image,
     });
@@ -34,11 +34,11 @@ export const getArticles = async (req: Request, res: Response) => {
   const skip = (currentPage - 1) * itemsPerPage;
 
   try {
-    const totalDocuments = await Article.countDocuments({
+    const totalDocuments = await BlogArticle.countDocuments({
       $or: [{ title: searchQuery }],
     });
 
-    const data = await Article.find({
+    const data = await BlogArticle.find({
       $or: [{ title: searchQuery }],
     })
       .skip(skip)
@@ -68,7 +68,7 @@ export const getArticleById = async (req: Request, res: Response) => {
   const { id: _id } = req.params;
 
   try {
-    const article = await Article.findById({ _id });
+    const article = await BlogArticle.findById({ _id });
 
     if (!article) {
       res.status(404).json({ message: "Article not found" });
@@ -89,16 +89,20 @@ export const updateArticle = async (req: Request, res: Response) => {
     const newDataArticle = req.file?.filename
       ? { ...req.body, imageUrl: req.file?.filename }
       : req.body;
-    const oldArticle = await Article.findById(id);
+    const oldArticle = await BlogArticle.findById(id);
 
     if (!oldArticle) {
       return res.status(404).json({ message: "Partner not found" });
     }
 
     const updatedFields = mergeObjects(oldArticle._doc, newDataArticle);
-    const updatedArticle = await Article.findByIdAndUpdate(id, updatedFields, {
-      new: true,
-    });
+    const updatedArticle = await BlogArticle.findByIdAndUpdate(
+      id,
+      updatedFields,
+      {
+        new: true,
+      }
+    );
 
     if (req.file?.filename && oldArticle?.imageUrl)
       deleteFile(oldArticle.imageUrl);
@@ -116,7 +120,7 @@ export const deleteArticleById = async (req: Request, res: Response) => {
   const { id: _id } = req.params;
 
   try {
-    const article = await Article.findByIdAndDelete({ _id });
+    const article = await BlogArticle.findByIdAndDelete({ _id });
 
     if (!article) {
       return res.status(404).json({ message: "Article not found" });
