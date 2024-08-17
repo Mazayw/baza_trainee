@@ -11,6 +11,7 @@ import { IArticle } from "../../types";
  *          - title
  *          - description
  *          - link
+ *          - imageUrl
  *       properties:
  *         imageUrl:
  *           type: string
@@ -27,6 +28,12 @@ import { IArticle } from "../../types";
  *         date:
  *           type: number
  *           description: Date
+ *       example:
+ *         title: example
+ *         description: Long text
+ *         link: https://example.com
+ *         date: 1669872000000
+ *         imageUrl: image.jpg
  */
 
 const ArticleSchema = new Schema<IArticle>({

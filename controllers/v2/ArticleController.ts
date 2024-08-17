@@ -45,7 +45,7 @@ export const getArticles = async (req: Request, res: Response) => {
       .limit(itemsPerPage);
 
     if (!data.length) {
-      res.status(404).json({ message: "Articles not found" });
+      return res.status(404).json({ message: "Articles not found" });
     }
 
     res.status(200).json({
@@ -71,7 +71,7 @@ export const getArticleById = async (req: Request, res: Response) => {
     const article = await Article.findById({ _id });
 
     if (!article) {
-      res.status(404).json({ message: "Article not found" });
+      return res.status(404).json({ message: "Article not found" });
     }
 
     res.json(article);
@@ -92,7 +92,7 @@ export const updateArticle = async (req: Request, res: Response) => {
     const oldArticle = await Article.findById(id);
 
     if (!oldArticle) {
-      return res.status(404).json({ message: "Partner not found" });
+      return res.status(404).json({ message: "Article not found" });
     }
 
     const updatedFields = mergeObjects(oldArticle._doc, newDataArticle);
@@ -123,7 +123,7 @@ export const deleteArticleById = async (req: Request, res: Response) => {
     }
     deleteFile(article.imageUrl);
 
-    res.json({ message: "Article deleted" });
+    res.json({ message: "Article deleted successfully" });
   } catch (error) {
     console.error("Error, can't delete an article", error);
     res.status(500).json({
