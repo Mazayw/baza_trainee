@@ -1,31 +1,52 @@
+
 /**
  * @swagger
  * components:
  *   schemas:
- *     BlogArticle:
+ *     BlogArticleResponse:
  *       type: object
  *       required:
- *          - title
- *          - text
- *          - imageUrl
+ *         - imageUrl
+ *         - title
+ *         - text
  *       properties:
- *         imageUrl:
+ *         text:
  *           type: string
- *           description: Image.
+ *           description: Long text.
  *         title:
  *           type: string
- *           description: An article title
- *         text:
- *            type: string
- *            description: A text article
- *         date:
+ *           description: An article's title.
+ *         imageUrl:
+ *           type: string
+ *           description: The URL of the partner's image.
+ *         date: 
  *           type: number
  *           description: Date
  *       example:
  *         title: example
  *         text: Long text
- *         date: 1669872000000
+ *         date: 888888444440 
  *         imageUrl: image.jpg
+ *     BlogArticleRequest:
+ *       type: object
+ *       required:
+ *         - title
+ *         - text  
+ *         - imageUrl
+ *       properties:
+ *         title:
+ *           type: string
+ *           description: Title.
+ *         text:
+ *           type: string
+ *           description: Long text.
+ *         date: 
+ *           type: number
+ *           description: 26589547600
+ *         file:
+ *           type: file
+ *           format: binary
+ *           description: image file (JPG, PNG, WEBP)
  */
 
 

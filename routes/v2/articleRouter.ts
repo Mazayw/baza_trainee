@@ -26,14 +26,14 @@ const router = Router();
  *       content:
  *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Articles'
+ *             $ref: '#/components/schemas/ArticleRequest'
  *     responses:
  *       201:
  *         description: An article created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Articles'
+ *               $ref: '#/components/schemas/ArticleResponse'
  *       400:
  *         description: Invalid request body
  *       401:
@@ -83,7 +83,7 @@ router.post(
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Articles'
+ *                 $ref: '#/components/schemas/ArticleResponse'
  *       500:
  *         description: An error occurred while getting data
  */
@@ -109,7 +109,7 @@ router.get('/', ArticleController.getArticles);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Articles'
+ *               $ref: '#/components/schemas/ArticleResponse'
  *       404:
  *         description: Article not found
  *       500:
@@ -168,14 +168,14 @@ router.delete("/:id", checkAuth, ArticleController.deleteArticleById);
  *       content:
  *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Articles'
+ *             $ref: '#/components/schemas/ArticleRequest'
  *     responses:
  *       200:
  *         description: Article updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Articles'
+ *               $ref: '#/components/schemas/ArticleResponse'
  *       401:
  *         description: Unauthorized
  *       404:

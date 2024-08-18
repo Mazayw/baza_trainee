@@ -17,7 +17,7 @@ export const blogArticleValidation = [
     .optional()
     .isString()
     .isLength({ min: 5 }),
-  body("date", "Wrong date").optional(),
+  body("date", "Wrong date").optional().isNumeric(),
   body("imageUrl", "Wrong image url").optional().isString().isURL(),
   body()
     .optional()

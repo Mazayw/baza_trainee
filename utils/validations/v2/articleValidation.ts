@@ -20,7 +20,7 @@ export const articleValidation = [
     .optional()
     .isString()
     .isLength({ min: 5 }),
-  body("date", "Wrong date").optional(),
+  body("date", "Wrong date, must be a number").optional().isNumeric(),
   body("link", "Wrong link").optional(),
   body("imageUrl", "Wrong image url").optional().isString().isURL(),
   body()
