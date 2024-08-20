@@ -1,3 +1,5 @@
+import { Schema, model } from "mongoose";
+import { IBlogArticle } from "../../types";
 
 /**
  * @swagger
@@ -48,11 +50,6 @@
  *           format: binary
  *           description: image file (JPG, PNG, WEBP)
  */
-
-
-import { Schema, model } from "mongoose";
-import { IBlogArticle } from "../../types";
-
 const BlogArticleSchema = new Schema<IBlogArticle>({
   title: { type: String, required: true },
   text: { type: String, required: true },

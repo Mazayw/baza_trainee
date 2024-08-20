@@ -41,7 +41,6 @@ const router = Router();
  *       500:
  *         description: Internal Server Error
  */
-
 router.post(
   "/",
   checkAuth,
@@ -87,7 +86,6 @@ router.post(
  *       500:
  *         description: An error occurred while getting data
  */
-
 router.get('/', ArticleController.getArticles);
 
 /**
@@ -115,7 +113,6 @@ router.get('/', ArticleController.getArticles);
  *       500:
  *         description: An error occurred while getting an article by id
  */
-
 router.get('/:id', ArticleController.getArticleById);
 
 
@@ -144,7 +141,6 @@ router.get('/:id', ArticleController.getArticleById);
  *       500:
  *         description: Can't delete an article
  */
-
 router.delete("/:id", checkAuth, ArticleController.deleteArticleById);
 
 
@@ -183,7 +179,6 @@ router.delete("/:id", checkAuth, ArticleController.deleteArticleById);
  *       500:
  *         description: An error occurred while saving data
  */
-
 router.patch(
   "/:id",
   checkAuth,

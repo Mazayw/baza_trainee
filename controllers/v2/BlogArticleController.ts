@@ -31,6 +31,11 @@ export const getArticles = async (req: Request, res: Response) => {
 
   const currentPage = parseInt(page as string) || 1;
   const itemsPerPage = parseInt(limit as string) || 9;
+
+  if (itemsPerPage > 25) {
+    return res.status(404).json({ error: "Choose a lower limit (perPage)" });
+  }
+
   const skip = (currentPage - 1) * itemsPerPage;
 
   try {
@@ -38,15 +43,15 @@ export const getArticles = async (req: Request, res: Response) => {
       $or: [{ title: searchQuery }],
     });
 
+    if (!totalDocuments) {
+      return res.status(404).json({ message: "Articles not found" });
+    }
+
     const data = await BlogArticle.find({
       $or: [{ title: searchQuery }],
     })
       .skip(skip)
       .limit(itemsPerPage);
-
-    if (!data.length) {
-      return res.status(404).json({ message: "Articles not found" });
-    }
 
     res.status(200).json({
       results: data,
@@ -86,14 +91,15 @@ export const getArticleById = async (req: Request, res: Response) => {
 export const updateArticle = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const newDataArticle = req.file?.filename
-      ? { ...req.body, imageUrl: req.file?.filename }
-      : req.body;
     const oldArticle = await BlogArticle.findById(id);
 
     if (!oldArticle) {
       return res.status(404).json({ message: "Article not found" });
     }
+
+    const newDataArticle = req.body;
+    if (req.file?.filename) newDataArticle.imageUrl = req.file?.filename;
+
 
     const updatedFields = mergeObjects(oldArticle._doc, newDataArticle);
     const updatedArticle = await BlogArticle.findByIdAndUpdate(

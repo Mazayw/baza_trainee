@@ -58,9 +58,7 @@ import { IArticle } from "../../types";
  *           type: file
  *           format: binary
  *           description: image file (JPG, PNG, WEBP)
- */
-
-
+*/
 const ArticleSchema = new Schema<IArticle>({
   imageUrl: { type: String },
   title: { type: String, required: true },
