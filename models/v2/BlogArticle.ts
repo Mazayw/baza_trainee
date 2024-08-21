@@ -53,7 +53,7 @@ import { IBlogArticle } from "../../types";
 const BlogArticleSchema = new Schema<IBlogArticle>({
   title: { type: String, required: true },
   text: { type: String, required: true },
-  date: {type: Number},
+  date: { type: Number },
   imageUrl: { type: String, required: true },
 });
 
