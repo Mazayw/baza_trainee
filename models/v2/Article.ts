@@ -60,7 +60,7 @@ import { IArticle } from "../../types";
  *           description: image file (JPG, PNG, WEBP)
 */
 const ArticleSchema = new Schema<IArticle>({
-  imageUrl: { type: String },
+  imageUrl: { type: String, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   link: { type: String, required: true },
