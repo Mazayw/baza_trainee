@@ -43,13 +43,10 @@ export const getArticles = async (req: Request, res: Response) => {
       $or: [{ title: searchQuery }],
     });
 
-    if (!totalDocuments) {
-      return res.status(404).json({ message: "Articles not found" });
-    }
-
     const data = await BlogArticle.find({
       $or: [{ title: searchQuery }],
     })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(itemsPerPage);
 
