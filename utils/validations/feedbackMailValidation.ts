@@ -5,8 +5,8 @@ import { checkValidationError } from './checkValidationError';
 export const feedbackMailValidation = [
   body('name')
     .isString()
-    .isLength({ min: 4 })
-    .withMessage('There is no name, or name is less than 4 characters'),
+    .isLength({ min: 2 })
+    .withMessage('There is no name, or name is less than 2 characters'),
   body('email')
     .isString()
     .isEmail()
