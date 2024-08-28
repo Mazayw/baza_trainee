@@ -11,27 +11,18 @@
  *             statute:
  *               type: string
  *               example: statute.pdf
+ *             rules:
+ *               type: string
+ *               example: rules.pdf
  *             privacyPolicy:
  *               type: object
  *               properties:
- *                 en:
- *                   type: string
- *                   example: privacy_en.pdf
- *                 pl:
- *                   type: string
- *                   example: privacy_pl.pdf
  *                 ua:
  *                   type: string
  *                   example: privacy_ua.pdf
  *             termsOfUse:
  *               type: object
  *               properties:
- *                 en:
- *                   type: string
- *                   example: terms_en.pdf
- *                 pl:
- *                   type: string
- *                   example: terms_pl.pdf
  *                 ua:
  *                   type: string
  *                   example: terms_ua.pdf
@@ -44,19 +35,10 @@
  *         statute:
  *           type: file
  *           format: binary
- *         privacyPolicy[en]:
- *               type: file
- *               format: binary
- *         privacyPolicy[pl]:
- *               type: file
- *               format: binary
+ *         rules:
+ *           type: file
+ *           format: binary
  *         privacyPolicy[ua]:
- *               type: file
- *               format: binary
- *         termsOfUse[en]:
- *               type: file
- *               format: binary
- *         termsOfUse[pl]:
  *               type: file
  *               format: binary
  *         termsOfUse[ua]:
@@ -72,15 +54,12 @@ const DocsSchema = new mongoose.Schema<IDocs>({
 		report: { type: String, required: true },
 		statute: { type: String, required: true },
 		privacyPolicy: {
-			en: { type: String, required: true },
-			pl: { type: String, required: true },
 			ua: { type: String, required: true },
 		},
 		termsOfUse: {
-			en: { type: String, required: true },
-			pl: { type: String, required: true },
 			ua: { type: String, required: true },
 		},
+		rules: { type: String, required: true }
 	},
 });
 
