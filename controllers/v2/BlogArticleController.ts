@@ -25,7 +25,7 @@ export const createArticle = async (req: Request, res: Response) => {
 };
 
 export const getArticles = async (req: Request, res: Response) => {
-  const { search, page, limit } = req.query;
+  const { search, page, limit, isPresent } = req.query;
 
   const searchQuery = new RegExp(search as string, "i");
 
@@ -38,14 +38,18 @@ export const getArticles = async (req: Request, res: Response) => {
 
   const skip = (currentPage - 1) * itemsPerPage;
 
-  try {
-    const totalDocuments = await BlogArticle.countDocuments({
-      $or: [{ title: searchQuery }],
-    });
+  const query: any = {
+    $or: [{ title: searchQuery }],
+    // date: { $lte: timeStamp },
+  };
+  if (isPresent) {
+    query.date = { $lte: Date.now() };
+  }
 
-    const data = await BlogArticle.find({
-      $or: [{ title: searchQuery }],
-    })
+  try {
+    const totalDocuments = await BlogArticle.countDocuments(query);
+
+    const data = await BlogArticle.find(query)
       .sort({ _id: -1 })
       .skip(skip)
       .limit(itemsPerPage);

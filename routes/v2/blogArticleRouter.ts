@@ -74,6 +74,12 @@ router.post(
  *           type: integer
  *         required: false
  *         description: Number of results per page, default 9
+ *       - in: query
+ *         name: isPresent
+ *         schema:
+ *           type: boolean
+ *         required: false
+ *         description: if(true)=> only actual articles
  *     responses:
  *       200:
  *         description: Success
