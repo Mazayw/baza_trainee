@@ -10,7 +10,7 @@ email: ${sendEmailDTO.email}
 text : ${sendEmailDTO.text}
 `;
     const subject = `Baza-trainee feedback form`;
-    await sendMail(text, subject, sendEmailDTO.to);
+    await sendMail(text, subject, 'mail@misto-fest.fun');
     return res.json({ status: true });
   } catch (error) {
     console.error('Error retrieving contacts data', error);
@@ -34,7 +34,7 @@ specialization: ${sendEmailDTO.specialization}
 convenient_time: ${sendEmailDTO.convenient_time}
 `;
     const subject = `Baza-trainee mentor form`;
-    await sendMail(text, subject, sendEmailDTO.to);
+    await sendMail(text, subject, 'mail@misto-fest.fun');
     return res.json({ status: true });
   } catch (error) {
     console.error('Error retrieving contacts data', error);

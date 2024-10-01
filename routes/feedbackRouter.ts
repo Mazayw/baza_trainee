@@ -25,13 +25,10 @@ const limit = rateLimit({ limit: 1, windowMs: 60 * 1000 * 2 });
  *                 type: string
  *               text:
  *                 type: string
- *               to:
- *                 type: string
  *             example:
  *               name: Anton
  *               email: anton@gmail.com
  *               text: Problem with site
- *               to: youremail@gmail.com
  *     responses:
  *       200:
  *         description: Password changed
@@ -43,7 +40,7 @@ const limit = rateLimit({ limit: 1, windowMs: 60 * 1000 * 2 });
 router.post(
   '/sendFeedback',
   feedbackMailValidation,
-  // limit,
+  limit,
   sendFeedback
 );
 
@@ -76,8 +73,6 @@ router.post(
  *                  type: string
  *               convenient_time:
  *                  type: string
- *               to:
- *                  type: string
  *             example:
  *                firstName: Alex
  *                lastName: Popovich
@@ -87,7 +82,6 @@ router.post(
  *                linkedin: https://ua.linkedin.com/company/baza-trainee-ukraine
  *                specialization: Frontend
  *                convenient_time: 00-24
- *                to: admin@gmail.com
  *     responses:
  *       200:
  *         description: Mentor data sended
@@ -99,7 +93,7 @@ router.post(
 router.post(
   '/mentor',
   mentorFormValidation,
-  // limit,
+  limit,
   sendMentorForm
 );
 
